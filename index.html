@@ -1,171 +1,352 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0b2a3b" />
-  <title>Cartelera | Congregación Punta Gorda</title>
-  <meta name="description" content="Cartelera de información y asignaciones — Congregación Punta Gorda." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+  <title>Congregación Punta Gorda</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Base tipo JW (limpio + azul sobrio) */
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+
+      --brand: #2a6ebb;         /* azul principal */
+      --brand-weak: #eaf2ff;    /* azul clarito */
+      --border: #e5e7eb;
+
+      --shadow: 0 10px 28px rgba(17,24,39,.08);
+      --shadow-soft: 0 6px 18px rgba(17,24,39,.06);
+
+      --radius: 18px;
+      --radius-sm: 14px;
+      --max: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, var(--brand-weak) 0%, rgba(234,242,255,0) 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(42,110,187,.08) 0%, rgba(42,110,187,0) 55%),
+        var(--bg);
+    }
+
+    /* Layout */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 16px 40px;
+    }
+
+    /* Header compacto */
+    .topbar{
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(229,231,235,.7);
+      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius);
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+    }
+
+    .brandbox{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .title{
+      margin:0;
+      font-size: 16px;          /* <- pequeño para que no robe espacio */
+      font-weight: 700;
+      letter-spacing: .2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .nav{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      text-decoration:none;
+      color: var(--brand);
+      background: rgba(42,110,187,.08);
+      border: 1px solid rgba(42,110,187,.12);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .nav a:active{ transform: scale(.98); }
+    .nav a:hover{ background: rgba(42,110,187,.12); }
+
+    /* Secciones */
+    .section{
+      margin-top: 18px;
+      padding-top: 10px;
+    }
+
+    .section h2{
+      margin: 18px 4px 10px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .section p{
+      margin: 0 4px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Grid cards */
+    .grid{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+
+    .card a{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 16px 16px;
+      text-decoration:none;
+      color: inherit;
+      min-height: 74px;
+    }
+
+    .icon{
+      width: 46px;
+      height: 46px;
+      display:grid;
+      place-items:center;
+      border-radius: 14px;
+      background: rgba(42,110,187,.10);
+      border: 1px solid rgba(42,110,187,.14);
+      flex: 0 0 auto;
+    }
+
+    .icon img{
+      width: 26px;
+      height: 26px;
+      display:block;
+    }
+
+    .meta{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .meta .name{
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta .hint{
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: rgba(42,110,187,.22);
+    }
+
+    /* Responsive */
+    @media (max-width: 880px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px){
+      .topbar{ padding: 12px; }
+      .grid{ grid-template-columns: 1fr; }
+      .title{ font-size: 15px; }
+      .nav a{ padding: 7px 9px; }
+      .section h2{ font-size: 17px; }
+    }
+
+    /* Pequeño toque “marca” */
+    .footer-note{
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align:center;
+    }
+    .footer-note b{ color: var(--brand); }
+  </style>
 </head>
 
 <body>
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="topbar__inner">
-      <div class="brand">
-        <div class="brand__title">Congregación Punta Gorda</div>
-        <div class="brand__subtitle">Cartelera de información y asignaciones</div>
+  <div class="wrap">
+
+    <header class="topbar">
+      <div class="brandbox">
+        <h1 class="title">Congregación Punta Gorda</h1>
+        <p class="subtitle">Cartelera de información y asignaciones</p>
       </div>
 
-      <nav class="nav">
-        <a class="nav__link" href="#predicacion">Predicación</a>
-        <a class="nav__link" href="#reuniones">Reuniones</a>
-        <a class="nav__link" href="#congregacion">Congregación</a>
+      <!-- Estos links solo bajan a la sección (no rompen tus páginas) -->
+      <nav class="nav" aria-label="Secciones">
+        <a href="#predicacion">Predicación</a>
+        <a href="#reuniones">Reuniones</a>
+        <a href="#congregacion">Congregación</a>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <main class="container">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero__card">
-        <div class="hero__badge">jw.1.2 · NASA mode</div>
-        <h1 class="hero__title">Cartelera</h1>
-        <p class="hero__text">
-          Accesos rápidos, claro y sin vueltas. (Sí, esto es de Chipito 😄)
-        </p>
-      </div>
-    </section>
-
-    <!-- PREDICACIÓN -->
     <section id="predicacion" class="section">
-      <div class="section__head">
-        <h2 class="section__title">Predicación</h2>
-        <p class="section__desc">Asignaciones, grupos y territorios.</p>
-      </div>
+      <h2>Predicación</h2>
+      <p>Asignaciones, grupos y territorios.</p>
 
-      <div class="grid">
-        <a class="card" href="PON_AQUI_URL_PROGRAMA_PREDICACION" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/predicacion-programa.jpg" alt="Programa de predicación" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Programa de predicación</div>
-            <div class="card__meta">Asignaciones y horarios.</div>
-          </div>
-        </a>
+      <ul class="grid">
+        <li class="card">
+          <a target="_blank" href="predicacion.html" rel="noopener">
+            <span class="icon"><img src="images/noun_schedule_1776600.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Grupos de predicación</span>
+              <span class="hint">Organización por grupos</span>
+            </span>
+          </a>
+        </li>
 
-        <a class="card" href="PON_AQUI_URL_GRUPOS_PREDICACION" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/predicacion-grupos.jpg" alt="Grupos de predicación" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Grupos de predicación</div>
-            <div class="card__meta">Organización por grupos.</div>
-          </div>
-        </a>
-
-        <a class="card" href="PON_AQUI_URL_MAPA_TERRITORIOS" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/predicacion-territorios.jpg" alt="Mapa de territorios" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Mapa de territorios</div>
-            <div class="card__meta">Acceso al mapa.</div>
-          </div>
-        </a>
-      </div>
+        <li class="card">
+          <a target="_blank" href="territorios/mapa.html" rel="noopener">
+            <span class="icon"><img src="images/noun_map_10799.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Mapa de territorios</span>
+              <span class="hint">Acceso al mapa</span>
+            </span>
+          </a>
+        </li>
+      </ul>
     </section>
 
-    <!-- REUNIONES -->
     <section id="reuniones" class="section">
-      <div class="section__head">
-        <h2 class="section__title">Reuniones</h2>
-        <p class="section__desc">Material y asignaciones de las reuniones.</p>
-      </div>
+      <h2>Reuniones</h2>
+      <p>Material y asignaciones de reuniones.</p>
 
-      <div class="grid">
-        <a class="card" href="PON_AQUI_URL_VIDA_Y_MINISTERIO" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/reuniones-vida-ministerio.jpg" alt="Reunión Vida y Ministerio Cristiano" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Vida y Ministerio Cristiano</div>
-            <div class="card__meta">Asignaciones y material.</div>
-          </div>
-        </a>
+      <ul class="grid">
+        <li class="card">
+          <a target="_blank" href="vida-y-ministerio.html" rel="noopener">
+            <span class="icon"><img src="images/noun_teach_1614348.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Vida y Ministerio</span>
+              <span class="hint">Reunión y asignaciones</span>
+            </span>
+          </a>
+        </li>
 
-        <a class="card" href="PON_AQUI_URL_REUNION_PUBLICA" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/reuniones-publica.jpg" alt="Reunión pública" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Reunión pública</div>
-            <div class="card__meta">Programa y detalles.</div>
-          </div>
-        </a>
-      </div>
+        <li class="card">
+          <a target="_blank" href="reunion-publica.html" rel="noopener">
+            <span class="icon"><img src="images/noun_conference_704693.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Reunión Pública</span>
+              <span class="hint">Discursos y temas</span>
+            </span>
+          </a>
+        </li>
+      </ul>
     </section>
 
-    <!-- CONGREGACIÓN -->
     <section id="congregacion" class="section">
-      <div class="section__head">
-        <h2 class="section__title">Congregación</h2>
-        <p class="section__desc">Información interna y asignaciones.</p>
-      </div>
+      <h2>Congregación</h2>
+      <p>Listados y organización interna.</p>
 
-      <!-- Limpieza primero (dentro de Congregación) -->
-      <div class="grid">
-        <a class="card card--featured" href="PON_AQUI_URL_PROGRAMA_LIMPIEZA" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/congregacion-limpieza.jpg" alt="Programa de limpieza" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Programa de limpieza</div>
-            <div class="card__meta">Turnos y responsables.</div>
-          </div>
-        </a>
+      <ul class="grid">
+        <!-- Limpieza PRIMERO y dentro de Congregación (como pediste) -->
+        <li class="card">
+          <a target="_blank" href="limpieza.html" rel="noopener">
+            <span class="icon"><img src="images/noun_clean_1683608.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Programa de Limpieza</span>
+              <span class="hint">Asignación por semanas</span>
+            </span>
+          </a>
+        </li>
 
-        <a class="card" href="PON_AQUI_URL_GRUPOS_PUBLICADORES" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/congregacion-grupos.jpg" alt="Grupos de publicadores" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Grupos de publicadores</div>
-            <div class="card__meta">Listas y organización.</div>
-          </div>
-        </a>
+        <li class="card">
+          <a target="_blank" href="publicadores.html" rel="noopener">
+            <span class="icon"><img src="images/noun_people_199910.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Grupos de publicadores</span>
+              <span class="hint">Listados y grupos</span>
+            </span>
+          </a>
+        </li>
 
-        <a class="card" href="PON_AQUI_URL_PRECURSORES" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/congregacion-precursores.jpg" alt="Precursores regulares" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Precursores regulares</div>
-            <div class="card__meta">Listado y notas.</div>
-          </div>
-        </a>
+        <li class="card">
+          <a target="_blank" href="precursores.html" rel="noopener">
+            <span class="icon"><img src="images/pioneers.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Precursores regulares</span>
+              <span class="hint">Listado actualizado</span>
+            </span>
+          </a>
+        </li>
 
-        <a class="card" href="PON_AQUI_URL_RESPONSABILIDADES" target="_blank" rel="noopener">
-          <div class="card__media">
-            <img src="assets/congregacion-responsabilidades.jpg" alt="Responsabilidades" loading="lazy" />
-          </div>
-          <div class="card__body">
-            <div class="card__title">Responsabilidades</div>
-            <div class="card__meta">Asignaciones y roles.</div>
-          </div>
-        </a>
-      </div>
+        <li class="card">
+          <a target="_blank" href="responsabilidades.html" rel="noopener">
+            <span class="icon"><img src="images/noun_organization_421912.svg" alt=""></span>
+            <span class="meta">
+              <span class="name">Responsabilidades</span>
+              <span class="hint">Asignaciones y roles</span>
+            </span>
+          </a>
+        </li>
+      </ul>
     </section>
 
-    <footer class="footer">
-      <div class="footer__inner">
-        <span>Cartelera · Congregación Punta Gorda</span>
-        <span class="dot">•</span>
-        <span class="muted">Hecho por Chipito 🛰️</span>
-      </div>
-    </footer>
-  </main>
+    <div class="footer-note">
+      jw.1.2 · modo sobrio · hecho por <b>Chipito</b> 😄
+    </div>
+
+  </div>
 </body>
 </html>
