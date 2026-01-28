@@ -1,126 +1,182 @@
-/* ===============================
-   RESET & BASE
-=============================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* =========================
+   VARIABLES – PARQUE RIVERA PRO
+   ========================= */
+:root{
+  --bg-main: linear-gradient(
+    180deg,
+    #1e2a38 0%,
+    #2f3f55 28%,
+    #4f6376 52%,
+    #8fa1b0 72%,
+    #dbe3ea 100%
+  );
+
+  --panel-bg: rgba(255,255,255,.94);
+  --panel-border: rgba(255,255,255,.45);
+
+  --text-main:#0f172a;
+  --text-muted:#6b7280;
+
+  --accent-green:#2f6f63;
+  --accent-blue:#3b82f6;
+  --accent-indigo:#6366f1;
+
+  --shadow-soft:0 18px 45px rgba(0,0,0,.25);
+  --shadow-card:0 12px 28px rgba(0,0,0,.12);
+
+  --radius-lg:22px;
+  --radius-md:16px;
 }
 
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(180deg, #f4f7f5, #eef3f1);
-  color: #1f2933;
-  padding: 20px;
+/* =========================
+   RESET
+   ========================= */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Montserrat',system-ui,sans-serif;
+  background: var(--bg-main);
+  color:var(--text-main);
+  line-height:1.45;
+  min-height:100vh;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* =========================
+   CONTENEDOR
+   ========================= */
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:22px;
 }
 
-/* ===============================
-   HEADER
-=============================== */
-.header {
-  margin-bottom: 32px;
+/* =========================
+   HEADER (flotante y claro)
+   ========================= */
+header{
+  background:var(--panel-bg);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius-lg);
+  padding:22px 22px 20px;
+  margin-bottom:40px;
+  box-shadow:var(--shadow-soft);
 }
 
-.header h1 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #1f3d2b;
+header h1{
+  font-size:1.55rem;
+  font-weight:700;
+  margin-bottom:6px;
 }
 
-/* ===============================
-   SECTIONS
-=============================== */
-section {
-  margin-bottom: 52px;
+header p{
+  font-size:.95rem;
+  color:var(--text-muted);
 }
 
-section h2 {
-  font-size: 22px;
-  margin-bottom: 6px;
-  color: #1f3d2b;
+/* =========================
+   SECCIONES (BIEN SEPARADAS)
+   ========================= */
+section{
+  background:var(--panel-bg);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius-lg);
+  padding:26px 22px 28px;
+  margin-bottom:46px;
+  box-shadow:var(--shadow-soft);
+  position:relative;
 }
 
-section p {
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 20px;
+/* barra superior de color */
+section::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:22px;
+  width:64px;
+  height:6px;
+  border-radius:999px;
 }
 
-/* ===============================
+/* colores por sección */
+#predicacion::before{ background:linear-gradient(90deg,#2f6f63,#6fc3aa); }
+#reuniones::before{ background:linear-gradient(90deg,#3b82f6,#93c5fd); }
+#congregacion::before{ background:linear-gradient(90deg,#6366f1,#a5b4fc); }
+
+section h2{
+  font-size:1.6rem;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+section p{
+  color:var(--text-muted);
+  margin-bottom:22px;
+}
+
+/* =========================
+   GRID
+   ========================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+
+/* =========================
    CARDS
-=============================== */
-.card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.06);
-  transition: transform .15s ease, box-shadow .15s ease;
+   ========================= */
+.card{
+  background:#ffffff;
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-card);
+  overflow:hidden;
+  text-decoration:none;
+  color:inherit;
+  transition:transform .2s ease, box-shadow .2s ease;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 35px rgba(0,0,0,.08);
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 45px rgba(0,0,0,.18);
 }
 
-/* ===============================
-   ICONOS
-=============================== */
-.icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
+/* imagen placeholder */
+.card-img{
+  height:140px;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.35),
+      rgba(255,255,255,.05)
+    ),
+    linear-gradient(135deg,#4f6376,#8fa1b0);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.85rem;
+  color:#f8fafc;
 }
 
-/* ===============================
-   CONTENIDO CARD
-=============================== */
-.card-content h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
+/* cuerpo */
+.card-body{
+  padding:18px 18px 20px;
 }
 
-.card-content span {
-  font-size: 14px;
-  color: #6b7280;
+.card-body h3{
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:4px;
 }
 
-/* ===============================
-   COLORES POR SECCIÓN
-   (diferencia visual clara)
-=============================== */
-.predicacion .icon {
-  background: #e6f1ec;
+.card-body span{
+  font-size:.88rem;
+  color:var(--text-muted);
 }
 
-.reuniones .icon {
-  background: #e8edf3;
-}
-
-.congregacion .icon {
-  background: #e9f3ef;
-}
-
-/* ===============================
+/* =========================
    RESPONSIVE
-=============================== */
-@media (min-width: 768px) {
-  body {
-    max-width: 720px;
-    margin: auto;
-  }
+   ========================= */
+@media(min-width:768px){
+  header h1{font-size:1.75rem}
+  section h2{font-size:1.8rem}
 }
