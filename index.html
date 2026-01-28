@@ -1,432 +1,171 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Congregación Punta Gorda</title>
+<style>
+/* =========================
+   RESET + BASE
+========================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:#1f2933;
+  line-height:1.45;
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  /* Parque Rivera vibes (no copia): oscuro arriba, claro abajo */
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(46,111,92,.25), transparent 60%),
+    radial-gradient(900px 500px at 85% 10%, rgba(47,111,228,.20), transparent 55%),
+    linear-gradient(180deg,#1f2a3a 0%, #243447 28%, #eef3f1 100%);
+  min-height:100vh;
+}
 
-  <style>
-    /* =========================================================
-       THEME
-       - Default: PARQUE (inspirado en Parque Rivera, no copia)
-       - Optional: JW (más sobrio) -> poné <body class="jw">
-    ========================================================= */
+/* Contenedor igual que tu HTML */
+.contenido{
+  width:min(980px, 92%);
+  margin:0 auto;
+  padding:26px 0 80px;
+}
 
-    :root{
-      /* Parque (default) */
-      --bg-1:#0b1220;         /* navy profundo */
-      --bg-2:#0f1b33;         /* azul noche */
-      --bg-3:#162544;         /* azul pizarra */
-      --surface:#0f172a;      /* panel */
-      --card:#0b1326;         /* tarjeta */
-      --card-2:#0b162e;
-      --text:#e9eef7;
-      --muted:#a9b6cc;
+/* =========================
+   TITULOS (header)
+========================= */
+h1{
+  font-size:1.35rem;          /* más chico, no roba pantalla */
+  font-weight:700;
+  letter-spacing:.2px;
+  color:#ffffff;
+  margin:0 0 18px;
+}
 
-      --accent:#7aa8ff;       /* azul vivo suave */
-      --accent-2:#5fe1c2;     /* verde/agua */
-      --accent-3:#c9a7ff;     /* violeta suave */
+h2{
+  font-size:1.25rem;
+  font-weight:700;
+  color:#1f2933;
+  margin:0 0 14px;
+}
 
-      --ring: rgba(122,168,255,.22);
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
-      --shadow-soft: 0 14px 35px rgba(0,0,0,.25);
+/* =========================
+   SECCIONES (li.cont)
+   No cambiamos HTML, solo estilo
+========================= */
+ul{list-style:none}
+li.cont{
+  background:rgba(255,255,255,.92);
+  border-radius:22px;
+  padding:22px 18px;
+  margin:22px 0;
+  box-shadow:0 14px 34px rgba(0,0,0,.10);
+  border:1px solid rgba(0,0,0,.06);
+  overflow:hidden;
+  position:relative;
+}
 
-      --radius: 22px;
-      --radius-lg: 28px;
+/* Barra lateral de color por sección (en orden: Predicación, Reuniones, Congregación) */
+li.cont:nth-of-type(1){ border-left:6px solid #2e6f5c; }
+li.cont:nth-of-type(2){ border-left:6px solid #2f6fe4; }
+li.cont:nth-of-type(3){ border-left:6px solid #6b8e23; }
 
-      --max: 980px;
-    }
+/* Un poquito de “vida” sin exagerar */
+li.cont:before{
+  content:"";
+  position:absolute;
+  inset:-80px -120px auto auto;
+  width:260px;height:260px;
+  background:radial-gradient(circle, rgba(46,111,92,.16), transparent 65%);
+  filter:blur(1px);
+}
 
-    /* Modo JW (opcional) */
-    body.jw{
-      --bg-1:#f6f7f9;
-      --bg-2:#eef2f6;
-      --bg-3:#e7edf5;
-      --surface:#ffffff;
-      --card:#ffffff;
-      --card-2:#ffffff;
-      --text:#1f2933;
-      --muted:#667085;
+/* =========================
+   GRID ORIGINAL (ul.card)
+========================= */
+ul.card{
+  display:grid;
+  grid-template-columns:repeat( auto-fit, minmax(240px, 1fr) );
+  gap:14px;
+  padding:0;
+  margin:0;
+}
 
-      --accent:#2f6fe4;
-      --accent-2:#22c55e;
-      --accent-3:#8b5cf6;
+/* Desactivamos las sombras inclinadas viejas (before/after) */
+.card li:before,
+.card li:after{ display:none !important; }
 
-      --ring: rgba(47,111,228,.14);
-      --shadow: 0 12px 30px rgba(0,0,0,.08);
-      --shadow-soft: 0 10px 22px rgba(0,0,0,.06);
-    }
+/* =========================
+   LINKS = CARDS (sin tocar href)
+========================= */
+li{position:relative}
+li a{
+  width:100%;
+  height:auto;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:14px;
 
-    @media (prefers-color-scheme: dark){
-      body.jw{
-        /* si usan jw en dark, queda igual sobrio */
-      }
-    }
+  padding:16px 16px;
+  border-radius:18px;
 
-    /* =========================================================
-       RESET + BASE
-    ========================================================= */
-    *{ box-sizing:border-box; margin:0; padding:0; }
-    html{ scroll-behavior:smooth; }
-    body{
-      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(1200px 700px at 20% 0%, rgba(122,168,255,.18), transparent 60%),
-        radial-gradient(1000px 700px at 90% 10%, rgba(95,225,194,.16), transparent 60%),
-        linear-gradient(180deg, var(--bg-1), var(--bg-2) 40%, var(--bg-3));
-      min-height: 100vh;
-      padding: 18px;
-    }
+  background:#ffffff;
+  border:1px solid rgba(46,111,92,.18);
+  box-shadow:0 10px 26px rgba(0,0,0,.06);
 
-    a{ color: inherit; text-decoration: none; }
+  color:#1f2933;
+  text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
 
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-    }
+/* Hover */
+li a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 36px rgba(0,0,0,.10);
+  border-color:rgba(46,111,92,.34);
+}
 
-    /* =========================================================
-       TOP BAR (simple, sin robar espacio)
-    ========================================================= */
-    .topbar{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap: 14px;
-      padding: 14px 14px 4px;
-      margin-bottom: 14px;
-    }
+/* Ícono como “chip” suave */
+.card li img{
+  width:46px;
+  height:46px;
+  margin:0;
+  padding:10px;
+  border-radius:14px;
+  background:rgba(46,111,92,.10);
+  flex:0 0 46px;
+}
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-    }
+/* Texto */
+.card li span{
+  position:static;
+  top:auto;
+  float:none;
+  font-weight:600;
+  font-size:1rem;
+}
 
-    .brand h1{
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: .2px;
-      opacity: .95;
-    }
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 480px){
+  h1{font-size:1.25rem}
+  li.cont{padding:18px 14px}
+  li a{padding:14px}
+}
 
-    .brand p{
-      font-size: 13px;
-      color: var(--muted);
-      max-width: 60ch;
-      line-height: 1.35;
-    }
-
-    .chip{
-      font-size: 12px;
-      color: var(--muted);
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-      white-space: nowrap;
-    }
-
-    body.jw .chip{
-      background: rgba(47,111,228,.06);
-      border: 1px solid rgba(47,111,228,.12);
-    }
-
-    /* =========================================================
-       SECTION PANELS (se diferencian y “respiran”)
-    ========================================================= */
-    .section{
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: var(--radius-lg);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-    }
-
-    body.jw .section{
-      background: var(--surface);
-      border: 1px solid rgba(16,24,40,.08);
-    }
-
-    /* “marca” visual lateral por sección */
-    .section::before{
-      content:"";
-      position:absolute;
-      inset: 0;
-      width: 6px;
-      background: var(--accent);
-      opacity: .9;
-    }
-
-    .section-head{
-      padding-left: 10px;
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
-
-    .section-head h2{
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: .2px;
-    }
-
-    .section-head p{
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    /* Colores distintos por sección */
-    .predicacion{ --accent: #7aa8ff; }
-    .reuniones  { --accent: #5fe1c2; }
-    .congregacion{ --accent: #c9a7ff; }
-
-    /* =========================================================
-       CARDS LIST (limpio, pro, clickeable)
-    ========================================================= */
-    .list{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    @media (min-width: 820px){
-      .list{
-        grid-template-columns: 1fr 1fr;
-      }
-      .list.three{
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-    }
-
-    .card{
-      display:flex;
-      align-items:center;
-      gap: 14px;
-      padding: 14px 14px;
-      border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 10px 24px rgba(0,0,0,.18);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    body.jw .card{
-      background: #fff;
-      border: 1px solid rgba(16,24,40,.10);
-      box-shadow: 0 10px 22px rgba(0,0,0,.06);
-    }
-
-    .card:hover{
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-      border-color: rgba(255,255,255,.22);
-    }
-
-    body.jw .card:hover{
-      border-color: rgba(47,111,228,.22);
-    }
-
-    .icon{
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.10);
-      font-size: 20px;
-      flex: 0 0 auto;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
-    }
-
-    body.jw .icon{
-      background: rgba(47,111,228,.06);
-      border: 1px solid rgba(47,111,228,.14);
-    }
-
-    .meta{
-      display:flex;
-      flex-direction:column;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .meta h3{
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: .1px;
-      line-height: 1.2;
-    }
-
-    .meta span{
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.25;
-    }
-
-    /* Flechita discreta (da “app feel”) */
-    .arrow{
-      margin-left:auto;
-      color: rgba(255,255,255,.7);
-      font-size: 18px;
-      padding-left: 10px;
-      flex: 0 0 auto;
-    }
-
-    body.jw .arrow{ color: rgba(31,41,51,.6); }
-
-    /* =========================================================
-       FOOTER SPACE
-    ========================================================= */
-    .spacer{ height: 24px; }
-
-  </style>
-</head>
-
-<!--
-  Por defecto está en modo PARQUE (inspirado en Parque Rivera).
-  Si querés el modo JW sobrio: cambiá <body> por <body class="jw">
--->
-<body>
-
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <h1>Congregación Punta Gorda</h1>
-        <p>Cartelera de información y asignaciones.</p>
-      </div>
-      <div class="chip">Cartelera</div>
-    </div>
-
-    <!-- PREDICACIÓN -->
-    <section class="section predicacion" id="predicacion">
-      <div class="section-head">
-        <h2>Predicación</h2>
-        <p>Asignaciones, grupos y territorios.</p>
-      </div>
-
-      <div class="list">
-        <a class="card" href="predicacion.html">
-          <div class="icon">📅</div>
-          <div class="meta">
-            <h3>Grupos de predicación</h3>
-            <span>Organización por grupos</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-
-        <a class="card" href="territorios/mapa.html">
-          <div class="icon">🗺️</div>
-          <div class="meta">
-            <h3>Mapa de territorios</h3>
-            <span>Acceso al mapa</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-      </div>
-    </section>
-
-    <!-- REUNIONES -->
-    <section class="section reuniones" id="reuniones">
-      <div class="section-head">
-        <h2>Reuniones</h2>
-        <p>Material y asignaciones de reuniones.</p>
-      </div>
-
-      <div class="list">
-        <a class="card" href="vida-y-ministerio.html">
-          <div class="icon">📖</div>
-          <div class="meta">
-            <h3>Vida y Ministerio Cristiano</h3>
-            <span>Programa semanal</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-
-        <a class="card" href="reunion-publica.html">
-          <div class="icon">🎤</div>
-          <div class="meta">
-            <h3>Reunión Pública</h3>
-            <span>Asignaciones</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-
-        <a class="card" href="https://josecajusoljcs-source.github.io/cartelera/" target="_blank" rel="noopener">
-          <div class="icon">🗂️</div>
-          <div class="meta">
-            <h3>Asignaciones de reuniones</h3>
-            <span>Cartelera general</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-      </div>
-    </section>
-
-    <!-- CONGREGACIÓN -->
-    <section class="section congregacion" id="congregacion">
-      <div class="section-head">
-        <h2>Congregación</h2>
-        <p>Información interna y programas.</p>
-      </div>
-
-      <div class="list">
-        <a class="card" href="limpieza.html">
-          <div class="icon">🧼</div>
-          <div class="meta">
-            <h3>Programa de limpieza</h3>
-            <span>Roles y fechas</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-
-        <a class="card" href="publicadores.html">
-          <div class="icon">👥</div>
-          <div class="meta">
-            <h3>Grupos de publicadores</h3>
-            <span>Organización interna</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-
-        <a class="card" href="precursores.html">
-          <div class="icon">⭐</div>
-          <div class="meta">
-            <h3>Precursores regulares</h3>
-            <span>Listado</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-
-        <a class="card" href="responsabilidades.html">
-          <div class="icon">🛠️</div>
-          <div class="meta">
-            <h3>Responsabilidades</h3>
-            <span>Asignaciones</span>
-          </div>
-          <div class="arrow">›</div>
-        </a>
-      </div>
-    </section>
-
-    <div class="spacer"></div>
-  </div>
-
-</body>
-</html>
+@media (prefers-color-scheme: dark){
+  body{
+    color:#e5e7eb;
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(46,111,92,.18), transparent 60%),
+      radial-gradient(900px 500px at 85% 10%, rgba(47,111,228,.15), transparent 55%),
+      linear-gradient(180deg,#0b1220 0%, #0f172a 35%, #101827 100%);
+  }
+  li.cont{
+    background:rgba(17,24,39,.92);
+    border:1px solid rgba(255,255,255,.06);
+  }
+  h2{color:#e5e7eb}
+  li a{
+    background:rgba(17,24,39,.92);
+    border:1px solid rgba(96,165,250,.22);
+    color:#e5e7eb;
+  }
+  .card li img{ background:rgba(96,165,250,.10); }
+}
+</style>
