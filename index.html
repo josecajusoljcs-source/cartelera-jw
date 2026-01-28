@@ -1,273 +1,136 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="stylesheet" href="jw-style.css">
-  <title>Congregación Punta Gorda</title>
-  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700">
+<meta charset="UTF-8">
+<title>Congregación Punta Gorda</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    /* =========================
-      PARQUE RIVERA STYLE (sin romper HTML)
-      - Mantiene tu estructura y links
-      - Solo cambia la "cara"
-    ========================= */
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 
-    :root{
-      /* Fondo tipo Parque Rivera (oscuro con gradiente) */
-      --bg-top: #141f30;
-      --bg-mid: #3d4b5c;
-      --bg-bot: #cfd6d2;
+<style>
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(180deg, #1f2a44 0%, #4b556d 40%, #c9b4a5 75%, #2e2e2e 100%);
+    color: #fff;
+}
 
-      /* Tarjetas */
-      --card: rgba(255,255,255,.92);
-      --card-border: rgba(255,255,255,.22);
-      --card-shadow: 0 14px 35px rgba(0,0,0,.22);
+/* HEADER */
+.header {
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 700;
+}
 
-      /* Textos */
-      --title: #f2f5f7;
-      --subtitle: rgba(242,245,247,.72);
-      --section: rgba(255,255,255,.10);
-      --section-border: rgba(255,255,255,.14);
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 28px;
+    padding: 24px;
+    max-width: 900px;
+    margin: auto;
+}
 
-      /* Acento */
-      --accent: #7cc3ff;
-      --accent-soft: rgba(124,195,255,.18);
+/* ITEM */
+.item {
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+}
 
-      --radius: 22px;
-      --radius-card: 20px;
-    }
+.circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    box-shadow: 0 12px 30px rgba(0,0,0,.45);
+    background: #000;
+}
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+.circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-    body{
-      font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 45%, var(--bg-bot) 120%);
-      color: var(--title);
-    }
+.item span {
+    display: block;
+    margin-top: 12px;
+    font-weight: 800;
+    font-size: 15px;
+}
 
-    /* Contenedor original */
-    .contenido{
-      width: min(980px, 94%);
-      margin: 18px auto 60px auto;
-    }
-
-    /* Título chico (como pediste: no roba espacio) */
-    h1{
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: .2px;
-      margin: 10px 0 22px 0;
-      color: var(--title);
-    }
-
-    /* Listas sin bullets */
-    ul { list-style: none; }
-
-    li.cont{
-      margin-bottom: 22px;
-      padding: 18px 16px 16px 16px;
-      border-radius: var(--radius);
-      background: var(--section);
-      border: 1px solid var(--section-border);
-      box-shadow: 0 10px 24px rgba(0,0,0,.10);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-
-    /* Encabezados de secciones bien separadas */
-    h2{
-      font-size: 22px;
-      font-weight: 800;
-      margin: 0 0 14px 0;
-      color: var(--title);
-    }
-
-    /* Grid de tarjetas: respeta tu UL.card */
-    ul.card{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: flex-start;
-      padding: 0;
-      margin: 0;
-    }
-
-    /* Apago el “papel con sombras torcidas” viejo (era lo que ensuciaba) */
-    .card li:before,
-    .card li:after{
-      content: none !important;
-      display: none !important;
-    }
-
-    /* Tarjeta (tu <a>) */
-    li a{
-      width: 260px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-
-      padding: 18px 16px;
-      border-radius: var(--radius-card);
-
-      text-decoration: none;
-      color: #1f2933;
-
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--card-shadow);
-
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    li a:hover{
-      transform: translateY(-3px);
-      box-shadow: 0 18px 42px rgba(0,0,0,.28);
-      border-color: rgba(124,195,255,.45);
-    }
-
-    /* Ícono en “pastilla/círculo” (similar vibe Parque Rivera) */
-    .card li img{
-      width: 56px;
-      height: 56px;
-      margin: 0;
-      padding: 10px;
-      border-radius: 16px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(124,195,255,.25);
-    }
-
-    /* Texto del botón */
-    .card li span{
-      position: static;
-      float: none;
-      text-align: center;
-      font-weight: 700;
-      font-size: 15px;
-      color: #1f2933;
-      line-height: 1.15;
-    }
-
-    /* Detalle “parque” sutil abajo del título del botón */
-    li a span::after{
-      content: "";
-      display: block;
-      width: 38px;
-      height: 3px;
-      margin: 10px auto 0 auto;
-      border-radius: 999px;
-      background: rgba(124,195,255,.65);
-    }
-
-    /* Responsive: en móvil, tarjetas anchas tipo lista */
-    @media screen and (max-width: 800px){
-      ul.card{ gap: 12px; }
-
-      li a{
-        width: 100%;
-        flex-direction: row;
-        justify-content: flex-start;
-        text-align: left;
-        padding: 16px;
-      }
-
-      .card li img{
-        width: 52px;
-        height: 52px;
-        border-radius: 14px;
-      }
-
-      .card li span{
-        text-align: left;
-        font-size: 16px;
-      }
-
-      li a span::after{
-        margin: 8px 0 0 0;
-      }
-    }
-  </style>
+/* FOOTER */
+.footer {
+    background: #2e2e2e;
+    padding: 14px;
+    font-size: 14px;
+    opacity: .9;
+}
+</style>
 </head>
 
 <body>
-  <div class="contenido">
-    <div>
-      <h1>Congregación Punta Gorda</h1>
-    </div>
 
-    <ul>
-      <li class="cont">
-        <h2>Predicación</h2>
-        <ul class="card">
-          <li>
-            <a target="_blank" href="predicacion.html">
-              <img src="images/noun_schedule_1776600.svg" />
-              <span>Grupos de predicación</span>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="territorios/mapa.html">
-              <img src="images/noun_map_10799.svg" />
-              <span>Mapa de territorios</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+<div class="header">Parque Rivera / Punta Gorda</div>
 
-      <li class="cont">
-        <h2>Reuniones</h2>
-        <ul class="card">
-          <li>
-            <a target="_blank" href="vida-y-ministerio.html">
-              <img src="images/noun_teach_1614348.svg" />
-              <span>Reunión Vida y Ministerio</span>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="reunion-publica.html">
-              <img src="images/noun_conference_704693.svg" />
-              <span>Reunión Pública</span>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="limpieza.html">
-              <img src="images/noun_clean_1683608.svg" style="height: 54px; margin-bottom: 10px;" />
-              <span>Programa de Limpieza</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+<div class="grid">
 
-      <li class="cont">
-        <h2>Congregación</h2>
-        <ul class="card">
-          <li>
-            <a target="_blank" href="publicadores.html">
-              <img src="images/noun_people_199910.svg" />
-              <span>Grupos de publicadores</span>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="precursores.html">
-              <img src="images/pioneers.svg" style="height: 54px; margin-bottom: 10px;" />
-              <span>Precursores regulares</span>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="responsabilidades.html">
-              <img src="images/noun_organization_421912.svg" />
-              <span>Responsabilidades</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+    <!-- Programa de Predicación -->
+    <a class="item" href="predicacion.html" target="_blank">
+        <div class="circle">
+            <img src="images/predicacion.jpg">
+        </div>
+        <span>Programa de<br>Predicación</span>
+    </a>
+
+    <!-- Vida y Ministerio -->
+    <a class="item" href="vida-y-ministerio.html" target="_blank">
+        <div class="circle">
+            <img src="images/vida-ministerio.jpg">
+        </div>
+        <span>Reunión Vida y<br>Ministerio Cristiano</span>
+    </a>
+
+    <!-- Reunión Pública -->
+    <a class="item" href="reunion-publica.html" target="_blank">
+        <div class="circle">
+            <img src="images/reunion-publica.jpg">
+        </div>
+        <span>Reunión<br>Pública</span>
+    </a>
+
+    <!-- Asignaciones -->
+    <a class="item" href="responsabilidades.html" target="_blank">
+        <div class="circle">
+            <img src="images/asignaciones.jpg">
+        </div>
+        <span>Asignaciones por<br>Departamentos</span>
+    </a>
+
+    <!-- Limpieza -->
+    <a class="item" href="limpieza.html" target="_blank">
+        <div class="circle">
+            <img src="images/limpieza.jpg">
+        </div>
+        <span>Arreglo de<br>Limpieza</span>
+    </a>
+
+    <!-- NUEVO: Audio y Video -->
+    <a class="item" href="https://josecajusoljcs-source.github.io/cartelera/" target="_blank">
+        <div class="circle">
+            <img src="images/audio-video.jpg">
+        </div>
+        <span>Asignaciones de<br>Audio y Video</span>
+    </a>
+
+</div>
+
+<div class="footer">
+    Congregación Punta Gorda · Montevideo · Uruguay
+</div>
+
 </body>
 </html>
