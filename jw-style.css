@@ -1,145 +1,202 @@
+/* ======================================================
+   JW-STYLE.CSS — DESDE 000
+   CLON VISUAL TIPO PARQUE RIVERA
+   ====================================================== */
+
+/* =========================
+   VARIABLES
+========================= */
+:root{
+  /* Fondo estilo Parque Rivera */
+  --bg-main: linear-gradient(
+    180deg,
+    #1f2933 0%,
+    #2b3a4a 35%,
+    #5b6b75 70%,
+    #cfd6d3 100%
+  );
+
+  /* Panel */
+  --panel-bg: #f8faf9;
+
+  /* Cards */
+  --card-bg: #ffffff;
+
+  /* Texto */
+  --text-main: #1f2933;
+  --text-muted: #6b7280;
+
+  /* Acento */
+  --accent: #2f6f63;
+
+  /* Bordes y sombras */
+  --radius-panel: 28px;
+  --radius-card: 24px;
+
+  --shadow-panel:
+    0 35px 70px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.7);
+
+  --shadow-card:
+    0 12px 28px rgba(0,0,0,.18);
+}
+
 /* =========================
    RESET
 ========================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+html{
+  scroll-behavior:smooth;
 }
 
-body {
-  font-family: 'Montserrat', system-ui, sans-serif;
-  background: linear-gradient(
-    180deg,
-    #1f2a36 0%,
-    #2b3a4a 30%,
-    #56636f 60%,
-    #cfd6d3 100%
-  );
-  color: #1f2933;
+body{
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  min-height:100vh;
+  padding:22px 12px 40px;
+  line-height:1.45;
 }
 
 /* =========================
-   CONTENEDOR
+   CONTENEDOR PRINCIPAL
 ========================= */
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 24px;
+.container{
+  max-width:900px;
+  margin:auto;
+  background: var(--panel-bg);
+  border-radius: var(--radius-panel);
+  padding:28px 22px 42px;
+  box-shadow: var(--shadow-panel);
 }
 
 /* =========================
    HEADER
 ========================= */
-header {
-  margin-bottom: 36px;
+header{
+  margin-bottom:32px;
 }
 
-header h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #ffffff;
+header h1{
+  font-size:1.45rem;
+  font-weight:600;
+  margin-bottom:6px;
+  color: var(--text-main);
 }
 
-header p {
-  font-size: 0.95rem;
-  color: #e5e7eb;
+header p{
+  font-size:.95rem;
+  color: var(--text-muted);
 }
 
 /* =========================
    SECCIONES
 ========================= */
-.section {
-  margin-top: 56px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255,255,255,0.18);
+section{
+  margin-top:46px;
 }
 
-.section h2 {
-  font-size: 1.6rem;
-  margin-bottom: 6px;
-  color: #ffffff;
+section:first-of-type{
+  margin-top:0;
 }
 
-.section p {
-  margin-bottom: 22px;
-  color: #d1d5db;
+section h2{
+  font-size:1.55rem;
+  font-weight:600;
+  margin-bottom:6px;
+  color: var(--text-main);
 }
 
-/* =========================
-   COLORES POR SECCIÓN
-========================= */
-.section-predicacion h2 { color: #9dd6c3; }
-.section-reuniones   h2 { color: #a5c7ff; }
-.section-congregacion h2{ color: #d9f2c7; }
+section p{
+  font-size:.95rem;
+  color: var(--text-muted);
+  margin-bottom:22px;
+}
 
 /* =========================
    GRID
 ========================= */
-.grid {
-  display: grid;
+.grid{
+  display:grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
+  gap:22px;
 }
 
 /* =========================
    CARDS
 ========================= */
-.card {
-  background: rgba(255,255,255,0.92);
-  border-radius: 22px;
-  overflow: hidden;
-  text-decoration: none;
+.card{
+  display:block;
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  text-decoration:none;
   color: inherit;
-  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+  overflow:hidden;
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.card:hover {
+.card:hover{
   transform: translateY(-6px);
-  box-shadow: 0 22px 45px rgba(0,0,0,0.35);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.28);
 }
 
-/* imagen placeholder */
-.card-img {
-  height: 150px;
-  background: linear-gradient(135deg,#dde5e2,#eef2f0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  color: #6b7280;
+/* =========================
+   IMAGEN / PLACEHOLDER
+========================= */
+.card-img{
+  height:150px;
+  background:
+    linear-gradient(
+      135deg,
+      #dfe6e3,
+      #eef3f1
+    );
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.9rem;
+  color: var(--text-muted);
 }
 
-/* cuerpo */
-.card-body {
-  padding: 18px;
+/* =========================
+   CUERPO CARD
+========================= */
+.card-body{
+  padding:18px 18px 20px;
 }
 
-.card-body h3 {
-  font-size: 1.05rem;
-  margin-bottom: 4px;
-  font-weight: 600;
+.card-body h3{
+  font-size:1.05rem;
+  font-weight:600;
+  margin-bottom:4px;
+  color: var(--text-main);
 }
 
-.card-body span {
-  font-size: 0.85rem;
-  color: #4b5563;
+.card-body span{
+  font-size:.9rem;
+  color: var(--text-muted);
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
-@media (min-width: 768px) {
-  header h1 {
-    font-size: 1.9rem;
+@media (min-width:768px){
+  body{
+    padding:40px 20px 60px;
   }
 
-  .section h2 {
-    font-size: 1.8rem;
+  header h1{
+    font-size:1.6rem;
+  }
+
+  section h2{
+    font-size:1.7rem;
   }
 }
