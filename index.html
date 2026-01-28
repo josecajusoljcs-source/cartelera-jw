@@ -8,128 +8,141 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(180deg, #1f2a44 0%, #4b556d 40%, #c9b4a5 75%, #2e2e2e 100%);
-    color: #fff;
+body{
+    margin:0;
+    font-family:'Montserrat',sans-serif;
+    color:#fff;
+    background: linear-gradient(
+        180deg,
+        #1f2a44 0%,
+        #3c4a66 35%,
+        #9b8f85 70%,
+        #2b2b2b 100%
+    );
 }
 
-/* HEADER */
-.header {
-    padding: 16px;
-    font-size: 20px;
-    font-weight: 700;
+/* TITULO */
+h1{
+    font-size:36px;
+    font-weight:800;
+    padding:24px;
+    margin:0;
 }
 
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 28px;
-    padding: 24px;
-    max-width: 900px;
-    margin: auto;
+/* SECCIONES */
+.section-title{
+    font-size:24px;
+    font-weight:700;
+    padding:12px 24px 0;
+}
+
+/* GRID 2 COLUMNAS */
+.grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:26px;
+    padding:24px;
 }
 
 /* ITEM */
-.item {
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
+.item{
+    text-align:center;
+    text-decoration:none;
+    color:#fff;
 }
 
-.circle {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: auto;
-    box-shadow: 0 12px 30px rgba(0,0,0,.45);
-    background: #000;
+.circle{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    overflow:hidden;
+    margin:auto;
+    background:#000;
+    box-shadow:0 14px 30px rgba(0,0,0,.45);
+    transition: transform .2s ease;
 }
 
-.circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.circle img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-.item span {
-    display: block;
-    margin-top: 12px;
-    font-weight: 800;
-    font-size: 15px;
+.item:active .circle{
+    transform:scale(.96);
 }
 
-/* FOOTER */
-.footer {
-    background: #2e2e2e;
-    padding: 14px;
-    font-size: 14px;
-    opacity: .9;
+.item span{
+    display:block;
+    margin-top:10px;
+    font-weight:700;
+    font-size:15px;
+}
+
+/* MOBILE FINO */
+@media(max-width:420px){
+    h1{ font-size:32px; }
+    .circle{ width:135px; height:135px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">Parque Rivera / Punta Gorda</div>
+<h1>Congregación Punta Gorda</h1>
 
+<div class="section-title">Predicación</div>
 <div class="grid">
-
-    <!-- Programa de Predicación -->
-    <a class="item" href="predicacion.html" target="_blank">
-        <div class="circle">
-            <img src="images/predicacion.jpg">
-        </div>
-        <span>Programa de<br>Predicación</span>
+    <a class="item" href="predicacion.html">
+        <div class="circle"><img src="images/predicacion.jpg"></div>
+        <span>Grupos de predicación</span>
     </a>
 
-    <!-- Vida y Ministerio -->
-    <a class="item" href="vida-y-ministerio.html" target="_blank">
-        <div class="circle">
-            <img src="images/vida-ministerio.jpg">
-        </div>
-        <span>Reunión Vida y<br>Ministerio Cristiano</span>
+    <a class="item" href="territorios/mapa.html">
+        <div class="circle"><img src="images/territorios.jpg"></div>
+        <span>Mapa de territorios</span>
     </a>
-
-    <!-- Reunión Pública -->
-    <a class="item" href="reunion-publica.html" target="_blank">
-        <div class="circle">
-            <img src="images/reunion-publica.jpg">
-        </div>
-        <span>Reunión<br>Pública</span>
-    </a>
-
-    <!-- Asignaciones -->
-    <a class="item" href="responsabilidades.html" target="_blank">
-        <div class="circle">
-            <img src="images/asignaciones.jpg">
-        </div>
-        <span>Asignaciones por<br>Departamentos</span>
-    </a>
-
-    <!-- Limpieza -->
-    <a class="item" href="limpieza.html" target="_blank">
-        <div class="circle">
-            <img src="images/limpieza.jpg">
-        </div>
-        <span>Arreglo de<br>Limpieza</span>
-    </a>
-
-    <!-- NUEVO: Audio y Video -->
-    <a class="item" href="https://josecajusoljcs-source.github.io/cartelera/" target="_blank">
-        <div class="circle">
-            <img src="images/audio-video.jpg">
-        </div>
-        <span>Asignaciones de<br>Audio y Video</span>
-    </a>
-
 </div>
 
-<div class="footer">
-    Congregación Punta Gorda · Montevideo · Uruguay
+<div class="section-title">Reuniones</div>
+<div class="grid">
+    <a class="item" href="vida-y-ministerio.html">
+        <div class="circle"><img src="images/vida-ministerio.jpg"></div>
+        <span>Vida y Ministerio</span>
+    </a>
+
+    <a class="item" href="reunion-publica.html">
+        <div class="circle"><img src="images/reunion-publica.jpg"></div>
+        <span>Reunión Pública</span>
+    </a>
+
+    <a class="item" href="limpieza.html">
+        <div class="circle"><img src="images/limpieza.jpg"></div>
+        <span>Programa de Limpieza</span>
+    </a>
+</div>
+
+<div class="section-title">Congregación</div>
+<div class="grid">
+    <a class="item" href="publicadores.html">
+        <div class="circle"><img src="images/publicadores.jpg"></div>
+        <span>Grupos de publicadores</span>
+    </a>
+
+    <a class="item" href="precursores.html">
+        <div class="circle"><img src="images/precursores.jpg"></div>
+        <span>Precursores regulares</span>
+    </a>
+
+    <a class="item" href="responsabilidades.html">
+        <div class="circle"><img src="images/responsabilidades.jpg"></div>
+        <span>Responsabilidades</span>
+    </a>
+
+    <a class="item" href="https://josecajusoljcs-source.github.io/cartelera/" target="_blank">
+        <div class="circle"><img src="images/audio-video.jpg"></div>
+        <span>Audio y Video</span>
+    </a>
 </div>
 
 </body>
