@@ -1,99 +1,67 @@
-:root {
-  --jw-blue: #1b365d;
-  --jw-bg: #f4f6f8;
-  --jw-text: #1f2933;
+:root{
+  --jw-blue:#1b365d;
 }
 
-* {
-  box-sizing: border-box;
-}
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  font-family: 'Source Sans 3', system-ui, sans-serif;
-  background: var(--jw-bg);
-  color: var(--jw-text);
+body{
+  margin:0;
+  font-family:'Source Sans 3',sans-serif;
+  background:linear-gradient(180deg,#1b365d 0%,#6c7a92 45%,#e6e2d8 100%);
+  color:#fff;
 }
 
 /* HEADER */
-.jw-header {
-  background: var(--jw-blue);
-  color: #fff;
-  padding: 40px 20px;
-  text-align: center;
+.jw-top{
+  padding:40px 20px;
+  text-align:center;
 }
 
-.jw-header h1 {
-  font-size: 34px;
-  margin: 0;
+.jw-top h1{
+  font-size:32px;
+  margin:0;
 }
 
-.jw-header p {
-  font-size: 20px;
-  margin-top: 12px;
-  opacity: 0.9;
+.jw-top p{
+  font-size:18px;
+  opacity:.9;
+  margin-top:10px;
 }
 
 /* GRID */
-.jw-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  padding: 30px 20px 50px;
+.jw-sections{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  padding:30px 20px 60px;
 }
 
-/* CARD */
-.jw-card {
-  background: #fff;
-  border-radius: 22px;
-  padding: 26px 20px;
-  text-align: center;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+/* ITEM */
+.jw-item{
+  text-decoration:none;
+  color:#fff;
+  text-align:center;
 }
 
-/* IMAGEN CIRCULAR */
-.jw-img {
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  background: #eef2f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.jw-item img{
+  width:140px;
+  height:140px;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
+  margin:0 auto 15px;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
-.jw-img img {
-  width: 64px;
-  height: 64px;
-}
-
-/* TEXTOS */
-.jw-card h2 {
-  font-size: 26px;
-  color: var(--jw-blue);
-  margin: 10px 0;
-}
-
-.jw-card p {
-  font-size: 18px;
-  color: #555;
+.jw-item span{
+  display:block;
+  font-size:17px;
+  font-weight:600;
 }
 
 /* TABLET */
-@media (min-width: 600px) {
-  .jw-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* DESKTOP */
-@media (min-width: 900px) {
-  .jw-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1100px;
-    margin: auto;
+@media(min-width:700px){
+  .jw-sections{
+    grid-template-columns:repeat(3,1fr);
   }
 }
