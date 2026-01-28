@@ -97,3 +97,6 @@ body {
     padding: 26px;
   }
 }
+.card img {
+  filter: invert(17%) sepia(26%) saturate(1116%) hue-rotate(186deg) brightness(92%) contrast(92%);
+}
