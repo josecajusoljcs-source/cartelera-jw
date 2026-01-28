@@ -5,84 +5,89 @@
 <title>Congregación Punta Gorda</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-body{
-    margin:0;
-    font-family:'Montserrat',sans-serif;
-    color:#fff;
-    background: linear-gradient(
-        180deg,
-        #1f2a44 0%,
-        #3c4a66 35%,
-        #9b8f85 70%,
-        #2b2b2b 100%
-    );
+/* Reset y tipografía */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(180deg, #1f2a44 0%, #4b556d 40%, #c9b4a5 75%, #2e2e2e 100%);
+    color: white;
 }
 
-/* TITULO */
-h1{
-    font-size:36px;
-    font-weight:800;
-    padding:24px;
-    margin:0;
+/* Título principal */
+h1 {
+    text-align: center;
+    padding: 22px 0;
+    margin: 0;
+    font-size: 36px;
+    font-weight: 800;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
 }
 
-/* TITULOS SECCION */
-.section-title{
-    font-size:24px;
-    font-weight:700;
-    padding:16px 24px 0;
+/* Título de sección */
+.section-title {
+    margin: 24px 16px 8px;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
 }
 
-/* GRID */
-.grid{
-    display:grid;
+/* Contenedor de tarjetas */
+.grid {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap:26px;
-    padding:24px;
+    gap: 20px;
+    padding: 0 16px 28px;
 }
 
-/* ITEM */
-.item{
-    text-align:center;
-    text-decoration:none;
-    color:#fff;
+/* Tarjeta individual */
+.item {
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.circle{
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    overflow:hidden;
-    margin:auto;
-    background:#000;
-    box-shadow:0 14px 30px rgba(0,0,0,.45);
-    transition: transform .2s ease;
+.item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.4);
 }
 
-.circle img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+/* Círculo contenedor de la imagen */
+.circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    background: #000;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.5);
 }
 
-.item:active .circle{
-    transform:scale(.95);
+.circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.item span{
-    display:block;
-    margin-top:10px;
-    font-weight:700;
-    font-size:15px;
-    line-height:1.2;
+/* Texto debajo de la imagen */
+.item span {
+    display: block;
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-@media(max-width:420px){
-    h1{ font-size:32px; }
-    .circle{ width:135px; height:135px; }
+@media (max-width: 420px) {
+    .circle {
+        width: 130px;
+        height: 130px;
+    }
 }
 </style>
 </head>
