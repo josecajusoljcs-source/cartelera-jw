@@ -1,171 +1,89 @@
-/* =========================================
-   RESET BÁSICO
-   ========================================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* =========================
+   jw.1.2 — Chipito Edition
+   ========================= */
+
+:root{
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #0c1b26;
+  --muted: #5a6b79;
+
+  --navy: #0b2a3b;      /* azul sobrio */
+  --navy-2: #113a52;
+  --line: rgba(11,42,59,.12);
+
+  --accent: #2a7bbf;    /* azul estilo “web institucional” */
+  --accent-2: #1f5f97;
+
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(10, 20, 30, .10);
+  --shadow-soft: 0 6px 18px rgba(10, 20, 30, .08);
+
+  --topbar-h: 86px;
 }
 
-html {
-  scroll-behavior: smooth;
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(42,123,191,.10), transparent 60%),
+              radial-gradient(900px 500px at 90% 10%, rgba(11,42,59,.10), transparent 55%),
+              var(--bg);
 }
 
-/* Fix de anclas SIN tocar HTML */
-:target {
-  scroll-margin-top: 110px;
+/* IMPORTANTÍSIMO:
+   evita que al saltar a #predicacion quede “corrido” por el header */
+.section{
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
 }
 
-/* =========================================
-   VARIABLES ESTILO JW
-   ========================================= */
-:root {
-  --jw-bg: #f4f6f8;
-  --jw-card: #ffffff;
-  --jw-text: #1f2933;
-  --jw-muted: #5f6b7a;
-  --jw-blue: #2a6ebb;
-  --jw-blue-soft: #e7f0fb;
-  --radius: 16px;
+a{ color: inherit; text-decoration: none; }
+img{ display:block; width:100%; height:100%; object-fit: cover; }
+
+.container{
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: calc(var(--topbar-h) + 18px) 0 40px;
 }
 
-/* =========================================
-   BODY GENERAL
-   ========================================= */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, Helvetica, Arial, sans-serif;
-  background: var(--jw-bg);
-  color: var(--jw-text);
-  line-height: 1.6;
+/* Topbar */
+.topbar{
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--topbar-h);
+  z-index: 50;
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.75));
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar__inner{
+  height: 100%;
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.brand__title{
+  font-weight: 750;
+  letter-spacing: .2px;
+  font-size: 15px;          /* CHICO para que no robe espacio */
+  color: var(--navy);
+}
+.brand__subtitle{
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
 }
 
-/* =========================================
-   HEADER (DISCRETO, NO PROTAGONISTA)
-   ========================================= */
-header {
-  max-width: 1100px;
-  margin: auto;
-  padding: 26px 20px 12px;
+.nav{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
-
-header h1 {
-  font-size: clamp(1.6rem, 4vw, 2.1rem);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-header p {
-  font-size: 0.95rem;
-  color: var(--jw-muted);
-}
-
-/* =========================================
-   CONTENIDO PRINCIPAL
-   ========================================= */
-main {
-  max-width: 1100px;
-  margin: auto;
-  padding: 0 20px 80px;
-}
-
-/* =========================================
-   SECCIONES
-   ========================================= */
-section {
-  margin-top: 48px;
-}
-
-section h2 {
-  font-size: 1.6rem;
-  font-weight: 500;
-  margin-bottom: 18px;
-}
-
-/* =========================================
-   GRID
-   ========================================= */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
-}
-
-/* =========================================
-   CARDS
-   ========================================= */
-.card {
-  display: block;
-  background: var(--jw-card);
-  border-radius: var(--radius);
-  text-decoration: none;
-  color: inherit;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.08);
-}
-
-/* =========================================
-   CONTENEDOR DE IMAGEN (PLACEHOLDER)
-   ========================================= */
-.image,
-.image-placeholder {
-  height: 170px;
-  background: var(--jw-blue-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--jw-blue);
-  font-size: 0.9rem;
-}
-
-/* =========================================
-   CONTENIDO DE CARD
-   ========================================= */
-.card-content,
-.content {
-  padding: 16px 18px 18px;
-}
-
-.card-content h3,
-.content h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.card-content p,
-.content p {
-  font-size: 0.9rem;
-  color: var(--jw-muted);
-}
-
-/* =========================================
-   FOOTER
-   ========================================= */
-footer {
-  margin-top: 70px;
-  padding: 30px 20px;
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--jw-muted);
-  border-top: 1px solid #e1e4e8;
-}
-
-/* =========================================
-   AJUSTES MOBILE FINOS
-   ========================================= */
-@media (max-width: 480px) {
-  header h1 {
-    font-size: 1.5rem;
-  }
-
-  section h2 {
-    font-size: 1.4rem;
-  }
-}
+.nav__link{
+  font-size:
