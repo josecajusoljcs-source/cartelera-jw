@@ -1,352 +1,257 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Congregación Punta Gorda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      /* Base tipo JW (limpio + azul sobrio) */
-      --bg: #f6f7f9;
-      --surface: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-
-      --brand: #2a6ebb;         /* azul principal */
-      --brand-weak: #eaf2ff;    /* azul clarito */
-      --border: #e5e7eb;
-
-      --shadow: 0 10px 28px rgba(17,24,39,.08);
-      --shadow-soft: 0 6px 18px rgba(17,24,39,.06);
-
-      --radius: 18px;
-      --radius-sm: 14px;
-      --max: 980px;
+    /* =========================
+       RESET
+    ========================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(1200px 600px at 10% -10%, var(--brand-weak) 0%, rgba(234,242,255,0) 60%),
-        radial-gradient(900px 500px at 90% 10%, rgba(42,110,187,.08) 0%, rgba(42,110,187,0) 55%),
-        var(--bg);
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system;
+      background: #f7f8fa;
+      color: #1f2937;
+      line-height: 1.4;
     }
 
-    /* Layout */
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 22px 16px 40px;
-    }
-
-    /* Header compacto */
-    .topbar{
-      background: rgba(255,255,255,.75);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(229,231,235,.7);
-      box-shadow: var(--shadow-soft);
-      border-radius: var(--radius);
-      padding: 14px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      position: sticky;
-      top: 10px;
-      z-index: 20;
-    }
-
-    .brandbox{
-      display:flex;
-      flex-direction:column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .title{
-      margin:0;
-      font-size: 16px;          /* <- pequeño para que no robe espacio */
-      font-weight: 700;
-      letter-spacing: .2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .subtitle{
-      margin:0;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .nav{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-    }
-    .nav a{
-      text-decoration:none;
-      color: var(--brand);
-      background: rgba(42,110,187,.08);
-      border: 1px solid rgba(42,110,187,.12);
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      transition: transform .12s ease, background .12s ease;
-    }
-    .nav a:active{ transform: scale(.98); }
-    .nav a:hover{ background: rgba(42,110,187,.12); }
-
-    /* Secciones */
-    .section{
-      margin-top: 18px;
-      padding-top: 10px;
-    }
-
-    .section h2{
-      margin: 18px 4px 10px;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: .2px;
-    }
-
-    .section p{
-      margin: 0 4px 12px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    /* Grid cards */
-    .grid{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .card{
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      overflow:hidden;
-      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-    }
-
-    .card a{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      padding: 16px 16px;
-      text-decoration:none;
+    a {
+      text-decoration: none;
       color: inherit;
-      min-height: 74px;
     }
 
-    .icon{
-      width: 46px;
-      height: 46px;
-      display:grid;
-      place-items:center;
-      border-radius: 14px;
-      background: rgba(42,110,187,.10);
-      border: 1px solid rgba(42,110,187,.14);
-      flex: 0 0 auto;
+    /* =========================
+       HEADER SIMPLE
+    ========================= */
+    header {
+      padding: 14px 16px 6px;
     }
 
-    .icon img{
-      width: 26px;
-      height: 26px;
-      display:block;
-    }
-
-    .meta{
-      display:flex;
-      flex-direction:column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .meta .name{
-      font-weight: 800;
-      font-size: 14px;
-      line-height: 1.2;
-    }
-
-    .meta .hint{
+    header h1 {
+      font-size: 15px;
       font-weight: 600;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.2;
+      letter-spacing: .3px;
     }
 
-    .card:hover{
+    /* =========================
+       NAVEGACIÓN SUPERIOR
+    ========================= */
+    nav {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    nav a {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(37,99,235,.08);
+      color: #2563eb;
+    }
+
+    /* =========================
+       CONTENEDOR
+    ========================= */
+    .container {
+      padding: 8px 16px 40px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    /* =========================
+       SECCIONES
+    ========================= */
+    section {
+      margin-top: 28px;
+    }
+
+    section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    section p {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 14px;
+    }
+
+    /* =========================
+       TARJETAS
+    ========================= */
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .card:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow);
-      border-color: rgba(42,110,187,.22);
+      box-shadow: 0 10px 26px rgba(0,0,0,.08);
     }
 
-    /* Responsive */
-    @media (max-width: 880px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 560px){
-      .topbar{ padding: 12px; }
-      .grid{ grid-template-columns: 1fr; }
-      .title{ font-size: 15px; }
-      .nav a{ padding: 7px 9px; }
-      .section h2{ font-size: 17px; }
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #eef2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 14px;
     }
 
-    /* Pequeño toque “marca” */
-    .footer-note{
-      margin-top: 18px;
+    .meta .name {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .meta .hint {
       font-size: 12px;
-      color: var(--muted);
-      text-align:center;
+      color: #6b7280;
+      margin-top: 2px;
     }
-    .footer-note b{ color: var(--brand); }
+
+    /* =========================
+       MODO PARQUE RIVERA (opcional)
+       Activar agregando class="rivera" al body
+    ========================= */
+    body.rivera {
+      background:
+        radial-gradient(800px 500px at 10% 0%, #e6f0ff 0%, transparent 60%),
+        radial-gradient(700px 400px at 90% 10%, #eafaf1 0%, transparent 55%),
+        #f6f9fc;
+    }
+
+    body.rivera .card {
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+    }
+
+    body.rivera .icon {
+      background: linear-gradient(135deg, #e0edff, #eefaf1);
+    }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <!-- Para activar Parque Rivera inspired:
+       <body class="rivera">
+  -->
 
-    <header class="topbar">
-      <div class="brandbox">
-        <h1 class="title">Congregación Punta Gorda</h1>
-        <p class="subtitle">Cartelera de información y asignaciones</p>
-      </div>
+  <header>
+    <h1>Congregación Punta Gorda</h1>
+    <nav>
+      <a href="#predicacion">Predicación</a>
+      <a href="#reuniones">Reuniones</a>
+      <a href="#congregacion">Congregación</a>
+    </nav>
+  </header>
 
-      <!-- Estos links solo bajan a la sección (no rompen tus páginas) -->
-      <nav class="nav" aria-label="Secciones">
-        <a href="#predicacion">Predicación</a>
-        <a href="#reuniones">Reuniones</a>
-        <a href="#congregacion">Congregación</a>
-      </nav>
-    </header>
+  <main class="container">
 
-    <section id="predicacion" class="section">
+    <!-- PREDICACIÓN -->
+    <section id="predicacion">
       <h2>Predicación</h2>
       <p>Asignaciones, grupos y territorios.</p>
 
-      <ul class="grid">
-        <li class="card">
-          <a target="_blank" href="predicacion.html" rel="noopener">
-            <span class="icon"><img src="images/noun_schedule_1776600.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Grupos de predicación</span>
-              <span class="hint">Organización por grupos</span>
-            </span>
-          </a>
-        </li>
+      <a class="card" href="predicacion.html">
+        <div class="icon">📅</div>
+        <div class="meta">
+          <div class="name">Grupos de predicación</div>
+          <div class="hint">Organización por grupos</div>
+        </div>
+      </a>
 
-        <li class="card">
-          <a target="_blank" href="territorios/mapa.html" rel="noopener">
-            <span class="icon"><img src="images/noun_map_10799.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Mapa de territorios</span>
-              <span class="hint">Acceso al mapa</span>
-            </span>
-          </a>
-        </li>
-      </ul>
+      <a class="card" href="territorios/mapa.html">
+        <div class="icon">🗺️</div>
+        <div class="meta">
+          <div class="name">Mapa de territorios</div>
+          <div class="hint">Acceso al mapa</div>
+        </div>
+      </a>
     </section>
 
-    <section id="reuniones" class="section">
+    <!-- REUNIONES -->
+    <section id="reuniones">
       <h2>Reuniones</h2>
       <p>Material y asignaciones de reuniones.</p>
 
-      <ul class="grid">
-        <li class="card">
-          <a target="_blank" href="vida-y-ministerio.html" rel="noopener">
-            <span class="icon"><img src="images/noun_teach_1614348.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Vida y Ministerio</span>
-              <span class="hint">Reunión y asignaciones</span>
-            </span>
-          </a>
-        </li>
+      <a class="card" href="vida-y-ministerio.html">
+        <div class="icon">📖</div>
+        <div class="meta">
+          <div class="name">Vida y Ministerio Cristiano</div>
+          <div class="hint">Programa semanal</div>
+        </div>
+      </a>
 
-        <li class="card">
-          <a target="_blank" href="reunion-publica.html" rel="noopener">
-            <span class="icon"><img src="images/noun_conference_704693.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Reunión Pública</span>
-              <span class="hint">Discursos y temas</span>
-            </span>
-          </a>
-        </li>
-      </ul>
+      <a class="card" href="reunion-publica.html">
+        <div class="icon">🎤</div>
+        <div class="meta">
+          <div class="name">Reunión Pública</div>
+          <div class="hint">Discursos y temas</div>
+        </div>
+      </a>
     </section>
 
-    <section id="congregacion" class="section">
+    <!-- CONGREGACIÓN -->
+    <section id="congregacion">
       <h2>Congregación</h2>
-      <p>Listados y organización interna.</p>
+      <p>Organización y responsabilidades.</p>
 
-      <ul class="grid">
-        <!-- Limpieza PRIMERO y dentro de Congregación (como pediste) -->
-        <li class="card">
-          <a target="_blank" href="limpieza.html" rel="noopener">
-            <span class="icon"><img src="images/noun_clean_1683608.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Programa de Limpieza</span>
-              <span class="hint">Asignación por semanas</span>
-            </span>
-          </a>
-        </li>
+      <a class="card" href="limpieza.html">
+        <div class="icon">🧹</div>
+        <div class="meta">
+          <div class="name">Programa de Limpieza</div>
+          <div class="hint">Asignaciones</div>
+        </div>
+      </a>
 
-        <li class="card">
-          <a target="_blank" href="publicadores.html" rel="noopener">
-            <span class="icon"><img src="images/noun_people_199910.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Grupos de publicadores</span>
-              <span class="hint">Listados y grupos</span>
-            </span>
-          </a>
-        </li>
+      <a class="card" href="publicadores.html">
+        <div class="icon">👥</div>
+        <div class="meta">
+          <div class="name">Grupos de publicadores</div>
+          <div class="hint">Listado por grupo</div>
+        </div>
+      </a>
 
-        <li class="card">
-          <a target="_blank" href="precursores.html" rel="noopener">
-            <span class="icon"><img src="images/pioneers.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Precursores regulares</span>
-              <span class="hint">Listado actualizado</span>
-            </span>
-          </a>
-        </li>
+      <a class="card" href="precursores.html">
+        <div class="icon">⭐</div>
+        <div class="meta">
+          <div class="name">Precursores regulares</div>
+          <div class="hint">Información actualizada</div>
+        </div>
+      </a>
 
-        <li class="card">
-          <a target="_blank" href="responsabilidades.html" rel="noopener">
-            <span class="icon"><img src="images/noun_organization_421912.svg" alt=""></span>
-            <span class="meta">
-              <span class="name">Responsabilidades</span>
-              <span class="hint">Asignaciones y roles</span>
-            </span>
-          </a>
-        </li>
-      </ul>
+      <a class="card" href="responsabilidades.html">
+        <div class="icon">📋</div>
+        <div class="meta">
+          <div class="name">Responsabilidades</div>
+          <div class="hint">Asignaciones</div>
+        </div>
+      </a>
     </section>
 
-    <div class="footer-note">
-      jw.1.2 · modo sobrio · hecho por <b>Chipito</b> 😄
-    </div>
-
-  </div>
+  </main>
 </body>
 </html>
