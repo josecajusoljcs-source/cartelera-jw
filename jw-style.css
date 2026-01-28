@@ -1,309 +1,213 @@
-/* =========================
-   jw.1.2 — Chipito Edition
-   ========================= */
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Congregación Punta Gorda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-:root{
-  --bg: #f6f7f9;
-  --card: #ffffff;
-  --text: #0c1b26;
-  --muted: #5a6b79;
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
 
-  --navy: #0b2a3b;      /* azul sobrio */
-  --navy-2: #113a52;
-  --line: rgba(11,42,59,.12);
+  <style>
+    /* ===============================
+       BASE
+    =============================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  --accent: #2a7bbf;    /* azul estilo “web institucional” */
-  --accent-2: #1f5f97;
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #f4f7f5, #eef3f1);
+      color: #1f2933;
+      padding: 20px;
+    }
 
-  --radius: 18px;
-  --shadow: 0 10px 30px rgba(10, 20, 30, .10);
-  --shadow-soft: 0 6px 18px rgba(10, 20, 30, .08);
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-  --topbar-h: 86px;
-}
+    /* ===============================
+       HEADER
+    =============================== */
+    .header {
+      margin-bottom: 28px;
+    }
 
-*{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; }
-body{
-  margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-  color: var(--text);
-  background: radial-gradient(1200px 600px at 20% 0%, rgba(42,123,191,.10), transparent 60%),
-              radial-gradient(900px 500px at 90% 10%, rgba(11,42,59,.10), transparent 55%),
-              var(--bg);
-}
+    .header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1f3d2b;
+    }
 
-/* IMPORTANTÍSIMO:
-   evita que al saltar a #predicacion quede “corrido” por el header */
-.section{
-  scroll-margin-top: calc(var(--topbar-h) + 18px);
-}
+    /* ===============================
+       SECTIONS
+    =============================== */
+    section {
+      margin-bottom: 48px;
+    }
 
-a{ color: inherit; text-decoration: none; }
-img{ display:block; width:100%; height:100%; object-fit: cover; }
+    section h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+      color: #1f3d2b;
+    }
 
-.container{
-  width: min(1100px, 92vw);
-  margin: 0 auto;
-  padding: calc(var(--topbar-h) + 18px) 0 40px;
-}
+    section p {
+      color: #6b7280;
+      margin-bottom: 18px;
+    }
 
-/* Topbar */
-.topbar{
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: var(--topbar-h);
-  z-index: 50;
-  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.75));
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
-.topbar__inner{
-  height: 100%;
-  width: min(1100px, 92vw);
-  margin: 0 auto;
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-  gap: 14px;
-}
-.brand__title{
-  font-weight: 750;
-  letter-spacing: .2px;
-  font-size: 15px;          /* CHICO para que no robe espacio */
-  color: var(--navy);
-}
-.brand__subtitle{
-  margin-top: 2px;
-  font-size: 12px;
-  color: var(--muted);
-}
+    /* ===============================
+       CARDS
+    =============================== */
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.06);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
 
-.nav{
-  display:flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.nav__link{
-  font-size: 13px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.7);
-  color: var(--navy-2);
-}
-.nav__link:hover{
-  border-color: rgba(42,123,191,.35);
-  box-shadow: 0 6px 18px rgba(42,123,191,.15);
-}
-.nav__link:active{ transform: translateY(1px); }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 35px rgba(0,0,0,.08);
+    }
 
-/* Hero */
-.hero{
-  margin-top: 12px;
-  margin-bottom: 18px;
-}
-.hero__card{
-  padding: 18px;
-  border-radius: var(--radius);
-  background: linear-gradient(140deg, rgba(11,42,59,.08), rgba(42,123,191,.08));
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-soft);
-}
-.hero__badge{
-  display:inline-block;
-  font-size: 12px;
-  color: var(--navy-2);
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.75);
-  border: 1px solid var(--line);
-}
-.hero__title{
-  margin: 10px 0 6px;
-  font-size: 28px;
-  letter-spacing: .2px;
-}
-.hero__text{
-  margin:0;
-  color: var(--muted);
-  font-size: 14px;
-}
+    .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #e8f0eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
 
-/* Sections */
-.section{
-  margin-top: 26px;
-}
-.section__head{
-  display:flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-.section__title{
-  margin:0;
-  font-size: 20px;
-  color: var(--navy);
-}
-.section__desc{
-  margin:0;
-  color: var(--muted);
-  font-size: 13px;
-}
+    .card-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
 
-/* Card grid */
-.grid{
-  display:grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 14px;
-}
+    .card-content span {
+      font-size: 14px;
+      color: #6b7280;
+    }
 
-/* Cards as clickable links (esto arregla “no dirige a ningún lado” cuando la card no era <a>) */
-.card{
-  grid-column: span 6;
-  display:block;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow:hidden;
-  box-shadow: var(--shadow-soft);
-  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
-}
-.card:hover{
-  transform: translateY(-2px);
-  border-color: rgba(42,123,191,.35);
-  box-shadow: var(--shadow);
-}
-.card:active{ transform: translateY(0px); }
+    /* ===============================
+       SECTION COLORS
+    =============================== */
+    .predicacion .icon { background:#e6f1ec; }
+    .reuniones .icon   { background:#e8edf3; }
+    .congregacion .icon{ background:#e9f3ef; }
 
-.card__media{
-  height: 160px;
-  background: linear-gradient(135deg, rgba(11,42,59,.10), rgba(42,123,191,.10));
-  border-bottom: 1px solid var(--line);
-}
-.card__body{
-  padding: 14px 14px 16px;
-}
-.card__title{
-  font-size: 16px;
-  font-weight: 700;
-  color: #0f2230;
-  margin-bottom: 4px;
-}
-.card__meta{
-  font-size: 13px;
-  color: var(--muted);
-}
+    /* ===============================
+       RESPONSIVE
+    =============================== */
+    @media (min-width: 768px) {
+      body {
+        max-width: 720px;
+        margin: auto;
+      }
+    }
+  </style>
+</head>
 
-/* featured (Limpieza primero y destacado) */
-.card--featured{
-  grid-column: span 12;
-  border-color: rgba(42,123,191,.28);
-  background: linear-gradient(180deg, rgba(42,123,191,.05), #fff 60%);
-}
+<body>
 
-.footer{
-  margin-top: 26px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-.footer__inner{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  color: var(--muted);
-  font-size: 12px;
-}
-.dot{ opacity:.6; }
-.muted{ opacity:.85; }
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Congregación Punta Gorda</h1>
+  </div>
 
-/* Responsive */
-@media (max-width: 840px){
-  .card{ grid-column: span 12; }
-  .section__head{ flex-direction: column; align-items: flex-start; }
-  .brand__subtitle{ display:none; }
-  :root{ --topbar-h: 76px; }
-}
-/* ===============================
-   MODO PARQUE RIVERA – SOLO SKIN
-   No rompe estructura
-================================ */
+  <!-- PREDICACIÓN -->
+  <section class="predicacion">
+    <h2>Predicación</h2>
+    <p>Asignaciones, grupos y territorios.</p>
 
-/* Fondo general más natural */
-body{
-  background: linear-gradient(180deg, #f4f7f5 0%, #eef3f1 100%);
-}
+    <a href="predicacion.html" class="card">
+      <div class="icon">📅</div>
+      <div class="card-content">
+        <h3>Grupos de predicación</h3>
+        <span>Organización por grupos</span>
+      </div>
+    </a>
 
-/* Título principal más discreto */
-h1{
-  color:#1f3d2b;
-  font-weight:600;
-}
+    <a href="territorios/mapa.html" class="card">
+      <div class="icon">🗺️</div>
+      <div class="card-content">
+        <h3>Mapa de territorios</h3>
+        <span>Acceso al mapa</span>
+      </div>
+    </a>
+  </section>
 
-/* Subtítulos de sección */
-h2{
-  color:#1f3d2b;
-}
+  <!-- REUNIONES -->
+  <section class="reuniones">
+    <h2>Reuniones</h2>
+    <p>Material y asignaciones de reuniones.</p>
 
-/* ---------- CONTENEDORES DE SECCIÓN ---------- */
-li.cont{
-  padding:18px 14px;
-  margin-bottom:42px;
-  border-radius:18px;
-}
+    <a href="vida-y-ministerio.html" class="card">
+      <div class="icon">📖</div>
+      <div class="card-content">
+        <h3>Vida y Ministerio Cristiano</h3>
+        <span>Programa semanal</span>
+      </div>
+    </a>
 
-/* Predicación */
-li.cont:nth-of-type(1){
-  background: linear-gradient(135deg, #e7f1ec, #f9fbfa);
-}
+    <a href="reunion-publica.html" class="card">
+      <div class="icon">🎤</div>
+      <div class="card-content">
+        <h3>Reunión Pública</h3>
+        <span>Asignaciones</span>
+      </div>
+    </a>
 
-/* Reuniones */
-li.cont:nth-of-type(2){
-  background: linear-gradient(135deg, #eaf0f6, #fbfcfd);
-}
+    <a href="https://josecajusoljcs-source.github.io/cartelera/" class="card">
+      <div class="icon">🗂️</div>
+      <div class="card-content">
+        <h3>Asignaciones de reuniones</h3>
+        <span>Cartelera general</span>
+      </div>
+    </a>
+  </section>
 
-/* Congregación */
-li.cont:nth-of-type(3){
-  background: linear-gradient(135deg, #edf4f0, #fbfdfc);
-}
+  <!-- CONGREGACIÓN -->
+  <section class="congregacion">
+    <h2>Congregación</h2>
 
-/* ---------- CARDS ---------- */
-li a{
-  background:#ffffff;
-  color:#1f3d2b;
-  border-radius:18px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.06);
-  transition: all .15s ease;
-}
+    <a href="publicadores.html" class="card">
+      <div class="icon">👥</div>
+      <div class="card-content">
+        <h3>Grupos de publicadores</h3>
+        <span>Organización interna</span>
+      </div>
+    </a>
 
-/* Hover suave */
-li a:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(0,0,0,.08);
-}
+    <a href="precursores.html" class="card">
+      <div class="icon">⭐</div>
+      <div class="card-content">
+        <h3>Precursores regulares</h3>
+        <span>Listado actualizado</span>
+      </div>
+    </a>
 
-/* Texto de cards */
-.card li span{
-  color:#2f4f3e;
-  font-weight:500;
-}
+    <a href="responsabilidades.html" class="card">
+      <div class="icon">🛠️</div>
+      <div class="card-content">
+        <h3>Responsabilidades</h3>
+        <span>Asignaciones congregacionales</span>
+      </div>
+    </a>
+  </section>
 
-/* Íconos */
-.card li img{
-  opacity:.85;
-}
-
-/* Quita sombras viejas tipo papel */
-.card li:before,
-.card li:after{
-  display:none;
-}
-
-/* Responsive mantiene todo igual */
-@media screen and (max-width: 800px){
-  li.cont{
-    padding:14px 10px;
-  }
-}
+</body>
+</html>
