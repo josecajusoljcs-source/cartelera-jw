@@ -1,182 +1,145 @@
 /* =========================
-   VARIABLES – PARQUE RIVERA PRO
-   ========================= */
-:root{
-  --bg-main: linear-gradient(
-    180deg,
-    #1e2a38 0%,
-    #2f3f55 28%,
-    #4f6376 52%,
-    #8fa1b0 72%,
-    #dbe3ea 100%
-  );
-
-  --panel-bg: rgba(255,255,255,.94);
-  --panel-border: rgba(255,255,255,.45);
-
-  --text-main:#0f172a;
-  --text-muted:#6b7280;
-
-  --accent-green:#2f6f63;
-  --accent-blue:#3b82f6;
-  --accent-indigo:#6366f1;
-
-  --shadow-soft:0 18px 45px rgba(0,0,0,.25);
-  --shadow-card:0 12px 28px rgba(0,0,0,.12);
-
-  --radius-lg:22px;
-  --radius-md:16px;
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* =========================
-   RESET
-   ========================= */
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html {
+  scroll-behavior: smooth;
+}
 
-body{
-  font-family:'Montserrat',system-ui,sans-serif;
-  background: var(--bg-main);
-  color:var(--text-main);
-  line-height:1.45;
-  min-height:100vh;
+body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  background: linear-gradient(
+    180deg,
+    #1f2a36 0%,
+    #2b3a4a 30%,
+    #56636f 60%,
+    #cfd6d3 100%
+  );
+  color: #1f2933;
 }
 
 /* =========================
    CONTENEDOR
-   ========================= */
-.container{
-  max-width:900px;
-  margin:0 auto;
-  padding:22px;
+========================= */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
 }
 
 /* =========================
-   HEADER (flotante y claro)
-   ========================= */
-header{
-  background:var(--panel-bg);
-  border:1px solid var(--panel-border);
-  border-radius:var(--radius-lg);
-  padding:22px 22px 20px;
-  margin-bottom:40px;
-  box-shadow:var(--shadow-soft);
+   HEADER
+========================= */
+header {
+  margin-bottom: 36px;
 }
 
-header h1{
-  font-size:1.55rem;
-  font-weight:700;
-  margin-bottom:6px;
+header h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #ffffff;
 }
 
-header p{
-  font-size:.95rem;
-  color:var(--text-muted);
+header p {
+  font-size: 0.95rem;
+  color: #e5e7eb;
 }
 
 /* =========================
-   SECCIONES (BIEN SEPARADAS)
-   ========================= */
-section{
-  background:var(--panel-bg);
-  border:1px solid var(--panel-border);
-  border-radius:var(--radius-lg);
-  padding:26px 22px 28px;
-  margin-bottom:46px;
-  box-shadow:var(--shadow-soft);
-  position:relative;
+   SECCIONES
+========================= */
+.section {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.18);
 }
 
-/* barra superior de color */
-section::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:22px;
-  width:64px;
-  height:6px;
-  border-radius:999px;
+.section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+  color: #ffffff;
 }
 
-/* colores por sección */
-#predicacion::before{ background:linear-gradient(90deg,#2f6f63,#6fc3aa); }
-#reuniones::before{ background:linear-gradient(90deg,#3b82f6,#93c5fd); }
-#congregacion::before{ background:linear-gradient(90deg,#6366f1,#a5b4fc); }
-
-section h2{
-  font-size:1.6rem;
-  font-weight:800;
-  margin-bottom:6px;
+.section p {
+  margin-bottom: 22px;
+  color: #d1d5db;
 }
 
-section p{
-  color:var(--text-muted);
-  margin-bottom:22px;
-}
+/* =========================
+   COLORES POR SECCIÓN
+========================= */
+.section-predicacion h2 { color: #9dd6c3; }
+.section-reuniones   h2 { color: #a5c7ff; }
+.section-congregacion h2{ color: #d9f2c7; }
 
 /* =========================
    GRID
-   ========================= */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
+========================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
 }
 
 /* =========================
    CARDS
-   ========================= */
-.card{
-  background:#ffffff;
-  border-radius:var(--radius-md);
-  box-shadow:var(--shadow-card);
-  overflow:hidden;
-  text-decoration:none;
-  color:inherit;
-  transition:transform .2s ease, box-shadow .2s ease;
+========================= */
+.card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 22px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 45px rgba(0,0,0,.18);
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 45px rgba(0,0,0,0.35);
 }
 
 /* imagen placeholder */
-.card-img{
-  height:140px;
-  background:
-    linear-gradient(135deg,
-      rgba(255,255,255,.35),
-      rgba(255,255,255,.05)
-    ),
-    linear-gradient(135deg,#4f6376,#8fa1b0);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:.85rem;
-  color:#f8fafc;
+.card-img {
+  height: 150px;
+  background: linear-gradient(135deg,#dde5e2,#eef2f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #6b7280;
 }
 
 /* cuerpo */
-.card-body{
-  padding:18px 18px 20px;
+.card-body {
+  padding: 18px;
 }
 
-.card-body h3{
-  font-size:1.1rem;
-  font-weight:700;
-  margin-bottom:4px;
+.card-body h3 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+  font-weight: 600;
 }
 
-.card-body span{
-  font-size:.88rem;
-  color:var(--text-muted);
+.card-body span {
+  font-size: 0.85rem;
+  color: #4b5563;
 }
 
 /* =========================
    RESPONSIVE
-   ========================= */
-@media(min-width:768px){
-  header h1{font-size:1.75rem}
-  section h2{font-size:1.8rem}
+========================= */
+@media (min-width: 768px) {
+  header h1 {
+    font-size: 1.9rem;
+  }
+
+  .section h2 {
+    font-size: 1.8rem;
+  }
 }
