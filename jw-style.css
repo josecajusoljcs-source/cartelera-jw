@@ -226,3 +226,84 @@ img{ display:block; width:100%; height:100%; object-fit: cover; }
   .brand__subtitle{ display:none; }
   :root{ --topbar-h: 76px; }
 }
+/* ===============================
+   MODO PARQUE RIVERA – SOLO SKIN
+   No rompe estructura
+================================ */
+
+/* Fondo general más natural */
+body{
+  background: linear-gradient(180deg, #f4f7f5 0%, #eef3f1 100%);
+}
+
+/* Título principal más discreto */
+h1{
+  color:#1f3d2b;
+  font-weight:600;
+}
+
+/* Subtítulos de sección */
+h2{
+  color:#1f3d2b;
+}
+
+/* ---------- CONTENEDORES DE SECCIÓN ---------- */
+li.cont{
+  padding:18px 14px;
+  margin-bottom:42px;
+  border-radius:18px;
+}
+
+/* Predicación */
+li.cont:nth-of-type(1){
+  background: linear-gradient(135deg, #e7f1ec, #f9fbfa);
+}
+
+/* Reuniones */
+li.cont:nth-of-type(2){
+  background: linear-gradient(135deg, #eaf0f6, #fbfcfd);
+}
+
+/* Congregación */
+li.cont:nth-of-type(3){
+  background: linear-gradient(135deg, #edf4f0, #fbfdfc);
+}
+
+/* ---------- CARDS ---------- */
+li a{
+  background:#ffffff;
+  color:#1f3d2b;
+  border-radius:18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  transition: all .15s ease;
+}
+
+/* Hover suave */
+li a:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.08);
+}
+
+/* Texto de cards */
+.card li span{
+  color:#2f4f3e;
+  font-weight:500;
+}
+
+/* Íconos */
+.card li img{
+  opacity:.85;
+}
+
+/* Quita sombras viejas tipo papel */
+.card li:before,
+.card li:after{
+  display:none;
+}
+
+/* Responsive mantiene todo igual */
+@media screen and (max-width: 800px){
+  li.cont{
+    padding:14px 10px;
+  }
+}
