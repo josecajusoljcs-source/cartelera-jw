@@ -1,171 +1,150 @@
-<style>
-/* =========================
-   RESET + BASE
-========================= */
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  color:#1f2933;
-  line-height:1.45;
+  font-family:'Montserrat', Helvetica, Arial, sans-serif;
+  color:#0f172a;
+  line-height:1.4;
 
-  /* Parque Rivera vibes (no copia): oscuro arriba, claro abajo */
-  background:
-    radial-gradient(1200px 600px at 20% -10%, rgba(46,111,92,.25), transparent 60%),
-    radial-gradient(900px 500px at 85% 10%, rgba(47,111,228,.20), transparent 55%),
-    linear-gradient(180deg,#1f2a3a 0%, #243447 28%, #eef3f1 100%);
+  /* Fondo Parque Rivera vibe (similar, no idéntico) */
+  background: radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,.22), transparent 55%),
+              radial-gradient(900px 500px at 85% 30%, rgba(255,255,255,.16), transparent 60%),
+              linear-gradient(180deg,#1f2a3a 0%, #3e4b5d 35%, #7a8796 62%, #dbe3ea 100%);
   min-height:100vh;
 }
 
-/* Contenedor igual que tu HTML */
+/* contenedor original */
 .contenido{
-  width:min(980px, 92%);
-  margin:0 auto;
-  padding:26px 0 80px;
+  width:min(980px, 94%);
+  margin:22px auto 70px;
 }
 
-/* =========================
-   TITULOS (header)
-========================= */
+/* ===== TITULOS ===== */
 h1{
-  font-size:1.35rem;          /* más chico, no roba pantalla */
+  font-size:20px;
   font-weight:700;
-  letter-spacing:.2px;
-  color:#ffffff;
-  margin:0 0 18px;
+  margin:8px 0 18px;
+  color:#0b1220;
 }
 
-h2{
-  font-size:1.25rem;
-  font-weight:700;
-  color:#1f2933;
-  margin:0 0 14px;
-}
-
-/* =========================
-   SECCIONES (li.cont)
-   No cambiamos HTML, solo estilo
-========================= */
-ul{list-style:none}
+/* Secciones: li.cont tiene los H2 adentro */
 li.cont{
-  background:rgba(255,255,255,.92);
+  list-style:none;
+  margin:0 0 26px;
+  padding:18px 16px 14px;
   border-radius:22px;
-  padding:22px 18px;
-  margin:22px 0;
-  box-shadow:0 14px 34px rgba(0,0,0,.10);
-  border:1px solid rgba(0,0,0,.06);
-  overflow:hidden;
+
+  /* Panel blanco translúcido para que se vea TODO arriba del fondo */
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 22px 50px rgba(0,0,0,.18);
   position:relative;
+  overflow:hidden;
 }
 
-/* Barra lateral de color por sección (en orden: Predicación, Reuniones, Congregación) */
-li.cont:nth-of-type(1){ border-left:6px solid #2e6f5c; }
-li.cont:nth-of-type(2){ border-left:6px solid #2f6fe4; }
-li.cont:nth-of-type(3){ border-left:6px solid #6b8e23; }
+/* Borde suave/colores para diferenciar secciones */
+li.cont:nth-of-type(1){ border:1px solid rgba(46,111,92,.22); }
+li.cont:nth-of-type(2){ border:1px solid rgba(59,130,246,.18); }
+li.cont:nth-of-type(3){ border:1px solid rgba(99,102,241,.16); }
 
-/* Un poquito de “vida” sin exagerar */
-li.cont:before{
+/* Barrita decorativa superior */
+li.cont::before{
   content:"";
-  position:absolute;
-  inset:-80px -120px auto auto;
-  width:260px;height:260px;
-  background:radial-gradient(circle, rgba(46,111,92,.16), transparent 65%);
-  filter:blur(1px);
+  display:block;
+  width:56px;height:5px;
+  border-radius:999px;
+  background: linear-gradient(90deg, #2e6f5c, #7fb9a4);
+  margin:4px 0 14px;
+  opacity:.95;
 }
 
-/* =========================
-   GRID ORIGINAL (ul.card)
-========================= */
+/* Títulos de sección */
+h2{
+  font-size:22px;
+  font-weight:800;
+  margin:0 0 12px;
+  color:#0b1220;
+}
+
+/* ===== LISTAS ===== */
+ul{ padding:0; }
+li{ list-style:none; }
+
+/* tu grid original */
 ul.card{
-  display:grid;
-  grid-template-columns:repeat( auto-fit, minmax(240px, 1fr) );
-  gap:14px;
   padding:0;
-  margin:0;
+  width:auto;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px;
 }
 
-/* Desactivamos las sombras inclinadas viejas (before/after) */
-.card li:before,
-.card li:after{ display:none !important; }
-
-/* =========================
-   LINKS = CARDS (sin tocar href)
-========================= */
-li{position:relative}
+/* ===== CARDS (links) ===== */
 li a{
+  /* mantiene tu estructura, solo cambia look */
   width:100%;
-  height:auto;
+  max-width:420px;
   display:flex;
   flex-direction:row;
   align-items:center;
+  justify-content:flex-start;
   gap:14px;
 
   padding:16px 16px;
   border-radius:18px;
 
-  background:#ffffff;
-  border:1px solid rgba(46,111,92,.18);
-  box-shadow:0 10px 26px rgba(0,0,0,.06);
+  background: rgba(255,255,255,.98);
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow: 0 12px 28px rgba(0,0,0,.10);
 
-  color:#1f2933;
+  color:#0f172a;
   text-decoration:none;
-  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 
-/* Hover */
+/* hover */
 li a:hover{
-  transform:translateY(-2px);
-  box-shadow:0 16px 36px rgba(0,0,0,.10);
-  border-color:rgba(46,111,92,.34);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 42px rgba(0,0,0,.16);
+  border-color: rgba(46,111,92,.25);
 }
 
-/* Ícono como “chip” suave */
+/* ICONO: tus SVG */
 .card li img{
   width:46px;
   height:46px;
   margin:0;
+  float:none;
+
+  /* cajita suave detrás del icono */
   padding:10px;
   border-radius:14px;
-  background:rgba(46,111,92,.10);
-  flex:0 0 46px;
+  background: linear-gradient(135deg,#e7f3ee,#f4faf7);
 }
 
-/* Texto */
+/* texto dentro del link (tu span) */
 .card li span{
+  float:none;
   position:static;
   top:auto;
-  float:none;
-  font-weight:600;
-  font-size:1rem;
+  font-size:16px;
+  font-weight:700;
+  color:#0b1220;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 480px){
-  h1{font-size:1.25rem}
-  li.cont{padding:18px 14px}
-  li a{padding:14px}
+/* Desactiva las “sombras papel” viejas que deformaban todo */
+.card li:before,
+.card li:after{
+  content:none !important;
 }
 
-@media (prefers-color-scheme: dark){
-  body{
-    color:#e5e7eb;
-    background:
-      radial-gradient(1200px 600px at 20% -10%, rgba(46,111,92,.18), transparent 60%),
-      radial-gradient(900px 500px at 85% 10%, rgba(47,111,228,.15), transparent 55%),
-      linear-gradient(180deg,#0b1220 0%, #0f172a 35%, #101827 100%);
-  }
-  li.cont{
-    background:rgba(17,24,39,.92);
-    border:1px solid rgba(255,255,255,.06);
-  }
-  h2{color:#e5e7eb}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 800px){
+  ul.card{ gap:12px; }
   li a{
-    background:rgba(17,24,39,.92);
-    border:1px solid rgba(96,165,250,.22);
-    color:#e5e7eb;
+    max-width:100%;
+    padding:16px;
   }
-  .card li img{ background:rgba(96,165,250,.10); }
+  h1{ font-size:20px; }
+  h2{ font-size:24px; }
 }
-</style>
