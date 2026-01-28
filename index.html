@@ -1,150 +1,252 @@
-/* ===== RESET ===== */
-*{margin:0;padding:0;box-sizing:border-box}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Congregación Punta Gorda</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   VARIABLES – PARQUE RIVERA
+   ========================= */
+:root{
+  --bg:linear-gradient(180deg,#eef4f3,#e6f0ec,#f3f6f4);
+  --card:#ffffff;
+  --text:#1f2933;
+  --muted:#6b7280;
+
+  /* acento verde/azulado */
+  --accent:#2f6f63;
+  --accent-soft:rgba(47,111,99,.12);
+
+  --shadow:0 10px 26px rgba(0,0,0,.08);
+  --radius:18px;
+}
+
+/* =========================
+   RESET
+   ========================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-  font-family:'Montserrat', Helvetica, Arial, sans-serif;
-  color:#0f172a;
-  line-height:1.4;
-
-  /* Fondo Parque Rivera vibe (similar, no idéntico) */
-  background: radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,.22), transparent 55%),
-              radial-gradient(900px 500px at 85% 30%, rgba(255,255,255,.16), transparent 60%),
-              linear-gradient(180deg,#1f2a3a 0%, #3e4b5d 35%, #7a8796 62%, #dbe3ea 100%);
-  min-height:100vh;
+  font-family:Montserrat,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.45;
 }
 
-/* contenedor original */
-.contenido{
-  width:min(980px, 94%);
-  margin:22px auto 70px;
+/* =========================
+   CONTENEDOR
+   ========================= */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
 
-/* ===== TITULOS ===== */
-h1{
-  font-size:20px;
-  font-weight:700;
-  margin:8px 0 18px;
-  color:#0b1220;
+/* =========================
+   HEADER
+   ========================= */
+header{
+  margin-bottom:28px;
+}
+header h1{
+  font-size:1.35rem;
+  font-weight:600;
+}
+header p{
+  font-size:.9rem;
+  color:var(--muted);
 }
 
-/* Secciones: li.cont tiene los H2 adentro */
-li.cont{
-  list-style:none;
-  margin:0 0 26px;
-  padding:18px 16px 14px;
-  border-radius:22px;
+/* =========================
+   SECCIONES
+   ========================= */
+section{
+  margin-top:42px;
+}
+section h2{
+  font-size:1.5rem;
+  margin-bottom:6px;
+}
+section p{
+  color:var(--muted);
+  margin-bottom:20px;
+}
 
-  /* Panel blanco translúcido para que se vea TODO arriba del fondo */
-  background: rgba(255,255,255,.92);
-  box-shadow: 0 22px 50px rgba(0,0,0,.18);
-  position:relative;
+/* =========================
+   GRID
+   ========================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
   overflow:hidden;
-}
-
-/* Borde suave/colores para diferenciar secciones */
-li.cont:nth-of-type(1){ border:1px solid rgba(46,111,92,.22); }
-li.cont:nth-of-type(2){ border:1px solid rgba(59,130,246,.18); }
-li.cont:nth-of-type(3){ border:1px solid rgba(99,102,241,.16); }
-
-/* Barrita decorativa superior */
-li.cont::before{
-  content:"";
-  display:block;
-  width:56px;height:5px;
-  border-radius:999px;
-  background: linear-gradient(90deg, #2e6f5c, #7fb9a4);
-  margin:4px 0 14px;
-  opacity:.95;
-}
-
-/* Títulos de sección */
-h2{
-  font-size:22px;
-  font-weight:800;
-  margin:0 0 12px;
-  color:#0b1220;
-}
-
-/* ===== LISTAS ===== */
-ul{ padding:0; }
-li{ list-style:none; }
-
-/* tu grid original */
-ul.card{
-  padding:0;
-  width:auto;
-  display:flex;
-  flex-direction:row;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:14px;
-}
-
-/* ===== CARDS (links) ===== */
-li a{
-  /* mantiene tu estructura, solo cambia look */
-  width:100%;
-  max-width:420px;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:flex-start;
-  gap:14px;
-
-  padding:16px 16px;
-  border-radius:18px;
-
-  background: rgba(255,255,255,.98);
-  border:1px solid rgba(15,23,42,.08);
-  box-shadow: 0 12px 28px rgba(0,0,0,.10);
-
-  color:#0f172a;
   text-decoration:none;
-  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  color:inherit;
+  transition:.25s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 36px rgba(0,0,0,.12);
 }
 
-/* hover */
-li a:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 18px 42px rgba(0,0,0,.16);
-  border-color: rgba(46,111,92,.25);
+/* imagen placeholder */
+.card-img{
+  height:140px;
+  background:linear-gradient(135deg,#e3ebe8,#f1f6f4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.85rem;
+  color:var(--muted);
 }
 
-/* ICONO: tus SVG */
-.card li img{
-  width:46px;
-  height:46px;
-  margin:0;
-  float:none;
-
-  /* cajita suave detrás del icono */
-  padding:10px;
-  border-radius:14px;
-  background: linear-gradient(135deg,#e7f3ee,#f4faf7);
+/* cuerpo */
+.card-body{
+  padding:16px;
+}
+.card-body h3{
+  font-size:1.05rem;
+  margin-bottom:4px;
+}
+.card-body span{
+  font-size:.85rem;
+  color:var(--muted);
 }
 
-/* texto dentro del link (tu span) */
-.card li span{
-  float:none;
-  position:static;
-  top:auto;
-  font-size:16px;
-  font-weight:700;
-  color:#0b1220;
+/* =========================
+   AJUSTES TABLET
+   ========================= */
+@media(min-width:768px){
+  header h1{font-size:1.5rem}
+  section h2{font-size:1.7rem}
 }
+</style>
+</head>
 
-/* Desactiva las “sombras papel” viejas que deformaban todo */
-.card li:before,
-.card li:after{
-  content:none !important;
-}
+<body>
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 800px){
-  ul.card{ gap:12px; }
-  li a{
-    max-width:100%;
-    padding:16px;
-  }
-  h1{ font-size:20px; }
-  h2{ font-size:24px; }
-}
+<div class="container">
+
+<header>
+  <h1>Congregación Punta Gorda</h1>
+  <p>Cartelera de información y asignaciones.</p>
+</header>
+
+<!-- ======================
+     PREDICACIÓN
+====================== -->
+<section id="predicacion">
+  <h2>Predicación</h2>
+  <p>Asignaciones, grupos y territorios.</p>
+
+  <div class="grid">
+    <a class="card" href="predicacion.html">
+      <div class="card-img">Imagen · Programa de predicación</div>
+      <div class="card-body">
+        <h3>Grupos de predicación</h3>
+        <span>Organización por grupos</span>
+      </div>
+    </a>
+
+    <a class="card" href="territorios/mapa.html">
+      <div class="card-img">Imagen · Mapa</div>
+      <div class="card-body">
+        <h3>Mapa de territorios</h3>
+        <span>Acceso al mapa</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ======================
+     REUNIONES
+====================== -->
+<section id="reuniones">
+  <h2>Reuniones</h2>
+  <p>Material y asignaciones de reuniones.</p>
+
+  <div class="grid">
+    <a class="card" href="vida-y-ministerio.html">
+      <div class="card-img">Imagen · Vida y Ministerio Cristiano</div>
+      <div class="card-body">
+        <h3>Vida y Ministerio Cristiano</h3>
+        <span>Programa semanal</span>
+      </div>
+    </a>
+
+    <a class="card" href="reunion-publica.html">
+      <div class="card-img">Imagen · Reunión Pública</div>
+      <div class="card-body">
+        <h3>Reunión Pública</h3>
+        <span>Discurso y asignaciones</span>
+      </div>
+    </a>
+
+    <a class="card" href="https://josecajusoljcs-source.github.io/cartelera/">
+      <div class="card-img">Imagen · Asignaciones</div>
+      <div class="card-body">
+        <h3>Asignaciones de reuniones</h3>
+        <span>Cartelera general</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ======================
+     CONGREGACIÓN
+====================== -->
+<section id="congregacion">
+  <h2>Congregación</h2>
+  <p>Información interna de la congregación.</p>
+
+  <div class="grid">
+    <a class="card" href="limpieza.html">
+      <div class="card-img">Imagen · Limpieza</div>
+      <div class="card-body">
+        <h3>Programa de limpieza</h3>
+        <span>Roles y fechas</span>
+      </div>
+    </a>
+
+    <a class="card" href="publicadores.html">
+      <div class="card-img">Imagen · Publicadores</div>
+      <div class="card-body">
+        <h3>Grupos de publicadores</h3>
+        <span>Listado por grupo</span>
+      </div>
+    </a>
+
+    <a class="card" href="precursores.html">
+      <div class="card-img">Imagen · Precursores</div>
+      <div class="card-body">
+        <h3>Precursores regulares</h3>
+        <span>Información actual</span>
+      </div>
+    </a>
+
+    <a class="card" href="responsabilidades.html">
+      <div class="card-img">Imagen · Responsabilidades</div>
+      <div class="card-body">
+        <h3>Responsabilidades</h3>
+        <span>Asignaciones</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
