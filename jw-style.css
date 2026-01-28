@@ -1,6 +1,9 @@
+/* ===== Estilo JW – Mobile First ===== */
+
 :root {
   --jw-blue: #1b365d;
-  --jw-light: #f5f6f7;
+  --jw-bg: #f4f6f8;
+  --jw-card: #ffffff;
   --jw-text: #1f2933;
 }
 
@@ -12,87 +15,85 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                Roboto, Helvetica, Arial, sans-serif;
-  background: var(--jw-light);
+  background: var(--jw-bg);
   color: var(--jw-text);
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: 20px;
+  line-height: 1.6;
 }
 
 /* ===== HEADER ===== */
 .pg-header {
   background: #ffffff;
   border-bottom: 4px solid var(--jw-blue);
-  padding: 22px 16px;
+  padding: 28px 20px;
   text-align: center;
 }
 
 .pg-header h1 {
   margin: 0;
-  font-size: 30px;
+  font-size: 32px;
   color: var(--jw-blue);
 }
 
 .pg-header p {
-  margin-top: 8px;
-  font-size: 18px;
+  margin-top: 10px;
+  font-size: 20px;
   color: #555;
 }
 
-/* ===== CONTENIDO ===== */
-.contenido {
-  max-width: 900px;
-  margin: 24px auto;
-  padding: 0 14px;
+/* ===== CONTENEDOR ===== */
+.container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* ===== TARJETAS ===== */
-.jw-card {
-  background: #ffffff;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 18px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+.card {
+  background: var(--jw-card);
+  border-radius: 14px;
+  margin-bottom: 22px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
 }
 
-.jw-card img {
-  width: 100%;
-  height: 160px;          /* 👈 CLAVE PARA CELULAR */
-  object-fit: cover;
-  display: block;
+.card img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 14px;
 }
 
-.jw-card-body {
-  padding: 16px;
-}
-
-.jw-card-body h2 {
-  margin: 0 0 6px 0;
-  font-size: 22px;
+.card h2 {
+  margin: 0;
+  font-size: 24px;
   color: var(--jw-blue);
 }
 
-.jw-card-body p {
-  margin: 0;
+.card p {
+  margin-top: 8px;
   font-size: 18px;
+  color: #444;
 }
 
-/* Links */
-.jw-card a {
+/* ===== LINKS ===== */
+.card a {
+  display: block;
+  margin-top: 14px;
+  font-size: 18px;
+  color: var(--jw-blue);
   text-decoration: none;
-  color: inherit;
+  font-weight: 600;
+}
+
+.card a:hover {
+  text-decoration: underline;
 }
 
 /* ===== DESKTOP ===== */
 @media (min-width: 768px) {
-  body {
-    font-size: 20px;
-  }
-
-  .jw-card img {
-    height: 220px;
-  }
-
-  .jw-card-body h2 {
-    font-size: 26px;
+  .card {
+    padding: 26px;
   }
 }
