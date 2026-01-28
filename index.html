@@ -1,239 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Cartelera · Congregación Punta Gorda</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Tipografías estilo JW -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #f4f6f8;
-      --card: #ffffff;
-      --text-main: #1c1f23;
-      --text-soft: #5f6b7a;
-      --jw-blue: #2a6ebb;
-      --jw-blue-soft: #e7f0fb;
-      --radius: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text-main);
-    }
-
-    header {
-      padding: 28px 20px 16px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    header h1 {
-      font-family: 'Source Serif 4', serif;
-      font-size: 1.6rem; /* MÁS CHICO */
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: var(--text-soft);
-      font-size: 0.95rem;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 0 20px 80px;
-    }
-
-    section {
-      margin-top: 48px;
-    }
-
-    section h2 {
-      font-family: 'Source Serif 4', serif;
-      font-size: 1.7rem;
-      margin-bottom: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      display: block;
-      background: var(--card);
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: inherit;
-      overflow: hidden;
-      box-shadow: 0 8px 26px rgba(0,0,0,0.06);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.08);
-    }
-
-    .image {
-      height: 170px;
-      background: var(--jw-blue-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--jw-blue);
-      font-size: 0.9rem;
-    }
-
-    .content {
-      padding: 18px 20px 20px;
-    }
-
-    .content h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .content p {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-    }
-
-    footer {
-      margin-top: 70px;
-      padding: 30px 20px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b2a3b" />
+  <title>Cartelera | Congregación Punta Gorda</title>
+  <meta name="description" content="Cartelera de información y asignaciones — Congregación Punta Gorda." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__title">Congregación Punta Gorda</div>
+        <div class="brand__subtitle">Cartelera de información y asignaciones</div>
+      </div>
 
-<header>
-  <h1>Congregación Punta Gorda</h1>
-  <p>Cartelera de información y asignaciones.</p>
-</header>
-
-<main>
-
-  <!-- PREDICACIÓN -->
-  <section>
-    <h2>Predicación</h2>
-    <div class="grid">
-
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Programa de predicación</div>
-        <div class="content">
-          <h3>Programa de predicación</h3>
-          <p>Asignaciones y horarios.</p>
-        </div>
-      </a>
-
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Grupos de predicación</div>
-        <div class="content">
-          <h3>Grupos de predicación</h3>
-          <p>Distribución y responsables.</p>
-        </div>
-      </a>
-
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Mapa de territorios</div>
-        <div class="content">
-          <h3>Mapa de territorios</h3>
-          <p>Zonas asignadas.</p>
-        </div>
-      </a>
-
+      <nav class="nav">
+        <a class="nav__link" href="#predicacion">Predicación</a>
+        <a class="nav__link" href="#reuniones">Reuniones</a>
+        <a class="nav__link" href="#congregacion">Congregación</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <!-- REUNIONES -->
-  <section>
-    <h2>Reuniones</h2>
-    <div class="grid">
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__card">
+        <div class="hero__badge">jw.1.2 · NASA mode</div>
+        <h1 class="hero__title">Cartelera</h1>
+        <p class="hero__text">
+          Accesos rápidos, claro y sin vueltas. (Sí, esto es de Chipito 😄)
+        </p>
+      </div>
+    </section>
 
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Vida y Ministerio Cristiano</div>
-        <div class="content">
-          <h3>Vida y Ministerio Cristiano</h3>
-          <p>Programa semanal.</p>
-        </div>
-      </a>
+    <!-- PREDICACIÓN -->
+    <section id="predicacion" class="section">
+      <div class="section__head">
+        <h2 class="section__title">Predicación</h2>
+        <p class="section__desc">Asignaciones, grupos y territorios.</p>
+      </div>
 
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Reunión Pública</div>
-        <div class="content">
-          <h3>Reunión Pública</h3>
-          <p>Discurso y horario.</p>
-        </div>
-      </a>
+      <div class="grid">
+        <a class="card" href="PON_AQUI_URL_PROGRAMA_PREDICACION" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/predicacion-programa.jpg" alt="Programa de predicación" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Programa de predicación</div>
+            <div class="card__meta">Asignaciones y horarios.</div>
+          </div>
+        </a>
 
-    </div>
-  </section>
+        <a class="card" href="PON_AQUI_URL_GRUPOS_PREDICACION" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/predicacion-grupos.jpg" alt="Grupos de predicación" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Grupos de predicación</div>
+            <div class="card__meta">Organización por grupos.</div>
+          </div>
+        </a>
 
-  <!-- CONGREGACIÓN -->
-  <section>
-    <h2>Congregación</h2>
-    <div class="grid">
+        <a class="card" href="PON_AQUI_URL_MAPA_TERRITORIOS" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/predicacion-territorios.jpg" alt="Mapa de territorios" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Mapa de territorios</div>
+            <div class="card__meta">Acceso al mapa.</div>
+          </div>
+        </a>
+      </div>
+    </section>
 
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Programa de limpieza</div>
-        <div class="content">
-          <h3>Programa de limpieza</h3>
-          <p>Turnos asignados.</p>
-        </div>
-      </a>
+    <!-- REUNIONES -->
+    <section id="reuniones" class="section">
+      <div class="section__head">
+        <h2 class="section__title">Reuniones</h2>
+        <p class="section__desc">Material y asignaciones de las reuniones.</p>
+      </div>
 
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Grupos de publicadores</div>
-        <div class="content">
-          <h3>Grupos de publicadores</h3>
-          <p>Organización congregacional.</p>
-        </div>
-      </a>
+      <div class="grid">
+        <a class="card" href="PON_AQUI_URL_VIDA_Y_MINISTERIO" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/reuniones-vida-ministerio.jpg" alt="Reunión Vida y Ministerio Cristiano" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Vida y Ministerio Cristiano</div>
+            <div class="card__meta">Asignaciones y material.</div>
+          </div>
+        </a>
 
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Precursores regulares</div>
-        <div class="content">
-          <h3>Precursores regulares</h3>
-          <p>Listado actualizado.</p>
-        </div>
-      </a>
+        <a class="card" href="PON_AQUI_URL_REUNION_PUBLICA" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/reuniones-publica.jpg" alt="Reunión pública" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Reunión pública</div>
+            <div class="card__meta">Programa y detalles.</div>
+          </div>
+        </a>
+      </div>
+    </section>
 
-      <a class="card" href="#" target="_blank">
-        <div class="image">Imagen · Responsabilidades</div>
-        <div class="content">
-          <h3>Responsabilidades</h3>
-          <p>Tareas y privilegios.</p>
-        </div>
-      </a>
+    <!-- CONGREGACIÓN -->
+    <section id="congregacion" class="section">
+      <div class="section__head">
+        <h2 class="section__title">Congregación</h2>
+        <p class="section__desc">Información interna y asignaciones.</p>
+      </div>
 
-    </div>
-  </section>
+      <!-- Limpieza primero (dentro de Congregación) -->
+      <div class="grid">
+        <a class="card card--featured" href="PON_AQUI_URL_PROGRAMA_LIMPIEZA" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/congregacion-limpieza.jpg" alt="Programa de limpieza" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Programa de limpieza</div>
+            <div class="card__meta">Turnos y responsables.</div>
+          </div>
+        </a>
 
-</main>
+        <a class="card" href="PON_AQUI_URL_GRUPOS_PUBLICADORES" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/congregacion-grupos.jpg" alt="Grupos de publicadores" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Grupos de publicadores</div>
+            <div class="card__meta">Listas y organización.</div>
+          </div>
+        </a>
 
-<footer>
-  © Congregación Punta Gorda
-</footer>
+        <a class="card" href="PON_AQUI_URL_PRECURSORES" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/congregacion-precursores.jpg" alt="Precursores regulares" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Precursores regulares</div>
+            <div class="card__meta">Listado y notas.</div>
+          </div>
+        </a>
 
+        <a class="card" href="PON_AQUI_URL_RESPONSABILIDADES" target="_blank" rel="noopener">
+          <div class="card__media">
+            <img src="assets/congregacion-responsabilidades.jpg" alt="Responsabilidades" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <div class="card__title">Responsabilidades</div>
+            <div class="card__meta">Asignaciones y roles.</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <span>Cartelera · Congregación Punta Gorda</span>
+        <span class="dot">•</span>
+        <span class="muted">Hecho por Chipito 🛰️</span>
+      </div>
+    </footer>
+  </main>
 </body>
 </html>
