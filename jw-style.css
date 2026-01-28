@@ -1,213 +1,126 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Congregación Punta Gorda</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* ===============================
+   RESET & BASE
+=============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, #f4f7f5, #eef3f1);
+  color: #1f2933;
+  padding: 20px;
+}
 
-  <style>
-    /* ===============================
-       BASE
-    =============================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(180deg, #f4f7f5, #eef3f1);
-      color: #1f2933;
-      padding: 20px;
-    }
+/* ===============================
+   HEADER
+=============================== */
+.header {
+  margin-bottom: 32px;
+}
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+.header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f3d2b;
+}
 
-    /* ===============================
-       HEADER
-    =============================== */
-    .header {
-      margin-bottom: 28px;
-    }
+/* ===============================
+   SECTIONS
+=============================== */
+section {
+  margin-bottom: 52px;
+}
 
-    .header h1 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #1f3d2b;
-    }
+section h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+  color: #1f3d2b;
+}
 
-    /* ===============================
-       SECTIONS
-    =============================== */
-    section {
-      margin-bottom: 48px;
-    }
+section p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
 
-    section h2 {
-      font-size: 22px;
-      margin-bottom: 6px;
-      color: #1f3d2b;
-    }
+/* ===============================
+   CARDS
+=============================== */
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.06);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
 
-    section p {
-      color: #6b7280;
-      margin-bottom: 18px;
-    }
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 35px rgba(0,0,0,.08);
+}
 
-    /* ===============================
-       CARDS
-    =============================== */
-    .card {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,.06);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
+/* ===============================
+   ICONOS
+=============================== */
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
 
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 35px rgba(0,0,0,.08);
-    }
+/* ===============================
+   CONTENIDO CARD
+=============================== */
+.card-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
 
-    .icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: #e8f0eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
+.card-content span {
+  font-size: 14px;
+  color: #6b7280;
+}
 
-    .card-content h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
+/* ===============================
+   COLORES POR SECCIÓN
+   (diferencia visual clara)
+=============================== */
+.predicacion .icon {
+  background: #e6f1ec;
+}
 
-    .card-content span {
-      font-size: 14px;
-      color: #6b7280;
-    }
+.reuniones .icon {
+  background: #e8edf3;
+}
 
-    /* ===============================
-       SECTION COLORS
-    =============================== */
-    .predicacion .icon { background:#e6f1ec; }
-    .reuniones .icon   { background:#e8edf3; }
-    .congregacion .icon{ background:#e9f3ef; }
+.congregacion .icon {
+  background: #e9f3ef;
+}
 
-    /* ===============================
-       RESPONSIVE
-    =============================== */
-    @media (min-width: 768px) {
-      body {
-        max-width: 720px;
-        margin: auto;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- HEADER -->
-  <div class="header">
-    <h1>Congregación Punta Gorda</h1>
-  </div>
-
-  <!-- PREDICACIÓN -->
-  <section class="predicacion">
-    <h2>Predicación</h2>
-    <p>Asignaciones, grupos y territorios.</p>
-
-    <a href="predicacion.html" class="card">
-      <div class="icon">📅</div>
-      <div class="card-content">
-        <h3>Grupos de predicación</h3>
-        <span>Organización por grupos</span>
-      </div>
-    </a>
-
-    <a href="territorios/mapa.html" class="card">
-      <div class="icon">🗺️</div>
-      <div class="card-content">
-        <h3>Mapa de territorios</h3>
-        <span>Acceso al mapa</span>
-      </div>
-    </a>
-  </section>
-
-  <!-- REUNIONES -->
-  <section class="reuniones">
-    <h2>Reuniones</h2>
-    <p>Material y asignaciones de reuniones.</p>
-
-    <a href="vida-y-ministerio.html" class="card">
-      <div class="icon">📖</div>
-      <div class="card-content">
-        <h3>Vida y Ministerio Cristiano</h3>
-        <span>Programa semanal</span>
-      </div>
-    </a>
-
-    <a href="reunion-publica.html" class="card">
-      <div class="icon">🎤</div>
-      <div class="card-content">
-        <h3>Reunión Pública</h3>
-        <span>Asignaciones</span>
-      </div>
-    </a>
-
-    <a href="https://josecajusoljcs-source.github.io/cartelera/" class="card">
-      <div class="icon">🗂️</div>
-      <div class="card-content">
-        <h3>Asignaciones de reuniones</h3>
-        <span>Cartelera general</span>
-      </div>
-    </a>
-  </section>
-
-  <!-- CONGREGACIÓN -->
-  <section class="congregacion">
-    <h2>Congregación</h2>
-
-    <a href="publicadores.html" class="card">
-      <div class="icon">👥</div>
-      <div class="card-content">
-        <h3>Grupos de publicadores</h3>
-        <span>Organización interna</span>
-      </div>
-    </a>
-
-    <a href="precursores.html" class="card">
-      <div class="icon">⭐</div>
-      <div class="card-content">
-        <h3>Precursores regulares</h3>
-        <span>Listado actualizado</span>
-      </div>
-    </a>
-
-    <a href="responsabilidades.html" class="card">
-      <div class="icon">🛠️</div>
-      <div class="card-content">
-        <h3>Responsabilidades</h3>
-        <span>Asignaciones congregacionales</span>
-      </div>
-    </a>
-  </section>
-
-</body>
-</html>
+/* ===============================
+   RESPONSIVE
+=============================== */
+@media (min-width: 768px) {
+  body {
+    max-width: 720px;
+    margin: auto;
+  }
+}
