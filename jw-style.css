@@ -1,132 +1,163 @@
-/* ===============================
-   RESET
-=============================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root{
+  --bg-top: #141f30;
+  --bg-mid: #3d4b5c;
+  --bg-bot: #cfd6d2;
+
+  --card: rgba(255,255,255,.92);
+  --card-border: rgba(255,255,255,.22);
+  --card-shadow: 0 14px 35px rgba(0,0,0,.22);
+
+  --title: #f2f5f7;
+  --subtitle: rgba(242,245,247,.72);
+  --section: rgba(255,255,255,.10);
+  --section-border: rgba(255,255,255,.14);
+
+  --accent: #7cc3ff;
+  --accent-soft: rgba(124,195,255,.18);
+
+  --radius: 22px;
+  --radius-card: 20px;
 }
 
-/* ===============================
-   FONDO (CLON PARQUE RIVERA)
-=============================== */
-body {
-  font-family: 'Montserrat', sans-serif;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body{
+  font-family: 'Montserrat', Helvetica, Arial, sans-serif;
   min-height: 100vh;
-  background: linear-gradient(
-    180deg,
-    #1e293b 0%,
-    #2f3e55 40%,
-    #6b7c86 70%,
-    #d5d9d6 100%
-  );
-  padding: 20px 14px 40px;
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 45%, var(--bg-bot) 120%);
+  color: var(--title);
 }
 
-/* ===============================
-   APP CONTENEDOR
-=============================== */
-.app {
-  display: flex;
-  justify-content: center;
+.contenido{
+  width: min(980px, 94%);
+  margin: 18px auto 60px auto;
 }
 
-/* ===============================
-   PANEL FLOTANTE (CLAVE)
-=============================== */
-.panel {
-  width: 100%;
-  max-width: 420px;
-  background: #f9faf9;
-  border-radius: 32px;
-  padding: 26px 22px 36px;
-  box-shadow:
-    0 40px 90px rgba(0,0,0,.55),
-    inset 0 1px 0 rgba(255,255,255,.8);
-}
-
-/* ===============================
-   HEADER
-=============================== */
-header {
-  margin-bottom: 30px;
-}
-
-header h1 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #1f2933;
-  margin-bottom: 6px;
-}
-
-header p {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-/* ===============================
-   SECCIONES
-=============================== */
-section {
-  margin-top: 38px;
-}
-
-section:first-of-type {
-  margin-top: 0;
-}
-
-section h2 {
+h1{
   font-size: 20px;
-  font-weight: 600;
-  color: #1f2933;
-  margin-bottom: 6px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin: 10px 0 22px 0;
+  color: var(--title);
 }
 
-section p {
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 18px;
+ul { list-style: none; }
+
+li.cont{
+  margin-bottom: 22px;
+  padding: 18px 16px 16px 16px;
+  border-radius: var(--radius);
+  background: var(--section);
+  border: 1px solid var(--section-border);
+  box-shadow: 0 10px 24px rgba(0,0,0,.10);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-/* ===============================
-   CARD (MUY IMPORTANTE)
-=============================== */
-.card {
-  background: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  margin-bottom: 18px;
-  box-shadow: 0 14px 32px rgba(0,0,0,.18);
+h2{
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 14px 0;
+  color: var(--title);
 }
 
-/* Imagen placeholder */
-.card-img {
-  height: 140px;
-  background: linear-gradient(
-    135deg,
-    #e3e8e6,
-    #f0f3f1
-  );
+ul.card{
   display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+.card li:before,
+.card li:after{
+  content: none !important;
+  display: none !important;
+}
+
+li a{
+  width: 260px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #6b7280;
-  font-size: 14px;
-}
+  gap: 10px;
 
-/* Cuerpo */
-.card-body {
-  padding: 16px 18px 20px;
-}
+  padding: 18px 16px;
+  border-radius: var(--radius-card);
 
-.card-body h3 {
-  font-size: 16px;
-  font-weight: 600;
+  text-decoration: none;
   color: #1f2933;
-  margin-bottom: 4px;
+
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.card-body span {
-  font-size: 14px;
-  color: #6b7280;
+li a:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(0,0,0,.28);
+  border-color: rgba(124,195,255,.45);
+}
+
+.card li img{
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(124,195,255,.25);
+}
+
+.card li span{
+  position: static;
+  float: none;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #1f2933;
+  line-height: 1.15;
+}
+
+li a span::after{
+  content: "";
+  display: block;
+  width: 38px;
+  height: 3px;
+  margin: 10px auto 0 auto;
+  border-radius: 999px;
+  background: rgba(124,195,255,.65);
+}
+
+@media screen and (max-width: 800px){
+  ul.card{ gap: 12px; }
+
+  li a{
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 16px;
+  }
+
+  .card li img{
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+
+  .card li span{
+    text-align: left;
+    font-size: 16px;
+  }
+
+  li a span::after{
+    margin: 8px 0 0 0;
+  }
 }
