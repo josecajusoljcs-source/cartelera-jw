@@ -1,139 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Cartelera - Punta Gorda</title>
+    <title>Cartelera Digital - Punta Gorda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
     <style>
         :root {
-            /* Azul profesional y suave */
-            --azul-jw: #2e5984;
-            --azul-oscuro: #1a3a5f;
-            /* Fondo degradado suave (Estilo Parque Rivera) */
-            --bg-color: linear-gradient(135deg, #eef2f3 0%, #d5dde5 100%);
+            --primary-blue: #1e3a5f;
+            --soft-blue: #f0f4f8;
+            --accent-gradient: linear-gradient(135deg, #2e5984 0%, #1e3a5f 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--bg-color);
-            background-attachment: fixed;
-            color: #444;
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #333;
             min-height: 100vh;
         }
 
         .contenido {
             width: 90%;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 50px 0;
+            padding: 80px 0;
         }
 
-        /* --- TÍTULO AZUL REFINADO --- */
+        /* Título Innovador */
         .header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
         h1 {
-            font-size: clamp(1.8rem, 4vw, 2.4rem);
-            font-weight: 700;
-            color: var(--azul-oscuro);
-            letter-spacing: -0.5px;
-            margin-bottom: 5px;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: -2px;
+            margin-bottom: 8px;
         }
 
-        .sub-titulo {
-            font-size: 0.85rem;
+        .tagline {
+            font-size: 0.9rem;
+            color: #888;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #777;
-            font-weight: 400;
+            letter-spacing: 4px;
+            font-weight: 600;
         }
 
         h2 {
-            font-size: 1.25rem;
-            margin: 40px 0 25px 10px;
-            color: var(--azul-jw);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+            margin: 60px 0 30px;
             display: flex;
             align-items: center;
-            font-weight: 600;
         }
 
-        h2::before {
+        h2::after {
             content: "";
-            width: 5px;
-            height: 22px;
-            background: var(--azul-jw);
-            margin-right: 15px;
-            border-radius: 10px;
+            flex: 1;
+            height: 1px;
+            background: #eee;
+            margin-left: 20px;
         }
 
-        /* --- GRID DE TARJETAS --- */
+        /* Grid Minimalista */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
             list-style: none;
         }
 
-        /* --- TARJETA CON SOMBRA Y COLOR --- */
+        /* Tarjeta de Nueva Generación */
         .card-grid li a {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.9); /* Un toque de transparencia */
-            padding: 30px;
+            background: var(--soft-blue);
+            padding: 40px 30px;
             text-decoration: none;
-            border-radius: 22px;
-            border: 1px solid rgba(255,255,255,0.6);
-            
-            /* Sombra inicial suave */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            
-            /* Transición fluida para la sombra y el movimiento */
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            will-change: transform, box-shadow;
+            border-radius: 30px;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
         }
 
-        /* EFECTO HOVER (Sombra Linda y Color) */
         .card-grid li a:hover {
-            transform: translateY(-6px);
             background: #ffffff;
-            /* Sombra más profunda y azulada al pasar el mouse */
-            box-shadow: 0 20px 35px rgba(26, 58, 95, 0.12);
-            border-color: var(--azul-jw);
+            transform: scale(1.02);
+            border-color: #ddd;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- ICONOS Y TEXTO --- */
+        /* Iconos con Micro-interacciones */
         .card-grid li img {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             margin-right: 25px;
-            transition: transform 0.3s ease;
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: all 0.4s ease;
         }
 
         .card-grid li a:hover img {
-            transform: scale(1.1);
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: rotate(-5deg) scale(1.1);
         }
 
+        /* Texto de Tarjeta */
         .card-grid li span {
             font-weight: 600;
-            font-size: 1.1rem;
-            color: #4a4a4a;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
             transition: color 0.3s ease;
         }
 
-        .card-grid li a:hover span {
-            color: var(--azul-oscuro);
+        /* Efecto de fondo sutil al hover */
+        .card-grid li a::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
 
-        /* MÓVIL */
+        /* Estilo para móviles */
         @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
+            .contenido { padding: 40px 20px; }
+            h1 { font-size: 2.2rem; }
             .card-grid { grid-template-columns: 1fr; }
-            .card-grid li a { padding: 25px; }
         }
     </style>
 </head>
@@ -142,7 +146,7 @@
     <div class="contenido">
         <div class="header">
             <h1>Congregación Punta Gorda</h1>
-            <span class="sub-titulo">Cartelera de Información</span>
+            <span class="tagline">Cartelera Digital</span>
         </div>
 
         <h2>Predicación</h2>
@@ -173,34 +177,6 @@
                 <a target="_blank" href="reunion-publica.html">
                     <img src="images/noun_conference_704693.svg" alt="" />
                     <span>Reunión Pública</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="limpieza.html">
-                    <img src="images/noun_clean_1683608.svg" alt="" />
-                    <span>Programa de Limpieza</span>
-                </a>
-            </li>
-        </ul>
-
-        <h2>Congregación</h2>
-        <ul class="card-grid">
-            <li>
-                <a target="_blank" href="publicadores.html">
-                    <img src="images/noun_people_199910.svg" alt="" />
-                    <span>Grupos de publicadores</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="precursores.html">
-                    <img src="images/pioneers.svg" alt="" />
-                    <span>Precursores regulares</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="responsabilidades.html">
-                    <img src="images/noun_organization_421912.svg" alt="" />
-                    <span>Responsabilidades</span>
                 </a>
             </li>
         </ul>
