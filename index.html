@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Congregación Punta Gorda</title>
+    <title>Cartelera Digital - Punta Gorda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap">
     <style>
-        /* --- PALETA DE COLORES SUAVES --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            --text-main: #4a4a4a;
-            --purple-soft: #6a5acd;
-            --card-bg: rgba(255, 255, 255, 0.85);
+            /* Colores suaves inspirados en tu imagen de referencia */
+            --bg-start: #fdfbfb;
+            --bg-end: #ebedee;
+            --text-dark: #3a3a3a;
+            --purple-jw: #4a148c;
+            --accent-soft: #8e9eab;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: var(--bg-gradient);
+            /* Fondo con degradado sutil */
+            background: linear-gradient(180deg, #eef2f3 0%, #8e9eab 100%);
             background-attachment: fixed;
-            color: var(--text-main);
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,88 +30,107 @@
 
         .contenido {
             width: 90%;
-            max-width: 1000px;
-            padding: 40px 0;
+            max-width: 1100px;
+            padding: 60px 0;
+        }
+
+        /* --- TÍTULO CON ESTILO --- */
+        .header-section {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
         h1 {
-            text-align: center;
-            color: var(--purple-soft);
-            font-size: 2.2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             margin-bottom: 10px;
-            font-weight: 600;
+            /* Texto con degradado */
+            background: linear-gradient(45deg, #4a148c, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
-        .subtitulo {
-            text-align: center;
-            display: block;
-            margin-bottom: 50px;
-            opacity: 0.7;
-            font-size: 1rem;
+        .sub-header {
+            font-size: 1.1rem;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         h2 {
-            font-size: 1.3rem;
-            margin: 30px 0 20px 5px;
-            color: #5a6b8d;
-            font-weight: 600;
+            font-size: 1.4rem;
+            margin: 40px 0 20px 10px;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: "";
+            width: 8px;
+            height: 25px;
+            background: #4a148c;
+            margin-right: 15px;
+            border-radius: 4px;
         }
 
         /* --- GRID --- */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
             list-style: none;
         }
 
-        /* --- TARJETA (CORREGIDO EL TEMBLOR) --- */
+        /* --- TARJETA REFINADA --- */
         .card-grid li a {
             display: flex;
-            flex-direction: row; /* Estilo horizontal como la imagen */
             align-items: center;
-            background: var(--card-bg);
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             text-decoration: none;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            /* Transición suave solo en propiedades específicas */
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.5);
-            /* Evita el temblor usando backface-visibility */
-            backface-visibility: hidden;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(255,255,255,0.8);
         }
 
         .card-grid li a:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             background: #ffffff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #4a148c;
         }
 
         /* --- ICONOS --- */
         .card-grid li img {
-            width: 50px;
-            height: 50px;
-            margin-right: 20px;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            width: 60px;
+            height: 60px;
+            margin-right: 25px;
+            opacity: 0.9;
+            transition: transform 0.3s ease;
         }
 
         .card-grid li a:hover img {
-            opacity: 1;
+            transform: scale(1.1);
         }
 
-        /* --- TEXTO --- */
+        /* --- TEXTO DE TARJETA --- */
         .card-grid li span {
             font-weight: 600;
-            font-size: 1rem;
-            color: #555;
-            text-align: left;
+            font-size: 1.1rem;
+            color: #444;
         }
+
+        /* Colores de acento por sección para dar "vida" */
+        .predicacion a:hover { border-left: 8px solid #2ecc71; }
+        .reuniones a:hover { border-left: 8px solid #3498db; }
+        .congregacion a:hover { border-left: 8px solid #9b59b6; }
 
         /* RESPONSIVO */
         @media (max-width: 600px) {
-            h1 { font-size: 1.7rem; }
+            h1 { font-size: 2.2rem; }
             .card-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -117,68 +138,70 @@
 <body>
 
     <div class="contenido">
-        <h1>Congregación Punta Gorda</h1>
-        <span class="subtitulo">Información y arreglos teocráticos</span>
+        <div class="header-section">
+            <h1>Congregación Punta Gorda</h1>
+            <span class="sub-header">Cartelera Digital de Información</span>
+        </div>
 
-        <h2>Predicación</h2>
-        <ul class="card-grid">
-            <li>
-                <a target="_blank" href="predicacion.html">
-                    <img src="images/noun_schedule_1776600.svg" alt="" />
-                    <span>Grupos de predicación</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="territorios/mapa.html">
-                    <img src="images/noun_map_10799.svg" alt="" />
-                    <span>Mapa de territorios</span>
-                </a>
-            </li>
-        </ul>
+        <div class="predicacion">
+            <h2>Predicación</h2>
+            <ul class="card-grid">
+                <li>
+                    <a target="_blank" href="predicacion.html">
+                        <img src="images/noun_schedule_1776600.svg" alt="" />
+                        <span>Grupos de predicación</span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="territorios/mapa.html">
+                        <img src="images/noun_map_10799.svg" alt="" />
+                        <span>Mapa de territorios</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        <h2>Reuniones</h2>
-        <ul class="card-grid">
-            <li>
-                <a target="_blank" href="vida-y-ministerio.html">
-                    <img src="images/noun_teach_1614348.svg" alt="" />
-                    <span>Reunión Vida y Ministerio</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="reunion-publica.html">
-                    <img src="images/noun_conference_704693.svg" alt="" />
-                    <span>Reunión Pública</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="limpieza.html">
-                    <img src="images/noun_clean_1683608.svg" alt="" />
-                    <span>Programa de Limpieza</span>
-                </a>
-            </li>
-        </ul>
+        <div class="reuniones">
+            <h2>Reuniones</h2>
+            <ul class="card-grid">
+                <li>
+                    <a target="_blank" href="vida-y-ministerio.html">
+                        <img src="images/noun_teach_1614348.svg" alt="" />
+                        <span>Vida y Ministerio</span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="reunion-publica.html">
+                        <img src="images/noun_conference_704693.svg" alt="" />
+                        <span>Reunión Pública</span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="limpieza.html">
+                        <img src="images/noun_clean_1683608.svg" alt="" />
+                        <span>Programa de Limpieza</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        <h2>Congregación</h2>
-        <ul class="card-grid">
-            <li>
-                <a target="_blank" href="publicadores.html">
-                    <img src="images/noun_people_199910.svg" alt="" />
-                    <span>Grupos de publicadores</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="precursores.html">
-                    <img src="images/pioneers.svg" alt="" />
-                    <span>Precursores regulares</span>
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="responsabilidades.html">
-                    <img src="images/noun_organization_421912.svg" alt="" />
-                    <span>Responsabilidades</span>
-                </a>
-            </li>
-        </ul>
+        <div class="congregacion">
+            <h2>Congregación</h2>
+            <ul class="card-grid">
+                <li>
+                    <a target="_blank" href="publicadores.html">
+                        <img src="images/noun_people_199910.svg" alt="" />
+                        <span>Grupos de publicadores</span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="precursores.html">
+                        <img src="images/pioneers.svg" alt="" />
+                        <span>Precursores regulares</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </body>
