@@ -10,14 +10,14 @@
             --primary-blue: #1e3a5f;
             --soft-blue: #f0f4f8;
             --accent-gradient: linear-gradient(135deg, #2e5984 0%, #1e3a5f 100%);
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --bg-body: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #ffffff;
+            background: var(--bg-body);
             color: #333;
             min-height: 100vh;
         }
@@ -26,37 +26,39 @@
             width: 90%;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 80px 0;
+            padding: 60px 0;
         }
 
-        /* Título Innovador */
+        /* --- CABECERA --- */
         .header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
+        }
+
+        .cartelera-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #aaa;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: block;
         }
 
         h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             font-weight: 800;
             color: var(--primary-blue);
-            letter-spacing: -2px;
-            margin-bottom: 8px;
+            letter-spacing: -1.5px;
         }
 
-        .tagline {
-            font-size: 0.9rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-weight: 600;
-        }
-
+        /* --- SECCIONES --- */
         h2 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #999;
-            margin: 60px 0 30px;
+            letter-spacing: 3px;
+            color: #bbb;
+            margin: 50px 0 25px;
             display: flex;
             align-items: center;
         }
@@ -69,75 +71,61 @@
             margin-left: 20px;
         }
 
-        /* Grid Minimalista */
+        /* --- GRID --- */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            gap: 25px;
             list-style: none;
         }
 
-        /* Tarjeta de Nueva Generación */
+        /* --- TARJETAS --- */
         .card-grid li a {
             display: flex;
             align-items: center;
             background: var(--soft-blue);
-            padding: 40px 30px;
+            padding: 35px 30px;
             text-decoration: none;
-            border-radius: 30px;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
-            overflow: hidden;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
             border: 1px solid transparent;
         }
 
         .card-grid li a:hover {
             background: #ffffff;
-            transform: scale(1.02);
+            transform: translateY(-5px);
             border-color: #ddd;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
-        /* Iconos con Micro-interacciones */
+        /* --- ICONOS --- */
         .card-grid li img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             margin-right: 25px;
             filter: grayscale(100%);
-            opacity: 0.6;
-            transition: all 0.4s ease;
+            opacity: 0.5;
+            transition: all 0.3s ease;
         }
 
         .card-grid li a:hover img {
             filter: grayscale(0%);
             opacity: 1;
-            transform: rotate(-5deg) scale(1.1);
+            transform: scale(1.1);
         }
 
-        /* Texto de Tarjeta */
+        /* --- TEXTO --- */
         .card-grid li span {
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--primary-blue);
-            transition: color 0.3s ease;
         }
 
-        /* Efecto de fondo sutil al hover */
-        .card-grid li a::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-
-        /* Estilo para móviles */
+        /* AJUSTE MÓVIL */
         @media (max-width: 600px) {
-            .contenido { padding: 40px 20px; }
-            h1 { font-size: 2.2rem; }
             .card-grid { grid-template-columns: 1fr; }
+            .card-grid li a { padding: 25px; }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -145,8 +133,8 @@
 
     <div class="contenido">
         <div class="header">
+            <span class="cartelera-label">Cartelera Digital</span>
             <h1>Congregación Punta Gorda</h1>
-            <span class="tagline">Cartelera Digital</span>
         </div>
 
         <h2>Predicación</h2>
@@ -177,6 +165,34 @@
                 <a target="_blank" href="reunion-publica.html">
                     <img src="images/noun_conference_704693.svg" alt="" />
                     <span>Reunión Pública</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="limpieza.html">
+                    <img src="images/noun_clean_1683608.svg" alt="" />
+                    <span>Programa de Limpieza</span>
+                </a>
+            </li>
+        </ul>
+
+        <h2>Congregación</h2>
+        <ul class="card-grid">
+            <li>
+                <a target="_blank" href="publicadores.html">
+                    <img src="images/noun_people_199910.svg" alt="" />
+                    <span>Grupos de publicadores</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="precursores.html">
+                    <img src="images/pioneers.svg" alt="" />
+                    <span>Precursores regulares</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="responsabilidades.html">
+                    <img src="images/noun_organization_421912.svg" alt="" />
+                    <span>Responsabilidades</span>
                 </a>
             </li>
         </ul>
