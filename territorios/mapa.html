@@ -22,7 +22,7 @@
         script.onload = () => {
           loaded++;
           if (loaded === scripts.length && typeof window.initMap === "function") {
-            window.initMap(); // Llama a la real initMap desde territory.js
+            window.initMap(); 
           }
         };
         document.body.appendChild(script);
