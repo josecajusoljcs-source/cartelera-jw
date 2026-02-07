@@ -6,18 +6,19 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
-        /* --- COLORES EXACTOS DE LA IMAGEN --- */
+        /* --- COLORES DE LA IMAGEN --- */
         :root {
             --azul-titulo: #1e3a5f;
             --gris-label: #8899a6;
-            --bg-page: #fdf2e9; /* Fondo crema suave como la imagen */
+            --bg-page: #fdf2e9; 
             /* Degradados de las tarjetas */
             --grad-predicacion: linear-gradient(90deg, #3858a8 0%, #f9d5cc 100%);
             --grad-territorios: linear-gradient(90deg, #9b6ab3 0%, #d1f3e1 100%);
             --grad-reuniones: linear-gradient(90deg, #d3b1d9 0%, #fbd9c8 100%);
             --grad-publica: linear-gradient(90deg, #b79edb 0%, #d3f3e6 100%);
             --grad-audio: linear-gradient(90deg, #2c52a0 0%, #d5f2e0 100%);
-            --grad-limpieza: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            /* PROGRAMA DE LIMPIEZA - Intensidad suavizada */
+            --grad-limpieza: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -76,7 +77,6 @@
             margin-left: 15px;
         }
 
-        /* --- LAS TARJETAS (CARDS) --- */
         .grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -95,7 +95,7 @@
 
         .action-card:active { transform: scale(0.97); }
 
-        /* Asignación de degradados específicos */
+        /* Clases de degradados */
         .c-pred { background: var(--grad-predicacion); }
         .c-terr { background: var(--grad-territorios); }
         .c-reun { background: var(--grad-reuniones); }
@@ -118,7 +118,7 @@
         .action-card img {
             width: 26px;
             height: 26px;
-            filter: brightness(0) invert(1); /* Iconos blancos como la imagen */
+            filter: brightness(0) invert(1);
         }
 
         .action-card span {
@@ -127,7 +127,6 @@
             color: var(--azul-titulo);
         }
 
-        /* Responsivo para PC */
         @media (min-width: 768px) {
             .grid { grid-template-columns: repeat(2, 1fr); }
             .container { max-width: 1000px; }
