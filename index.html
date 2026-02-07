@@ -6,115 +6,106 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
     <style>
-        /* --- RESET TOTAL PARA EVITAR CONFLICTOS --- */
+        /* --- RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f0f2f5;
-            color: #1c1e21;
-            line-height: 1.6;
+            background-color: #f4f6f9;
+            color: #333;
         }
 
         .contenido {
-            width: 90%;
+            width: 95%;
             max-width: 1100px;
-            margin: 40px auto;
+            margin: 50px auto;
+            padding-bottom: 50px;
         }
 
         h1 {
             text-align: center;
             color: #4a148c; /* Morado JW */
-            font-size: 2.5rem;
-            margin-bottom: 50px;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            font-weight: 700;
         }
 
         h2 {
-            font-size: 1.5rem;
-            color: #555;
-            margin: 40px 0 20px;
+            font-size: 1.6rem;
+            color: #444;
+            margin: 40px 0 25px 10px;
+            border-left: 6px solid #4a148c;
             padding-left: 15px;
-            border-left: 5px solid #4a148c;
         }
 
-        /* --- GRID DE TARJETAS --- */
+        /* --- GRID --- */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
             list-style: none;
         }
 
-        /* --- LA TARJETA (LO QUE LE DA VIDA) --- */
+        /* --- TARJETA --- */
         .card-grid li a {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             background: #ffffff;
-            padding: 40px 20px;
+            padding: 45px 25px;
             text-decoration: none;
-            border-radius: 20px;
-            /* Sombra suave */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid #eaeaea;
-            text-align: center;
+            border-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid #fff;
+            height: 220px; /* Altura fija para uniformidad */
         }
 
-        /* EFECTO HOVER VIVO */
+        /* HOVER: EL ALMA DEL DISEÑO */
         .card-grid li a:hover {
-            transform: translateY(-10px);
+            transform: translateY(-12px);
             background-color: #4a148c;
-            box-shadow: 0 15px 30px rgba(74, 20, 140, 0.3);
+            box-shadow: 0 20px 40px rgba(74, 20, 140, 0.25);
+            border-color: #4a148c;
         }
 
         /* --- ICONOS --- */
         .card-grid li img {
-            width: 70px; /* Más grandes */
-            height: 70px;
-            margin-bottom: 15px; /* Pegado al texto */
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
-            /* Forzamos que no tengan floats de estilos viejos */
-            float: none !important; 
             display: block;
         }
 
         /* --- TEXTO --- */
         .card-grid li span {
             font-weight: 700;
-            font-size: 1.1rem;
-            color: #FF5500; /* Tu naranja original */
+            font-size: 1.2rem;
+            color: #FF5500; /* Naranja corporativo */
             transition: all 0.3s ease;
-            /* Quitamos posiciones raras */
-            position: static !important;
-            float: none !important;
+            text-align: center;
         }
 
-        /* CAMBIO DE COLOR AL HOVER */
+        /* CAMBIOS AL PASAR EL MOUSE */
         .card-grid li a:hover span {
             color: #ffffff;
         }
 
         .card-grid li a:hover img {
-            filter: brightness(0) invert(1); /* Icono a blanco */
+            filter: brightness(0) invert(1); /* Icono pasa a blanco */
             transform: scale(1.1);
         }
 
-        /* AJUSTE PARA MÓVILES */
+        /* RESPONSIVO PARA MÓVILES */
         @media (max-width: 600px) {
-            .card-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 1.8rem; }
+            .contenido { margin: 20px auto; }
+            h1 { font-size: 1.8rem; margin-bottom: 30px; }
+            .card-grid { gap: 15px; }
             .card-grid li a {
-                flex-direction: row;
-                justify-content: flex-start;
-                padding: 20px;
-            }
-            .card-grid li img {
-                margin-bottom: 0;
-                margin-right: 20px;
-                width: 50px;
-                height: 50px;
+                padding: 30px;
+                height: auto;
             }
         }
     </style>
@@ -128,13 +119,13 @@
         <ul class="card-grid">
             <li>
                 <a target="_blank" href="predicacion.html">
-                    <img src="images/noun_schedule_1776600.svg" alt="" />
+                    <img src="images/noun_schedule_1776600.svg" alt="Calendario" />
                     <span>Grupos de predicación</span>
                 </a>
             </li>
             <li>
                 <a target="_blank" href="territorios/mapa.html">
-                    <img src="images/noun_map_10799.svg" alt="" />
+                    <img src="images/noun_map_10799.svg" alt="Mapa" />
                     <span>Mapa de territorios</span>
                 </a>
             </li>
@@ -144,19 +135,19 @@
         <ul class="card-grid">
             <li>
                 <a target="_blank" href="vida-y-ministerio.html">
-                    <img src="images/noun_teach_1614348.svg" alt="" />
+                    <img src="images/noun_teach_1614348.svg" alt="Reunión" />
                     <span>Reunión Vida y Ministerio</span>
                 </a>
             </li>
             <li>
                 <a target="_blank" href="reunion-publica.html">
-                    <img src="images/noun_conference_704693.svg" alt="" />
+                    <img src="images/noun_conference_704693.svg" alt="Discurso" />
                     <span>Reunión Pública</span>
                 </a>
             </li>
             <li>
                 <a target="_blank" href="limpieza.html">
-                    <img src="images/noun_clean_1683608.svg" alt="" />
+                    <img src="images/noun_clean_1683608.svg" alt="Limpieza" />
                     <span>Programa de Limpieza</span>
                 </a>
             </li>
@@ -166,19 +157,19 @@
         <ul class="card-grid">
             <li>
                 <a target="_blank" href="publicadores.html">
-                    <img src="images/noun_people_199910.svg" alt="" />
+                    <img src="images/noun_people_199910.svg" alt="Publicadores" />
                     <span>Grupos de publicadores</span>
                 </a>
             </li>
             <li>
                 <a target="_blank" href="precursores.html">
-                    <img src="images/pioneers.svg" alt="" />
+                    <img src="images/pioneers.svg" alt="Precursores" />
                     <span>Precursores regulares</span>
                 </a>
             </li>
             <li>
                 <a target="_blank" href="responsabilidades.html">
-                    <img src="images/noun_organization_421912.svg" alt="" />
+                    <img src="images/noun_organization_421912.svg" alt="Responsabilidades" />
                     <span>Responsabilidades</span>
                 </a>
             </li>
