@@ -4,20 +4,20 @@
     <title>Cartelera Digital - Punta Gorda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
         :root {
-            --primary-blue: #1e3a5f;
-            --soft-blue: #f0f4f8;
-            --accent-gradient: linear-gradient(135deg, #2e5984 0%, #1e3a5f 100%);
-            --bg-body: #ffffff;
+            --azul-premium: #1e3a5f;
+            --azul-claro: #f4f7fa;
+            --sombra-suave: rgba(0, 0, 0, 0.04);
+            --transicion: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-body);
+            background-color: #ffffff;
             color: #333;
             min-height: 100vh;
         }
@@ -26,39 +26,43 @@
             width: 90%;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 60px 0;
+            padding: 80px 0;
         }
 
-        /* --- CABECERA --- */
+        /* --- TÍTULO INNOVADOR --- */
         .header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
         .cartelera-label {
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            color: #aaa;
-            font-weight: 800;
-            margin-bottom: 10px;
+            letter-spacing: 6px;
+            color: #bbb;
+            font-weight: 700;
             display: block;
+            margin-bottom: 10px;
         }
 
         h1 {
             font-size: clamp(1.8rem, 5vw, 2.8rem);
-            font-weight: 800;
-            color: var(--primary-blue);
-            letter-spacing: -1.5px;
+            font-weight: 900;
+            color: var(--azul-premium);
+            letter-spacing: -2px;
+            /* Efecto de máscara de texto sutil */
+            background: linear-gradient(135deg, var(--azul-premium) 0%, #3498db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* --- SECCIONES --- */
         h2 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #bbb;
-            margin: 50px 0 25px;
+            letter-spacing: 4px;
+            color: #ccd6dd;
+            margin: 60px 0 30px;
             display: flex;
             align-items: center;
         }
@@ -67,7 +71,7 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: #eee;
+            background: #f0f0f0;
             margin-left: 20px;
         }
 
@@ -79,53 +83,56 @@
             list-style: none;
         }
 
-        /* --- TARJETAS --- */
+        /* --- TARJETA INNOVADORA --- */
         .card-grid li a {
             display: flex;
             align-items: center;
-            background: var(--soft-blue);
-            padding: 35px 30px;
+            background: var(--azul-claro);
+            padding: 40px 30px;
             text-decoration: none;
-            border-radius: 25px;
-            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            border-radius: 28px;
+            transition: var(--transicion);
             border: 1px solid transparent;
+            position: relative;
         }
 
+        /* Efecto de elevación y cambio de color al pasar el mouse */
         .card-grid li a:hover {
             background: #ffffff;
-            transform: translateY(-5px);
-            border-color: #ddd;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            transform: scale(1.03);
+            border-color: #e2e8f0;
+            box-shadow: 0 30px 60px rgba(30, 58, 95, 0.08);
         }
 
-        /* --- ICONOS --- */
+        /* --- ICONOS DINÁMICOS --- */
         .card-grid li img {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             margin-right: 25px;
-            filter: grayscale(100%);
-            opacity: 0.5;
-            transition: all 0.3s ease;
+            /* Empiezan en gris sutil */
+            filter: grayscale(1) opacity(0.4);
+            transition: var(--transicion);
         }
 
         .card-grid li a:hover img {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.1);
+            filter: grayscale(0) opacity(1);
+            transform: scale(1.15) rotate(-3deg);
         }
 
         /* --- TEXTO --- */
         .card-grid li span {
-            font-weight: 600;
-            font-size: 1.15rem;
-            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--azul-premium);
+            transition: var(--transicion);
         }
 
-        /* AJUSTE MÓVIL */
+        /* AJUSTE PARA MÓVILES */
         @media (max-width: 600px) {
+            .contenido { padding: 40px 20px; }
+            h1 { font-size: 2.2rem; }
             .card-grid { grid-template-columns: 1fr; }
-            .card-grid li a { padding: 25px; }
-            h1 { font-size: 1.8rem; }
+            .card-grid li a { padding: 30px; }
         }
     </style>
 </head>
@@ -133,7 +140,7 @@
 
     <div class="contenido">
         <div class="header">
-            <span class="cartelera-label">Cartelera Digital</span>
+            <span class="cartelera-label">CARTELERA DIGITAL</span>
             <h1>Congregación Punta Gorda</h1>
         </div>
 
