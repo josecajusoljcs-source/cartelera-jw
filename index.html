@@ -8,10 +8,10 @@
     <style>
         :root {
             --azul-premium: #1e3a5f;
-            --text-secundario: #8899a6;
-            /* Degradados para las tarjetas */
-            --gradient-1: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            --gradient-hover: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --azul-profundo: #102a43;
+            /* Degradado de fondo vibrante basado en tu ejemplo */
+            --bg-gradient: linear-gradient(135deg, #fceabb 0%, #f8b500 50%, #f09819 100%);
+            --glass-bg: rgba(255, 255, 255, 0.85);
             --transicion: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -24,110 +24,114 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-            color: #1a1a1a;
+            /* Aplicamos el fondo degradado a todo el cuerpo */
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            background-attachment: fixed;
             min-height: 100vh;
+            color: #1a1a1a;
         }
 
         .container {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px 15px 50px;
+            padding: 40px 15px 60px;
         }
 
-        /* --- CABECERA CON DEGRADADO --- */
         header {
             text-align: center;
-            margin-bottom: 45px;
-            padding-top: 20px;
+            margin-bottom: 50px;
         }
 
         .label-digital {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 5px;
-            color: var(--text-secundario);
+            color: var(--azul-premium);
             font-weight: 700;
             margin-bottom: 10px;
             display: block;
+            opacity: 0.6;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            background: linear-gradient(to right, #1e3a5f, #4a148c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--azul-premium);
             letter-spacing: -1.5px;
+            /* Sutil sombra para resaltar sobre el fondo claro */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        /* --- SECCIONES --- */
         section {
-            margin-bottom: 40px;
+            margin-bottom: 45px;
         }
 
         h2 {
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: var(--text-secundario);
-            margin-bottom: 18px;
+            color: var(--azul-premium);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
+            opacity: 0.7;
         }
 
         h2::after {
             content: "";
             flex: 1;
             height: 1px;
-            background: rgba(0,0,0,0.05);
+            background: var(--azul-premium);
             margin-left: 15px;
+            opacity: 0.2;
         }
 
         .grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 16px;
         }
 
-        /* --- TARJETAS DEGRADADAS --- */
+        /* --- TARJETAS CON DEGRADADO Y EFECTO CRISTAL --- */
         .action-card {
             display: flex;
             align-items: center;
-            background: var(--gradient-1);
-            padding: 22px;
+            /* Fondo blanco translúcido */
+            background: var(--glass-bg);
+            padding: 24px;
             text-decoration: none;
-            border-radius: 24px;
+            border-radius: 26px;
             transition: var(--transicion);
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
             position: relative;
             overflow: hidden;
         }
 
-        /* Efecto al tocar o pasar el mouse */
+        /* Efecto al tocar o pasar el mouse: se vuelve degradado azul */
         .action-card:hover, .action-card:active {
             transform: translateY(-5px) scale(1.02);
-            background: var(--gradient-hover);
-            box-shadow: 0 15px 30px rgba(37, 117, 252, 0.2);
+            background: linear-gradient(135deg, #1e3a5f 0%, #4a148c 100%);
+            box-shadow: 0 15px 35px rgba(30, 58, 95, 0.2);
             border-color: transparent;
         }
 
         .icon-box {
-            width: 54px;
-            height: 54px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.9);
+            background: white;
             border-radius: 16px;
-            margin-right: 20px;
+            margin-right: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
             transition: var(--transicion);
         }
 
         .action-card:hover .icon-box {
-            background: white;
+            background: rgba(255, 255, 255, 0.2);
             transform: rotate(-5deg);
         }
 
@@ -135,11 +139,17 @@
             width: 30px;
             height: 30px;
             object-fit: contain;
+            transition: var(--transicion);
+        }
+
+        /* El icono se vuelve blanco al hacer hover */
+        .action-card:hover img {
+            filter: brightness(0) invert(1);
         }
 
         .action-card span {
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--azul-premium);
             transition: color 0.3s ease;
         }
@@ -148,11 +158,11 @@
             color: #ffffff;
         }
 
-        /* RESPONSIVO TABLET/PC */
+        /* MÓVIL OPTIMIZADO */
         @media (min-width: 768px) {
             .container { max-width: 1000px; }
             .grid { grid-template-columns: repeat(2, 1fr); }
-            h1 { font-size: 2.8rem; }
+            h1 { font-size: 3rem; }
         }
     </style>
 </head>
