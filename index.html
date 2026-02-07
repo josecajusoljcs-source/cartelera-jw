@@ -1,154 +1,201 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
-<meta charset="UTF-8">
-<title>Congregación Punta Gorda</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-
-<style>
-/* Reset y tipografía */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(180deg, #1f2a44 0%, #4b556d 40%, #c9b4a5 75%, #2e2e2e 100%);
-    color: white;
-}
-
-/* Título principal */
-h1 {
-    text-align: center;
-    padding: 22px 0;
-    margin: 0;
-    font-size: 36px;
-    font-weight: 800;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
-}
-
-/* Título de sección */
-.section-title {
-    margin: 24px 16px 8px;
-    font-size: 24px;
-    font-weight: 700;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-}
-
-/* Contenedor de tarjetas */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 0 16px 28px;
-}
-
-/* Tarjeta individual */
-.item {
-    text-decoration: none;
-    text-align: center;
-    color: white;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 30px rgba(0,0,0,0.4);
-}
-
-/* Círculo contenedor de la imagen */
-.circle {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: auto;
-    background: #000;
-    box-shadow: 0 10px 26px rgba(0,0,0,0.5);
-}
-
-.circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Texto debajo de la imagen */
-.item span {
-    display: block;
-    margin-top: 12px;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.2;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-}
-
-@media (max-width: 420px) {
-    .circle {
-        width: 130px;
-        height: 130px;
-    }
-}
-</style>
+    <title>Congregación Punta Gorda</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <style>
+        body {
+            font-family: 'Montserrat', Helvetica;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+        	margin-bottom: 30px;
+        }
+        
+        .contenido {
+            width: 97%;
+            margin: auto;
+        }
+        
+        li {
+            margin: auto;
+            list-style: none;
+            position: relative;
+        }
+        
+        ul.card {
+            padding: 0px;
+            width: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        li.cont {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+        
+        li a {
+            height: auto;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            margin: 10px 0;
+            padding: 20px;
+            color: #FF5500;
+            background: #F4F4F4;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .card li {
+            height: auto;
+            position: relative;
+        }
+        
+        .card li:before,
+        .card li:after {
+            z-index: -1;
+            position: absolute;
+            content: "";
+            bottom: 20px;
+            left: 4px;
+            width: 100%;
+            height: 20px;
+            top: 59%;
+            max-width: 250px;
+            background: #777;
+            box-shadow: 0 15px 10px #777;
+            transform: rotate(-7deg);
+        }
+        
+        .card li:after {
+            right: 4px;
+            left: auto;
+            transform: rotate(7deg);
+        }
+        
+        .card li img {
+            width: 64px;
+            height: 64px;
+            float: left;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+        
+        .card li span {
+            float: left;
+            position: relative;
+            top: 30%;
+        }
+        
+        @media screen and (max-width: 800px) {
+            li a {
+                width: 330px;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            .card li:before,
+            .card li:after {
+                top: 52%;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="contenido">
+        <div>
+            <h1>Congregación Punta Gorda</h1></div>
+        <ul>
+            <li class="cont">
+                <h2>Predicación</h2>
+                <ul class="card">
+                    <li>
+                        <a target="_blank" href="predicacion.html">
+                            <img src="images/noun_schedule_1776600.svg" />
+                            <span>Grupos de predicación</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="territorios/mapa.html">
+                            <img src="images/noun_map_10799.svg" />
+                            <span>Mapa de territorios</span>
+                        </a>
+                    </li>
+                    <!--
+                    <li>
+                        <a target="_blank" href="exhibidores.html">
+                            <img src="images/cart.svg" style="height: 54px; margin-bottom: 10px;" />
+                            <span>Arreglos de exhibidores</span>
+                        </a>
+                    </li>
+                    -->
+                </ul>
+            </li>
 
-<h1>Congregación Punta Gorda</h1>
+            <li class="cont">
+                <h2>Reuniones</h2>
+                <ul class="card">
+                    <li>
+                        <a target="_blank" href="vida-y-ministerio.html">
+                            <img src="images/noun_teach_1614348.svg" />
+                            <span>Reunión Vida y Ministerio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="reunion-publica.html">
+                            <img src="images/noun_conference_704693.svg" />
+                            <span>Reunión Pública</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="limpieza.html">
+                            <img src="images/noun_clean_1683608.svg" style="height: 54px; margin-bottom: 10px;" />
+                            <span>Programa de Limpieza</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-<div class="section-title">Predicación</div>
-<div class="grid">
-    <a class="item" href="predicacion.html">
-        <div class="circle"><img src="images/predicacion.jpg"></div>
-        <span>Grupos de predicación</span>
-    </a>
-
-    <a class="item" href="territorios/mapa.html">
-        <div class="circle"><img src="images/territorios.jpg"></div>
-        <span>Mapa de territorios</span>
-    </a>
-</div>
-
-<div class="section-title">Reuniones</div>
-<div class="grid">
-    <a class="item" href="vida-y-ministerio.html">
-        <div class="circle"><img src="images/vida-ministerio.jpg"></div>
-        <span>Vida y Ministerio</span>
-    </a>
-
-    <a class="item" href="reunion-publica.html">
-        <div class="circle"><img src="images/reunion-publica.jpg"></div>
-        <span>Reunión Pública</span>
-    </a>
-
-    <a class="item" href="https://josecajusoljcs-source.github.io/cartelera/" target="_blank">
-        <div class="circle"><img src="images/audio-video.jpg"></div>
-        <span>Audio y Video</span>
-    </a>
-</div>
-
-<div class="section-title">Congregación</div>
-<div class="grid">
-    <a class="item" href="limpieza.html">
-        <div class="circle"><img src="images/limpieza.jpg"></div>
-        <span>Programa de Limpieza</span>
-    </a>
-
-    <a class="item" href="publicadores.html">
-        <div class="circle"><img src="images/publicadores.jpg"></div>
-        <span>Grupos de publicadores</span>
-    </a>
-
-    <a class="item" href="precursores.html">
-        <div class="circle"><img src="images/precursores.jpg"></div>
-        <span>Precursores regulares</span>
-    </a>
-
-    <a class="item" href="responsabilidades.html">
-        <div class="circle"><img src="images/responsabilidades.jpg"></div>
-        <span>Responsabilidades</span>
-    </a>
-</div>
-
+            <li class="cont">
+                <h2>Congregación</h2>
+                <ul class="card">
+                    <li>
+                        <a target="_blank" href="publicadores.html">
+                            <img src="images/noun_people_199910.svg" />
+                            <span>Grupos de publicadores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="precursores.html">
+                            <img src="images/pioneers.svg" style="height: 54px; margin-bottom: 10px;" />
+                            <span>Precursores regulares</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="responsabilidades.html">
+                            <img src="images/noun_organization_421912.svg" />
+                            <span>Responsabilidades</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </body>
+
 </html>
