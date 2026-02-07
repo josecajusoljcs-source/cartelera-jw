@@ -6,163 +6,131 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
+        /* --- COLORES EXACTOS DE LA IMAGEN --- */
         :root {
-            --azul-premium: #1e3a5f;
-            --azul-profundo: #102a43;
-            /* Degradado de fondo vibrante basado en tu ejemplo */
-            --bg-gradient: linear-gradient(135deg, #fceabb 0%, #f8b500 50%, #f09819 100%);
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --transicion: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --azul-titulo: #1e3a5f;
+            --gris-label: #8899a6;
+            --bg-page: #fdf2e9; /* Fondo crema suave como la imagen */
+            /* Degradados de las tarjetas */
+            --grad-predicacion: linear-gradient(90deg, #3858a8 0%, #f9d5cc 100%);
+            --grad-territorios: linear-gradient(90deg, #9b6ab3 0%, #d1f3e1 100%);
+            --grad-reuniones: linear-gradient(90deg, #d3b1d9 0%, #fbd9c8 100%);
+            --grad-publica: linear-gradient(90deg, #b79edb 0%, #d3f3e6 100%);
+            --grad-audio: linear-gradient(90deg, #2c52a0 0%, #d5f2e0 100%);
+            --grad-limpieza: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
         }
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Inter', sans-serif;
-            /* Aplicamos el fondo degradado a todo el cuerpo */
-            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            background-attachment: fixed;
+            background-color: var(--bg-page);
+            color: #333;
             min-height: 100vh;
-            color: #1a1a1a;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            padding: 40px 15px 60px;
+            padding: 30px 15px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
-        .label-digital {
-            font-size: 0.75rem;
+        .cartelera-label {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            color: var(--azul-premium);
+            letter-spacing: 4px;
+            color: var(--gris-label);
             font-weight: 700;
-            margin-bottom: 10px;
             display: block;
-            opacity: 0.6;
+            margin-bottom: 5px;
         }
 
         h1 {
             font-size: 2.2rem;
             font-weight: 900;
-            color: var(--azul-premium);
-            letter-spacing: -1.5px;
-            /* Sutil sombra para resaltar sobre el fondo claro */
-            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        section {
-            margin-bottom: 45px;
+            color: var(--azul-titulo);
+            letter-spacing: -1px;
         }
 
         h2 {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--azul-premium);
-            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: var(--gris-label);
+            margin: 30px 0 15px;
             display: flex;
             align-items: center;
-            opacity: 0.7;
         }
 
         h2::after {
             content: "";
             flex: 1;
             height: 1px;
-            background: var(--azul-premium);
+            background: rgba(0,0,0,0.1);
             margin-left: 15px;
-            opacity: 0.2;
         }
 
+        /* --- LAS TARJETAS (CARDS) --- */
         .grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 16px;
+            gap: 15px;
         }
 
-        /* --- TARJETAS CON DEGRADADO Y EFECTO CRISTAL --- */
         .action-card {
             display: flex;
             align-items: center;
-            /* Fondo blanco translúcido */
-            background: var(--glass-bg);
-            padding: 24px;
+            padding: 15px;
             text-decoration: none;
-            border-radius: 26px;
-            transition: var(--transicion);
-            border: 1px solid rgba(255,255,255,0.9);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-            position: relative;
-            overflow: hidden;
+            border-radius: 20px;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Efecto al tocar o pasar el mouse: se vuelve degradado azul */
-        .action-card:hover, .action-card:active {
-            transform: translateY(-5px) scale(1.02);
-            background: linear-gradient(135deg, #1e3a5f 0%, #4a148c 100%);
-            box-shadow: 0 15px 35px rgba(30, 58, 95, 0.2);
-            border-color: transparent;
-        }
+        .action-card:active { transform: scale(0.97); }
+
+        /* Asignación de degradados específicos */
+        .c-pred { background: var(--grad-predicacion); }
+        .c-terr { background: var(--grad-territorios); }
+        .c-reun { background: var(--grad-reuniones); }
+        .c-publ { background: var(--grad-publica); }
+        .c-audi { background: var(--grad-audio); }
+        .c-limp { background: var(--grad-limpieza); }
 
         .icon-box {
-            width: 56px;
-            height: 56px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: white;
-            border-radius: 16px;
-            margin-right: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            transition: var(--transicion);
-        }
-
-        .action-card:hover .icon-box {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(-5deg);
+            margin-right: 20px;
+            backdrop-filter: blur(5px);
         }
 
         .action-card img {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-            transition: var(--transicion);
-        }
-
-        /* El icono se vuelve blanco al hacer hover */
-        .action-card:hover img {
-            filter: brightness(0) invert(1);
+            width: 26px;
+            height: 26px;
+            filter: brightness(0) invert(1); /* Iconos blancos como la imagen */
         }
 
         .action-card span {
             font-weight: 700;
-            font-size: 1.15rem;
-            color: var(--azul-premium);
-            transition: color 0.3s ease;
+            font-size: 1.1rem;
+            color: var(--azul-titulo);
         }
 
-        .action-card:hover span {
-            color: #ffffff;
-        }
-
-        /* MÓVIL OPTIMIZADO */
+        /* Responsivo para PC */
         @media (min-width: 768px) {
-            .container { max-width: 1000px; }
             .grid { grid-template-columns: repeat(2, 1fr); }
-            h1 { font-size: 3rem; }
+            .container { max-width: 1000px; }
         }
     </style>
 </head>
@@ -170,19 +138,19 @@
 
     <div class="container">
         <header>
-            <span class="label-digital">Cartelera Digital</span>
+            <span class="cartelera-label">Cartelera Digital</span>
             <h1>Congregación Punta Gorda</h1>
         </header>
 
         <section>
             <h2>Predicación</h2>
             <div class="grid">
-                <a href="predicacion.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_schedule_1776600.svg" alt=""></div>
+                <a href="predicacion.html" class="action-card c-pred">
+                    <div class="icon-box"><img src="images/noun_schedule_1776600.svg"></div>
                     <span>Grupos de predicación</span>
                 </a>
-                <a href="territorios/mapa.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_map_10799.svg" alt=""></div>
+                <a href="territorios/mapa.html" class="action-card c-terr">
+                    <div class="icon-box"><img src="images/noun_map_10799.svg"></div>
                     <span>Mapa de territorios</span>
                 </a>
             </div>
@@ -191,16 +159,16 @@
         <section>
             <h2>Reuniones</h2>
             <div class="grid">
-                <a href="vida-y-ministerio.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_teach_1614348.svg" alt=""></div>
+                <a href="vida-y-ministerio.html" class="action-card c-reun">
+                    <div class="icon-box"><img src="images/noun_teach_1614348.svg"></div>
                     <span>Vida y Ministerio</span>
                 </a>
-                <a href="reunion-publica.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_conference_704693.svg" alt=""></div>
+                <a href="reunion-publica.html" class="action-card c-publ">
+                    <div class="icon-box"><img src="images/noun_conference_704693.svg"></div>
                     <span>Reunión Pública</span>
                 </a>
-                <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="action-card">
-                    <div class="icon-box"><img src="images/noun_organization_421912.svg" alt=""></div>
+                <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="action-card c-audi">
+                    <div class="icon-box"><img src="images/noun_organization_421912.svg"></div>
                     <span>Asignación Audio y Video</span>
                 </a>
             </div>
@@ -209,20 +177,20 @@
         <section>
             <h2>Congregación</h2>
             <div class="grid">
-                <a href="limpieza.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_clean_1683608.svg" alt=""></div>
+                <a href="limpieza.html" class="action-card c-limp">
+                    <div class="icon-box"><img src="images/noun_clean_1683608.svg"></div>
                     <span>Programa de Limpieza</span>
                 </a>
-                <a href="publicadores.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_people_199910.svg" alt=""></div>
+                <a href="publicadores.html" class="action-card c-reun">
+                    <div class="icon-box"><img src="images/noun_people_199910.svg"></div>
                     <span>Grupos de publicadores</span>
                 </a>
-                <a href="precursores.html" class="action-card">
-                    <div class="icon-box"><img src="images/pioneers.svg" alt=""></div>
+                <a href="precursores.html" class="action-card c-publ">
+                    <div class="icon-box"><img src="images/pioneers.svg"></div>
                     <span>Precursores regulares</span>
                 </a>
-                <a href="responsabilidades.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_organization_421912.svg" alt=""></div>
+                <a href="responsabilidades.html" class="action-card c-terr">
+                    <div class="icon-box"><img src="images/noun_organization_421912.svg"></div>
                     <span>Responsabilidades</span>
                 </a>
             </div>
