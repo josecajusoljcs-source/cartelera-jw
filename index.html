@@ -1,117 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
-    <link rel="stylesheet" href="modern-style.css">
     <title>Congregación Punta Gorda</title>
-    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,600">
     <style>
+        /* --- ESTILOS GENERALES --- */
         body {
-            font-family: 'Montserrat', Helvetica;
-        }
-        
-        * {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa; /* Gris muy suave de fondo */
             margin: 0;
             padding: 0;
+            color: #333;
         }
-        
-        h1 {
-        	margin-bottom: 30px;
-        }
-        
+
         .contenido {
-            width: 97%;
-            margin: auto;
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
         }
-        
-        li {
-            margin: auto;
+
+        h1 {
+            text-align: center;
+            color: #4a148c; /* Morado elegante */
+            margin-bottom: 50px;
+            font-weight: 600;
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            border-left: 5px solid #4a148c;
+            padding-left: 15px;
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 1.4rem;
+        }
+
+        /* --- CONTENEDORES --- */
+        ul {
             list-style: none;
+            padding: 0;
+        }
+
+        .seccion-cont {
+            margin-bottom: 60px;
+        }
+
+        ul.card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* --- LAS TARJETAS (CARDS) --- */
+        .card-grid li {
             position: relative;
         }
-        
-        ul.card {
-            padding: 0px;
-            width: auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        
-        li.cont {
-            list-style: none;
-            margin-bottom: 40px;
-        }
-        
-        li a {
-            height: auto;
-            width: 250px;
+
+        .card-grid li a {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            align-content: center;
-            margin: 10px 0;
-            padding: 20px;
-            color: #FF5500;
-            background: #F4F4F4;
-            text-align: center;
+            justify-content: center;
+            background: #ffffff;
+            padding: 35px 20px;
             text-decoration: none;
+            color: #444;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #eee;
         }
-        
-        .card li {
-            height: auto;
-            position: relative;
+
+        /* EFECTO AL PASAR EL MOUSE (VIDA) */
+        .card-grid li a:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+            background-color: #4a148c; /* Fondo morado al hover */
+            color: white; /* Texto blanco al hover */
+            border-color: #4a148c;
         }
-        
-        .card li:before,
-        .card li:after {
-            z-index: -1;
-            position: absolute;
-            content: "";
-            bottom: 20px;
-            left: 4px;
-            width: 100%;
-            height: 20px;
-            top: 59%;
-            max-width: 250px;
-            background: #777;
-            box-shadow: 0 15px 10px #777;
-            transform: rotate(-7deg);
+
+        /* --- ICONOS --- */
+        .card-grid li img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
-        
-        .card li:after {
-            right: 4px;
-            left: auto;
-            transform: rotate(7deg);
+
+        /* El icono se vuelve blanco al pasar el mouse */
+        .card-grid li a:hover img {
+            filter: brightness(0) invert(1);
         }
-        
-        .card li img {
-            width: 64px;
-            height: 64px;
-            float: left;
-            margin-top: 5px;
-            margin-right: 10px;
+
+        .card-grid li span {
+            font-weight: 600;
+            font-size: 1.1rem;
+            line-height: 1.2;
         }
-        
-        .card li span {
-            float: left;
-            position: relative;
-            top: 30%;
-        }
-        
-        @media screen and (max-width: 800px) {
-            li a {
-                width: 330px;
-                flex-direction: row;
-                justify-content: flex-start;
+
+        /* --- RESPONSIVO --- */
+        @media screen and (max-width: 600px) {
+            .contenido {
+                width: 95%;
+                margin: 20px auto;
             }
-            .card li:before,
-            .card li:after {
-                top: 52%;
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .card-grid li a {
+                flex-direction: row; /* En móvil se ven como filas */
+                justify-content: flex-start;
+                padding: 20px;
+            }
+
+            .card-grid li img {
+                width: 45px;
+                height: 45px;
+                margin-bottom: 0;
+                margin-right: 20px;
             }
         }
     </style>
@@ -119,77 +133,69 @@
 
 <body>
     <div class="contenido">
-        <div>
-            <h1>Congregación Punta Gorda</h1></div>
+        <h1>Congregación Punta Gorda</h1>
+
         <ul>
-            <li class="cont">
+            <li class="seccion-cont">
                 <h2>Predicación</h2>
-                <ul class="card">
+                <ul class="card-grid">
                     <li>
                         <a target="_blank" href="predicacion.html">
-                            <img src="images/noun_schedule_1776600.svg" />
+                            <img src="images/noun_schedule_1776600.svg" alt="Calendario" />
                             <span>Grupos de predicación</span>
                         </a>
                     </li>
                     <li>
                         <a target="_blank" href="territorios/mapa.html">
-                            <img src="images/noun_map_10799.svg" />
+                            <img src="images/noun_map_10799.svg" alt="Mapa" />
                             <span>Mapa de territorios</span>
                         </a>
                     </li>
-                    <!--
-                    <li>
-                        <a target="_blank" href="exhibidores.html">
-                            <img src="images/cart.svg" style="height: 54px; margin-bottom: 10px;" />
-                            <span>Arreglos de exhibidores</span>
-                        </a>
-                    </li>
-                    -->
                 </ul>
             </li>
 
-            <li class="cont">
+            <li class="seccion-cont">
                 <h2>Reuniones</h2>
-                <ul class="card">
+                <ul class="card-grid">
                     <li>
                         <a target="_blank" href="vida-y-ministerio.html">
-                            <img src="images/noun_teach_1614348.svg" />
+                            <img src="images/noun_teach_1614348.svg" alt="Enseñanza" />
                             <span>Reunión Vida y Ministerio</span>
                         </a>
                     </li>
                     <li>
                         <a target="_blank" href="reunion-publica.html">
-                            <img src="images/noun_conference_704693.svg" />
+                            <img src="images/noun_conference_704693.svg" alt="Discurso" />
                             <span>Reunión Pública</span>
                         </a>
                     </li>
                     <li>
                         <a target="_blank" href="limpieza.html">
-                            <img src="images/noun_clean_1683608.svg" style="height: 54px; margin-bottom: 10px;" />
+                            <img src="images/noun_clean_1683608.svg" alt="Limpieza" />
                             <span>Programa de Limpieza</span>
                         </a>
                     </li>
                 </ul>
             </li>
 
-            <li class="cont">
+            <li class="seccion-cont">
                 <h2>Congregación</h2>
-                <ul class="card">
+                <ul class="card-grid">
                     <li>
                         <a target="_blank" href="publicadores.html">
-                            <img src="images/noun_people_199910.svg" />
+                            <img src="images/noun_people_199910.svg" alt="Gente" />
                             <span>Grupos de publicadores</span>
                         </a>
                     </li>
                     <li>
                         <a target="_blank" href="precursores.html">
-                            <img src="images/pioneers.svg" style="height: 54px; margin-bottom: 10px;" />
+                            <img src="images/pioneers.svg" alt="Precursores" />
                             <span>Precursores regulares</span>
                         </a>
                     </li>
                     <li>
                         <a target="_blank" href="responsabilidades.html">
-                            <img src="images/noun_organization_421912.svg" />
+                            <img src="images/noun_organization_421912.svg" alt="Organización" />
                             <span>Responsabilidades</span>
                         </a>
                     </li>
