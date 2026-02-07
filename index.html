@@ -8,9 +8,11 @@
     <style>
         :root {
             --azul-premium: #1e3a5f;
-            --azul-claro: #f4f7fa;
             --text-secundario: #8899a6;
-            --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Degradados para las tarjetas */
+            --gradient-1: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            --gradient-hover: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --transicion: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         * { 
@@ -22,10 +24,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
+            background-color: #f8f9fa;
             color: #1a1a1a;
-            line-height: 1.4;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .container {
@@ -35,40 +36,43 @@
             padding: 20px 15px 50px;
         }
 
+        /* --- CABECERA CON DEGRADADO --- */
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 45px;
             padding-top: 20px;
         }
 
         .label-digital {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             color: var(--text-secundario);
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: block;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 900;
-            color: var(--azul-premium);
-            letter-spacing: -1px;
+            background: linear-gradient(to right, #1e3a5f, #4a148c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1.5px;
         }
 
+        /* --- SECCIONES --- */
         section {
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         h2 {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--text-secundario);
-            margin-bottom: 15px;
-            padding-left: 5px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
         }
@@ -77,62 +81,78 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: #f0f0f0;
+            background: rgba(0,0,0,0.05);
             margin-left: 15px;
         }
 
         .grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 15px;
         }
 
+        /* --- TARJETAS DEGRADADAS --- */
         .action-card {
             display: flex;
             align-items: center;
-            background: var(--azul-claro);
-            padding: 20px;
+            background: var(--gradient-1);
+            padding: 22px;
             text-decoration: none;
-            border-radius: 20px;
+            border-radius: 24px;
             transition: var(--transicion);
-            border: 1px solid transparent;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
         }
 
-        .action-card:active, .action-card:hover {
-            background: #ffffff;
-            transform: scale(0.98);
-            border-color: #d1d9e6;
-            box-shadow: 0 10px 25px rgba(30, 58, 95, 0.08);
+        /* Efecto al tocar o pasar el mouse */
+        .action-card:hover, .action-card:active {
+            transform: translateY(-5px) scale(1.02);
+            background: var(--gradient-hover);
+            box-shadow: 0 15px 30px rgba(37, 117, 252, 0.2);
+            border-color: transparent;
         }
 
         .icon-box {
-            width: 50px;
-            height: 50px;
+            width: 54px;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            margin-right: 20px;
+            transition: var(--transicion);
+        }
+
+        .action-card:hover .icon-box {
             background: white;
-            border-radius: 14px;
-            margin-right: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transform: rotate(-5deg);
         }
 
         .action-card img {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
         }
 
         .action-card span {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: var(--azul-premium);
+            transition: color 0.3s ease;
         }
 
+        .action-card:hover span {
+            color: #ffffff;
+        }
+
+        /* RESPONSIVO TABLET/PC */
         @media (min-width: 768px) {
             .container { max-width: 1000px; }
             .grid { grid-template-columns: repeat(2, 1fr); }
-            h1 { font-size: 2.5rem; }
+            h1 { font-size: 2.8rem; }
         }
     </style>
 </head>
@@ -148,11 +168,11 @@
             <h2>Predicación</h2>
             <div class="grid">
                 <a href="predicacion.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_schedule_1776600.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_schedule_1776600.svg" alt=""></div>
                     <span>Grupos de predicación</span>
                 </a>
                 <a href="territorios/mapa.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_map_10799.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_map_10799.svg" alt=""></div>
                     <span>Mapa de territorios</span>
                 </a>
             </div>
@@ -162,15 +182,15 @@
             <h2>Reuniones</h2>
             <div class="grid">
                 <a href="vida-y-ministerio.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_teach_1614348.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_teach_1614348.svg" alt=""></div>
                     <span>Vida y Ministerio</span>
                 </a>
                 <a href="reunion-publica.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_conference_704693.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_conference_704693.svg" alt=""></div>
                     <span>Reunión Pública</span>
                 </a>
                 <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="action-card">
-                    <div class="icon-box"><img src="images/noun_organization_421912.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_organization_421912.svg" alt=""></div>
                     <span>Asignación Audio y Video</span>
                 </a>
             </div>
@@ -180,19 +200,19 @@
             <h2>Congregación</h2>
             <div class="grid">
                 <a href="limpieza.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_clean_1683608.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_clean_1683608.svg" alt=""></div>
                     <span>Programa de Limpieza</span>
                 </a>
                 <a href="publicadores.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_people_199910.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_people_199910.svg" alt=""></div>
                     <span>Grupos de publicadores</span>
                 </a>
                 <a href="precursores.html" class="action-card">
-                    <div class="icon-box"><img src="images/pioneers.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/pioneers.svg" alt=""></div>
                     <span>Precursores regulares</span>
                 </a>
                 <a href="responsabilidades.html" class="action-card">
-                    <div class="icon-box"><img src="images/noun_organization_421912.svg" alt="Icono"></div>
+                    <div class="icon-box"><img src="images/noun_organization_421912.svg" alt=""></div>
                     <span>Responsabilidades</span>
                 </a>
             </div>
