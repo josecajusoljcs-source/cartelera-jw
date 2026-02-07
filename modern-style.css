@@ -1,0 +1,63 @@
+/* 1. Fondo general y suavizado */
+body {
+    background-color: #f8fafc; /* Gris azulado muy tenue */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 2. Títulos de sección más elegantes */
+h1, h2 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #0f172a;
+    margin-bottom: 25px;
+    margin-top: 40px;
+}
+
+/* 3. Contenedor de las tarjetas (Grid moderno) */
+.contenedor-seccion { /* Ajusta este nombre a tu clase de contenedor */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* 4. La Tarjeta Modernizada */
+.tarjeta { /* Reemplaza '.tarjeta' por la clase que estés usando en tus cuadros */
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 5. Efecto al pasar el mouse (Hover) */
+.tarjeta:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: #ff6b00; /* Color naranja de tu diseño */
+}
+
+/* 6. Iconos y Texto */
+.tarjeta img, .tarjeta svg {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.tarjeta span { /* El texto naranja */
+    color: #ff6b00;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
