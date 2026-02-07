@@ -6,18 +6,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
-        /* --- COLORES DE LA IMAGEN --- */
         :root {
             --azul-titulo: #1e3a5f;
             --gris-label: #8899a6;
             --bg-page: #fdf2e9; 
             /* Degradados de las tarjetas */
-            --grad-predicacion: linear-gradient(90deg, #3858a8 0%, #f9d5cc 100%);
-            --grad-territorios: linear-gradient(90deg, #9b6ab3 0%, #d1f3e1 100%);
-            --grad-reuniones: linear-gradient(90deg, #d3b1d9 0%, #fbd9c8 100%);
-            --grad-publica: linear-gradient(90deg, #b79edb 0%, #d3f3e6 100%);
-            --grad-audio: linear-gradient(90deg, #2c52a0 0%, #d5f2e0 100%);
-            /* PROGRAMA DE LIMPIEZA - Intensidad suavizada */
+            --grad-predicacion: linear-gradient(90deg, #3498db 0%, #d8337a 100%);
+            --grad-territorios: linear-gradient(90deg, #9b59b6 0%, #2ecc71 100%);
+            --grad-reuniones: linear-gradient(90deg, #e67e22 0%, #f1c40f 100%);
+            --grad-publica: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+            --grad-audio: linear-gradient(90deg, #2980b9 0%, #6dd5fa 100%);
             --grad-limpieza: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
         }
 
@@ -52,11 +50,15 @@
             margin-bottom: 5px;
         }
 
+        /* --- TÍTULO CON DEGRADADO VIVO --- */
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 900;
-            color: var(--azul-titulo);
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
+            background: linear-gradient(90deg, #004e92 0%, #000428 40%, #d4145a 70%, #fbb03b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
         }
 
         h2 {
@@ -86,16 +88,15 @@
         .action-card {
             display: flex;
             align-items: center;
-            padding: 15px;
+            padding: 16px;
             text-decoration: none;
             border-radius: 20px;
-            transition: transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
 
         .action-card:active { transform: scale(0.97); }
 
-        /* Clases de degradados */
         .c-pred { background: var(--grad-predicacion); }
         .c-terr { background: var(--grad-territorios); }
         .c-reun { background: var(--grad-reuniones); }
@@ -104,27 +105,29 @@
         .c-limp { background: var(--grad-limpieza); }
 
         .icon-box {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 14px;
+            width: 54px;
+            height: 54px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 20px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .action-card img {
-            width: 26px;
-            height: 26px;
-            filter: brightness(0) invert(1);
+            width: 32px;
+            height: 32px;
+            /* El filtro blanco hace que se vean más limpios y "realistas" sobre color */
+            filter: brightness(0) invert(1); 
         }
 
         .action-card span {
             font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--azul-titulo);
+            font-size: 1.15rem;
+            color: #1a1a1a; /* Texto oscuro para máxima legibilidad */
         }
 
         @media (min-width: 768px) {
@@ -162,7 +165,7 @@
                     <div class="icon-box"><img src="images/noun_teach_1614348.svg"></div>
                     <span>Vida y Ministerio</span>
                 </a>
-                <a href="reunion-publica.html" class="action-card c-publ">
+                <a href="reunion-publica.html" class="action-card c-reun">
                     <div class="icon-box"><img src="images/noun_conference_704693.svg"></div>
                     <span>Reunión Pública</span>
                 </a>
@@ -184,7 +187,7 @@
                     <div class="icon-box"><img src="images/noun_people_199910.svg"></div>
                     <span>Grupos de publicadores</span>
                 </a>
-                <a href="precursores.html" class="action-card c-publ">
+                <a href="precursores.html" class="action-card c-pred">
                     <div class="icon-box"><img src="images/pioneers.svg"></div>
                     <span>Precursores regulares</span>
                 </a>
