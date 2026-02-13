@@ -7,132 +7,102 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
         :root {
-            --azul-titulo: #1e3a5f;
-            --gris-label: #8899a6;
-            --bg-page: #fdf2e9; 
-            /* Degradados de las tarjetas */
-            --grad-predicacion: linear-gradient(90deg, #3498db 0%, #d8337a 100%);
-            --grad-territorios: linear-gradient(90deg, #9b59b6 0%, #2ecc71 100%);
-            --grad-reuniones: linear-gradient(90deg, #e67e22 0%, #f1c40f 100%);
-            --grad-publica: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
-            --grad-audio: linear-gradient(90deg, #2980b9 0%, #6dd5fa 100%);
-            --grad-limpieza: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
+            --azul-premium: #1e3a5f;
+            --bg-page: #f4f7fa;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-page);
-            color: #333;
-            min-height: 100vh;
+            color: #1a1a1a;
+            padding-bottom: 50px;
         }
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 30px 15px;
+            padding: 20px 15px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            padding: 20px 0;
         }
 
-        .cartelera-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--gris-label);
-            font-weight: 700;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* --- TÍTULO CON DEGRADADO VIVO --- */
         h1 {
-            font-size: 2.3rem;
+            font-size: 2rem;
             font-weight: 900;
-            letter-spacing: -1.5px;
-            background: linear-gradient(90deg, #004e92 0%, #000428 40%, #d4145a 70%, #fbb03b 100%);
+            background: linear-gradient(90deg, #004e92, #d4145a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: inline-block;
+            margin-top: 5px;
         }
+
+        section { margin-bottom: 25px; }
 
         h2 {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--gris-label);
-            margin: 30px 0 15px;
-            display: flex;
-            align-items: center;
+            color: #666;
+            margin-bottom: 15px;
+            padding-left: 5px;
         }
 
-        h2::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: rgba(0,0,0,0.1);
-            margin-left: 15px;
-        }
-
+        /* --- ESTILO DE TARJETAS TIPO JW.ORG --- */
         .grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 15px;
         }
 
-        .action-card {
-            display: flex;
-            align-items: center;
-            padding: 16px;
+        .image-card {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
             text-decoration: none;
-            border-radius: 20px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
         }
 
-        .action-card:active { transform: scale(0.97); }
+        .image-card:active { transform: scale(0.98); }
 
-        .c-pred { background: var(--grad-predicacion); }
-        .c-terr { background: var(--grad-territorios); }
-        .c-reun { background: var(--grad-reuniones); }
-        .c-publ { background: var(--grad-publica); }
-        .c-audi { background: var(--grad-audio); }
-        .c-limp { background: var(--grad-limpieza); }
-
-        .icon-box {
-            width: 54px;
-            height: 54px;
-            background: rgba(255,255,255,0.25);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.3);
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
         }
 
-        .action-card img {
-            width: 32px;
-            height: 32px;
-            /* El filtro blanco hace que se vean más limpios y "realistas" sobre color */
-            filter: brightness(0) invert(1); 
+        /* Capa oscura para que el texto se lea bien */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%);
         }
 
-        .action-card span {
+        .card-title {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            color: white;
+            font-size: 1.2rem;
             font-weight: 700;
-            font-size: 1.15rem;
-            color: #1a1a1a; /* Texto oscuro para máxima legibilidad */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         @media (min-width: 768px) {
+            .container { max-width: 900px; }
             .grid { grid-template-columns: repeat(2, 1fr); }
-            .container { max-width: 1000px; }
+            h1 { font-size: 2.8rem; }
         }
     </style>
 </head>
@@ -140,20 +110,22 @@
 
     <div class="container">
         <header>
-            <span class="cartelera-label">Cartelera Digital</span>
+            <span style="font-size: 0.7rem; letter-spacing: 3px; color: #8899a6; text-transform: uppercase;">Cartelera Digital</span>
             <h1>Congregación Punta Gorda</h1>
         </header>
 
         <section>
             <h2>Predicación</h2>
             <div class="grid">
-                <a href="predicacion.html" class="action-card c-pred">
-                    <div class="icon-box"><img src="images/noun_schedule_1776600.svg"></div>
-                    <span>Grupos de predicación</span>
+                <a href="predicacion.html" class="image-card">
+                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1516733729417-3073040c5e94?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="overlay"></div>
+                    <span class="card-title">Grupos de predicación</span>
                 </a>
-                <a href="territorios/mapa.html" class="action-card c-terr">
-                    <div class="icon-box"><img src="images/noun_map_10799.svg"></div>
-                    <span>Mapa de territorios</span>
+                <a href="territorios/mapa.html" class="image-card">
+                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="overlay"></div>
+                    <span class="card-title">Mapa de territorios</span>
                 </a>
             </div>
         </section>
@@ -161,17 +133,15 @@
         <section>
             <h2>Reuniones</h2>
             <div class="grid">
-                <a href="vida-y-ministerio.html" class="action-card c-reun">
-                    <div class="icon-box"><img src="images/noun_teach_1614348.svg"></div>
-                    <span>Vida y Ministerio</span>
+                <a href="vida-y-ministerio.html" class="image-card">
+                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="overlay"></div>
+                    <span class="card-title">Vida y Ministerio</span>
                 </a>
-                <a href="reunion-publica.html" class="action-card c-reun">
-                    <div class="icon-box"><img src="images/noun_conference_704693.svg"></div>
-                    <span>Reunión Pública</span>
-                </a>
-                <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="action-card c-audi">
-                    <div class="icon-box"><img src="images/noun_organization_421912.svg"></div>
-                    <span>Asignación Audio y Video</span>
+                <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="image-card">
+                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="overlay"></div>
+                    <span class="card-title">Asignación Audio y Video</span>
                 </a>
             </div>
         </section>
@@ -179,21 +149,15 @@
         <section>
             <h2>Congregación</h2>
             <div class="grid">
-                <a href="limpieza.html" class="action-card c-limp">
-                    <div class="icon-box"><img src="images/noun_clean_1683608.svg"></div>
-                    <span>Programa de Limpieza</span>
+                <a href="limpieza.html" class="image-card">
+                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="overlay"></div>
+                    <span class="card-title">Programa de Limpieza</span>
                 </a>
-                <a href="publicadores.html" class="action-card c-reun">
-                    <div class="icon-box"><img src="images/noun_people_199910.svg"></div>
-                    <span>Grupos de publicadores</span>
-                </a>
-                <a href="precursores.html" class="action-card c-pred">
-                    <div class="icon-box"><img src="images/pioneers.svg"></div>
-                    <span>Precursores regulares</span>
-                </a>
-                <a href="responsabilidades.html" class="action-card c-terr">
-                    <div class="icon-box"><img src="images/noun_organization_421912.svg"></div>
-                    <span>Responsabilidades</span>
+                <a href="publicadores.html" class="image-card">
+                    <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="overlay"></div>
+                    <span class="card-title">Grupos de publicadores</span>
                 </a>
             </div>
         </section>
