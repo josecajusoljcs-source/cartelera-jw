@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
         :root {
-            /* Degradado azul elegante y sobrio */
-            --bg-gradient: linear-gradient(180deg, #dce8f2 0%, #f4f7fa 100%);
+            /* Degradado azul más definido pero elegante */
+            --bg-gradient: linear-gradient(180deg, #cfddec 0%, #eef2f7 100%);
             --azul-premium: #1e3a5f;
         }
 
@@ -38,8 +38,7 @@
             font-size: 2.2rem;
             font-weight: 900;
             color: var(--azul-premium);
-            letter-spacing: -1.5px;
-            margin-top: 10px;
+            letter-spacing: -1px;
         }
 
         section { margin-bottom: 35px; }
@@ -48,7 +47,7 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2.5px;
-            color: #546e7a;
+            color: #455a64;
             margin-bottom: 18px;
             font-weight: 700;
             display: flex;
@@ -59,7 +58,7 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: rgba(30, 58, 95, 0.1);
+            background: rgba(30, 58, 95, 0.2);
             margin-left: 15px;
         }
 
@@ -73,16 +72,15 @@
             position: relative;
             display: block;
             width: 100%;
-            height: 170px;
-            border-radius: 14px;
+            height: 180px;
+            border-radius: 12px;
             overflow: hidden;
             text-decoration: none;
-            box-shadow: 0 10px 25px rgba(30, 58, 95, 0.15);
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 20px rgba(30, 58, 95, 0.15);
+            transition: transform 0.2s ease;
         }
 
-        .image-card:active { transform: scale(0.97); }
+        .image-card:active { transform: scale(0.98); }
 
         .card-bg {
             position: absolute;
@@ -94,24 +92,22 @@
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(30, 58, 95, 0.9) 0%, rgba(30, 58, 95, 0.2) 70%);
+            background: linear-gradient(to top, rgba(30, 58, 95, 0.8) 0%, rgba(30, 58, 95, 0.1) 60%);
         }
 
         .card-title {
             position: absolute;
             bottom: 20px;
             left: 20px;
-            right: 20px;
             color: white;
             font-size: 1.25rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         @media (min-width: 768px) {
             .container { max-width: 950px; }
             .grid { grid-template-columns: repeat(2, 1fr); }
-            h1 { font-size: 3rem; }
         }
     </style>
 </head>
@@ -119,7 +115,7 @@
 
     <div class="container">
         <header>
-            <span style="font-size: 0.75rem; letter-spacing: 4px; color: #546e7a; text-transform: uppercase; font-weight: 700;">Cartelera Digital</span>
+            <span style="font-size: 0.7rem; letter-spacing: 4px; color: #546e7a; text-transform: uppercase; font-weight: 700;">Cartelera Digital</span>
             <h1>Congregación Punta Gorda</h1>
         </header>
 
@@ -127,12 +123,12 @@
             <h2>Predicación</h2>
             <div class="grid">
                 <a href="predicacion.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1516733729417-3073040c5e94?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_897cd8.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Grupos de predicación</span>
                 </a>
                 <a href="territorios/mapa.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_88a31d.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Mapa de territorios</span>
                 </a>
@@ -143,17 +139,17 @@
             <h2>Reuniones</h2>
             <div class="grid">
                 <a href="vida-y-ministerio.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_898834.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Vida y Ministerio</span>
                 </a>
                 <a href="reunion-publica.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1507434965515-61970f2bd7c6?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_898c13.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Reunión Pública</span>
                 </a>
                 <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_89e5b6.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Asignación Audio y Video</span>
                 </a>
@@ -164,22 +160,22 @@
             <h2>Congregación</h2>
             <div class="grid">
                 <a href="limpieza.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_8992a3.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Programa de Limpieza</span>
                 </a>
                 <a href="publicadores.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_89e975.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Grupos de publicadores</span>
                 </a>
                 <a href="precursores.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_89e975.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Precursores regulares</span>
                 </a>
                 <a href="responsabilidades.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1454165833767-027ffea7028c?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="card-bg" style="background-image: url('image_93f4c5.jpg');"></div>
                     <div class="overlay"></div>
                     <span class="card-title">Responsabilidades</span>
                 </a>
