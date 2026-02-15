@@ -4,143 +4,81 @@
     <title>Cartelera Digital - Punta Gorda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
         :root {
-            /* Colores oficiales JW.ORG */
-            --bg-site: #f0f2f5; /* Gris muy claro de fondo */
-            --azul-marino: #1e3a5f;
-            --texto-oscuro: #333333;
-            --blanco: #ffffff;
-            --borde: #d1d5db;
+            --bg-site: #f0f2f5;
+            --azul-jw: #1e3a5f;
+            --texto: #333333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-site);
-            color: var(--texto-oscuro);
-            padding-bottom: 60px;
+            color: var(--texto);
+            padding: 15px 10px 80px; /* Espacio extra abajo para el pulgar */
         }
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px 15px;
+        .container { width: 100%; max-width: 500px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 25px; padding: 10px 0; }
+        h1 { font-size: 1.8rem; font-weight: 800; color: var(--azul-jw); }
+
+        section { margin-bottom: 30px; }
+        h2 { 
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; 
+            color: #666; margin-bottom: 12px; border-bottom: 1px solid #d1d5db; padding-bottom: 5px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--azul-marino);
-            letter-spacing: -1px;
-        }
-
-        .pill-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 12px;
-            background: var(--azul-marino);
-            border-radius: 4px;
-            font-size: 0.7rem;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        section { margin-bottom: 40px; }
-
-        h2 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #666;
-            margin-bottom: 15px;
-            font-weight: 700;
-            border-bottom: 1px solid var(--borde);
-            padding-bottom: 8px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
         .image-card {
             position: relative;
             display: block;
             width: 100%;
-            height: 180px;
+            height: 140px; /* Altura ideal para ver 2 o 3 tarjetas a la vez en pantalla */
             border-radius: 12px;
             overflow: hidden;
             text-decoration: none;
-            background: var(--blanco);
-            border: 1px solid var(--borde);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 1px solid #d1d5db;
         }
 
-        .image-card:active { transform: scale(0.98); }
+        /* Efecto visual al tocar (Feedback táctil) */
+        .image-card:active { transform: scale(0.98); filter: brightness(0.9); }
 
         .card-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
         }
 
-        /* Overlay más suave para que la foto se vea clara arriba */
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 50%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 60%);
         }
 
         .card-content {
             position: absolute;
-            bottom: 15px;
-            left: 15px;
-            right: 15px;
+            bottom: 15px; left: 15px; right: 15px;
         }
 
         .card-title {
-            display: block;
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            display: block; color: #fff; font-size: 1.25rem; font-weight: 700;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8); /* Sombra para legibilidad */
         }
 
         .card-subtitle {
-            display: block;
-            color: rgba(255,255,255,0.9);
-            font-size: 0.85rem;
-            font-weight: 400;
-        }
-
-        @media (min-width: 600px) {
-            .grid { grid-template-columns: repeat(2, 1fr); }
-            .image-card { height: 200px; }
+            display: block; color: rgba(255,255,255,0.95); font-size: 0.85rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <header>
-            <div class="pill-status">Cartelera Punta Gorda</div>
-            <h1>Congregación Punta Gorda</h1>
-        </header>
+        <header><h1>Punta Gorda</h1></header>
 
         <section>
             <h2>Predicación</h2>
@@ -158,7 +96,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Mapa de Territorios</span>
-                        <span class="card-subtitle">Consultar límites y zonas</span>
+                        <span class="card-subtitle">Límites y zonas</span>
                     </div>
                 </a>
             </div>
@@ -172,7 +110,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Vida y Ministerio</span>
-                        <span class="card-subtitle">Asignaciones de entre semana</span>
+                        <span class="card-subtitle">Asignaciones entre semana</span>
                     </div>
                 </a>
                 <a href="reunion-publica.html" class="image-card">
@@ -180,7 +118,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Reunión Pública</span>
-                        <span class="card-subtitle">Discursos y estudio de Atalaya</span>
+                        <span class="card-subtitle">Discursos y Atalaya</span>
                     </div>
                 </a>
                 <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="image-card">
@@ -188,7 +126,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Audio y Video</span>
-                        <span class="card-subtitle">Consultar recordatorios</span>
+                        <span class="card-subtitle">Recordatorios del sistema</span>
                     </div>
                 </a>
             </div>
@@ -226,12 +164,11 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Responsabilidades</span>
-                        <span class="card-subtitle">Asignaciones de servicio</span>
+                        <span class="card-subtitle">Tareas de servicio</span>
                     </div>
                 </a>
             </div>
         </section>
     </div>
-
 </body>
 </html>
