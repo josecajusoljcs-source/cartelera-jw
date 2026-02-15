@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
         :root {
-            /* 1. DEGRADADO SUAVE: Inspirado en la cabecera de JW.ORG */
-            --bg-gradient: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            --dorado-jw: #facc15;
-            --azul-celeste: #38bdf8;
+            /* DEGRADADO AZUL SUAVE PROFESIONAL */
+            --bg-gradient: linear-gradient(180deg, #101827 0%, #1e293b 100%);
+            --dorado: #facc15;
+            --celeste: #38bdf8;
             --blanco: #f9fafb;
         }
 
@@ -21,19 +21,19 @@
             background: var(--bg-gradient);
             background-attachment: fixed;
             color: var(--blanco);
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 850px;
             margin: 0 auto;
-            padding: 25px 15px;
+            padding: 30px 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         .pill-bar {
@@ -44,24 +44,19 @@
             background: rgba(15, 23, 42, 0.7);
             border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 999px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             margin-bottom: 12px;
         }
 
         .pill-dot {
-            width: 7px; height: 7px; border-radius: 50%;
+            width: 8px; height: 8px; border-radius: 50%;
             background: #22c55e; box-shadow: 0 0 10px #22c55e;
         }
 
-        h1 {
-            font-size: clamp(1.8rem, 5vw, 2.4rem);
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: -1px;
-        }
+        h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
 
         section { margin-bottom: 40px; }
 
@@ -69,38 +64,28 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: var(--azul-celeste);
-            margin-bottom: 18px;
+            color: var(--celeste);
+            margin-bottom: 20px;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
         }
 
-        h2::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-        }
+        h2::after { content: ""; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
 
-        /* 2. TARJETAS CON IMÁGENES: Estilo JW.ORG */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 18px;
-        }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
 
         .image-card {
             position: relative;
             display: block;
             width: 100%;
-            height: 175px;
-            border-radius: 16px;
+            height: 180px;
+            border-radius: 18px;
             overflow: hidden;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             transition: transform 0.2s ease;
         }
 
@@ -111,13 +96,13 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
+            filter: brightness(0.8);
         }
 
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* El degradado permite leer el texto claramente */
-            background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.1) 80%);
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.2) 75%);
         }
 
         .card-content {
@@ -129,11 +114,10 @@
 
         .card-title {
             display: block;
-            color: var(--dorado-jw);
-            font-size: 1.4rem;
+            color: var(--dorado);
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 3px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 4px;
         }
 
         .card-subtitle {
@@ -144,10 +128,7 @@
             opacity: 0.85;
         }
 
-        @media (min-width: 680px) {
-            .grid { grid-template-columns: repeat(2, 1fr); }
-            .image-card { height: 190px; }
-        }
+        @media (min-width: 650px) { .grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
@@ -165,7 +146,7 @@
             <h2>Predicación</h2>
             <div class="grid">
                 <a href="predicacion.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://assets.jw.org/images/es/noticias/region/peru/Campañade-predicación-durante-los-Juegos-Panamericanos-de-Perú/Campañade-predicación-durante-los-Juegos-Panamericanos-de-Perú_02.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/predicacion.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Grupos de Predicación</span>
@@ -173,7 +154,7 @@
                     </div>
                 </a>
                 <a href="territorios/mapa.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://assets.jw.org/images/es/preguntas-frecuentes/testigos-de-jehova-predicacion/testigos-de-jehova-predicacion_01.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/territorios.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Mapa de Territorios</span>
@@ -187,7 +168,7 @@
             <h2>Reuniones</h2>
             <div class="grid">
                 <a href="vida-y-ministerio.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://assets.jw.org/images/es/preguntas-frecuentes/organizacion-congregaciones/organizacion-congregaciones_02.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/reunion_semana.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Vida y Ministerio</span>
@@ -195,7 +176,7 @@
                     </div>
                 </a>
                 <a href="reunion-publica.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://assets.jw.org/images/es/preguntas-frecuentes/reuniones-salon-del-reino/reuniones-salon-del-reino_01.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/reunion_publica.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Reunión Pública</span>
@@ -203,11 +184,11 @@
                     </div>
                 </a>
                 <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://cms-img.jw-cdn.org/img/p/502500226/univ/art/502500226_univ_lsr_xl.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/audio_video.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Audio y Video</span>
-                        <span class="card-subtitle">Consultar recordatorios de sistema</span>
+                        <span class="card-subtitle">Recordatorios del sistema</span>
                     </div>
                 </a>
             </div>
@@ -217,35 +198,35 @@
             <h2>Congregación</h2>
             <div class="grid">
                 <a href="limpieza.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://cms-img.jw-cdn.org/img/p/502500220/univ/art/502500220_univ_cnt_5_xl.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/limpieza.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Programa de Limpieza</span>
-                        <span class="card-subtitle">Mantenimiento del Salón del Reino</span>
+                        <span class="card-subtitle">Mantenimiento del Salón</span>
                     </div>
                 </a>
                 <a href="publicadores.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://assets.jw.org/images/es/preguntas-frecuentes/organizacion-congregaciones/organizacion-congregaciones_01.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/publicadores.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Grupos de Publicadores</span>
-                        <span class="card-subtitle">Información organizada por grupos</span>
+                        <span class="card-subtitle">Información por grupos</span>
                     </div>
                 </a>
                 <a href="precursores.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://cms-img.jw-cdn.org/img/p/2016845/univ/art/2016845_univ_cnt_2_xl.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/precursores.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Precursores Regulares</span>
-                        <span class="card-subtitle">Lista y actividades de precursores</span>
+                        <span class="card-subtitle">Lista y actividades</span>
                     </div>
                 </a>
                 <a href="responsabilidades.html" class="image-card">
-                    <div class="card-bg" style="background-image: url('https://assets.jw.org/images/es/biblioteca/folletos/voluntad-de-Jehova/qué-es-betel/qué-es-betel_02.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('images/responsabilidades.jpg');"></div>
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Responsabilidades</span>
-                        <span class="card-subtitle">Asignaciones y tareas de servicio</span>
+                        <span class="card-subtitle">Tareas de servicio</span>
                     </div>
                 </a>
             </div>
