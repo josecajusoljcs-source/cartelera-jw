@@ -7,138 +7,138 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap">
     <style>
         :root {
-            /* DEGRADADO AZUL SUAVE PROFESIONAL */
-            --bg-gradient: linear-gradient(180deg, #101827 0%, #1e293b 100%);
-            --dorado: #facc15;
-            --celeste: #38bdf8;
-            --blanco: #f9fafb;
+            /* Colores oficiales JW.ORG */
+            --bg-site: #f0f2f5; /* Gris muy claro de fondo */
+            --azul-marino: #1e3a5f;
+            --texto-oscuro: #333333;
+            --blanco: #ffffff;
+            --borde: #d1d5db;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--blanco);
+            background-color: var(--bg-site);
+            color: var(--texto-oscuro);
             padding-bottom: 60px;
         }
 
         .container {
             width: 100%;
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 30px 15px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
-        .pill-bar {
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--azul-marino);
+            letter-spacing: -1px;
+        }
+
+        .pill-status {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 16px;
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 999px;
-            font-size: 0.75rem;
-            color: #9ca3af;
+            padding: 4px 12px;
+            background: var(--azul-marino);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
-
-        .pill-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: #22c55e; box-shadow: 0 0 10px #22c55e;
-        }
-
-        h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
 
         section { margin-bottom: 40px; }
 
         h2 {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--celeste);
-            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 15px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            border-bottom: 1px solid var(--borde);
+            padding-bottom: 8px;
         }
 
-        h2::after { content: ""; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
-
-        .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
 
         .image-card {
             position: relative;
             display: block;
             width: 100%;
             height: 180px;
-            border-radius: 18px;
+            border-radius: 12px;
             overflow: hidden;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: transform 0.2s ease;
         }
 
-        .image-card:active { transform: scale(0.97); }
+        .image-card:active { transform: scale(0.98); }
 
         .card-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
-            filter: brightness(0.8);
         }
 
+        /* Overlay más suave para que la foto se vea clara arriba */
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.2) 75%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 50%);
         }
 
         .card-content {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
         }
 
         .card-title {
             display: block;
-            color: var(--dorado);
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 4px;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         .card-subtitle {
             display: block;
-            color: #fff;
-            font-size: 0.9rem;
-            font-weight: 500;
-            opacity: 0.85;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.85rem;
+            font-weight: 400;
         }
 
-        @media (min-width: 650px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 600px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .image-card { height: 200px; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <div class="pill-bar">
-                <span class="pill-dot"></span>
-                <span>Cartelera Punta Gorda</span>
-            </div>
+            <div class="pill-status">Cartelera Punta Gorda</div>
             <h1>Congregación Punta Gorda</h1>
         </header>
 
@@ -180,7 +180,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Reunión Pública</span>
-                        <span class="card-subtitle">Discursos y Estudio de La Atalaya</span>
+                        <span class="card-subtitle">Discursos y estudio de Atalaya</span>
                     </div>
                 </a>
                 <a target="_blank" href="https://josecajusoljcs-source.github.io/cartelera/" class="image-card">
@@ -188,7 +188,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Audio y Video</span>
-                        <span class="card-subtitle">Recordatorios del sistema</span>
+                        <span class="card-subtitle">Consultar recordatorios</span>
                     </div>
                 </a>
             </div>
@@ -226,7 +226,7 @@
                     <div class="overlay"></div>
                     <div class="card-content">
                         <span class="card-title">Responsabilidades</span>
-                        <span class="card-subtitle">Tareas de servicio</span>
+                        <span class="card-subtitle">Asignaciones de servicio</span>
                     </div>
                 </a>
             </div>
