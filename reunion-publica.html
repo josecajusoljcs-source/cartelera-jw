@@ -1,19 +1,949 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <title>Reunión Pública</title>
-      <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-      <style>
-        iframe {
-            display: block;       /* iframes are inline by default */
-            border: none;         /* Reset default border */
-            height: 100vh;        /* Viewport-relative units */
-            width: 100vw;
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reunión Pública</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f6f4ef;
+      --paper:#ffffff;
+      --text:#171717;
+      --muted:#6f6f6f;
+      --line:rgba(0,0,0,.10);
+
+      --jw-beige:#efe0a1;
+      --jw-black:#111111;
+      --jw-gray:#4b4b4b;
+      --jw-blue:#5f6f86;
+      --jw-blue-soft:#e8edf3;
+      --jw-wine:#8c1d40;
+
+      --shadow-card:0 6px 16px rgba(0,0,0,.04);
+      --radius-xl:18px;
+      --radius-lg:14px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html, body{
+      width:100%;
+      max-width:100%;
+      overflow-x:hidden;
+    }
+
+    body{
+      min-height:100vh;
+      background:
+        linear-gradient(180deg, rgba(239,224,161,.22), transparent 150px),
+        linear-gradient(180deg, #fbfaf6, var(--bg));
+      color:var(--text);
+      padding:1rem;
+      display:flex;
+      justify-content:center;
+    }
+
+    .page{
+      width:100%;
+      max-width:980px;
+      margin:0 auto;
+    }
+
+    header{
+      text-align:center;
+      margin-bottom:1rem;
+      padding-top:.3rem;
+    }
+
+    header h1{
+      font-size:clamp(1.8rem, 4.8vw, 2.4rem);
+      line-height:1.12;
+      font-weight:800;
+      letter-spacing:-.02em;
+      color:#111;
+      margin-bottom:.18rem;
+    }
+
+    .subhead{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.7rem;
+      align-items:end;
+      justify-content:space-between;
+      margin-bottom:.75rem;
+      width:100%;
+    }
+
+    .controls-left,
+    .controls-right{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+      align-items:center;
+      max-width:100%;
+    }
+
+    .select-wrapper{
+      width:100%;
+      max-width:260px;
+    }
+
+    .select-label{
+      font-size:.74rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--jw-gray);
+      margin-bottom:.34rem;
+      font-weight:800;
+    }
+
+    select{
+      width:100%;
+      border-radius:999px;
+      padding:.56rem .95rem;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:var(--text);
+      font-size:.92rem;
+      outline:none;
+      appearance:auto;
+    }
+
+    .toggle-btn{
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:var(--muted);
+      font-size:.78rem;
+      padding:.38rem .9rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      transition:.16s ease;
+      font-weight:700;
+    }
+
+    .toggle-btn.active{
+      border-color:rgba(95,111,134,.35);
+      color:#111;
+      background:#f5f7fa;
+    }
+
+    .toggle-dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:rgba(107,107,107,.7);
+    }
+
+    .toggle-btn.active .toggle-dot{
+      background:var(--jw-blue);
+      box-shadow:0 0 8px rgba(95,111,134,.35);
+    }
+
+    .view-tabs{
+      display:inline-flex;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      overflow:hidden;
+      max-width:100%;
+    }
+
+    .view-tab{
+      padding:.4rem .9rem;
+      font-size:.79rem;
+      color:var(--muted);
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      white-space:nowrap;
+      font-weight:700;
+    }
+
+    .view-tab.active{
+      background:var(--jw-blue);
+      color:#fff;
+    }
+
+    .shell{
+      background:linear-gradient(180deg, #fffefb, #ffffff);
+      border-radius:var(--radius-xl);
+      border:1px solid var(--line);
+      position:relative;
+      overflow:hidden;
+      width:100%;
+    }
+
+    .shell::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:18px;
+      background:linear-gradient(90deg, var(--jw-beige), #cdbb79 40%, var(--jw-blue));
+    }
+
+    .shell-inner{
+      position:relative;
+      z-index:1;
+      padding:1.1rem 1rem 1rem;
+      margin-top:.35rem;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.75rem;
+      margin-bottom:.8rem;
+      padding-top:.1rem;
+      flex-wrap:wrap;
+    }
+
+    .section-head h2{
+      font-size:.98rem;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      color:var(--jw-blue);
+      font-weight:800;
+    }
+
+    .section-head span{
+      font-size:.86rem;
+      color:var(--jw-blue);
+      padding:.26rem .92rem;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      font-weight:700;
+    }
+
+    .view-message{
+      font-size:.86rem;
+      color:var(--muted);
+      margin-bottom:.5rem;
+      padding-left:.1rem;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      gap:.95rem;
+      max-height:calc(100vh - 220px);
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding-right:.15rem;
+      width:100%;
+    }
+
+    .cards::-webkit-scrollbar{ width:6px; }
+    .cards::-webkit-scrollbar-track{
+      background:#ecebe7;
+      border-radius:999px;
+    }
+    .cards::-webkit-scrollbar-thumb{
+      background:#c8c4bb;
+      border-radius:999px;
+    }
+
+    .meeting-card{
+      background:linear-gradient(180deg, #ffffff, #fcfcfa);
+      border-radius:var(--radius-lg);
+      border:1px solid var(--line);
+      overflow:hidden;
+      box-shadow:var(--shadow-card);
+      width:100%;
+    }
+
+    .meeting-card.destacada{
+      border-color:rgba(95,111,134,.30);
+      background:linear-gradient(180deg, #fafcff, #ffffff);
+      box-shadow:
+        0 0 0 1px rgba(95,111,134,.10),
+        0 10px 24px rgba(0,0,0,.05);
+      position:relative;
+    }
+
+    .meeting-card.destacada::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:4px;
+      background:linear-gradient(90deg, var(--jw-blue), var(--jw-beige));
+      z-index:2;
+    }
+
+    .meeting-title{
+      background:linear-gradient(180deg, #eef2f7 0%, var(--jw-blue-soft) 100%);
+      color:#1f2c3a;
+      font-weight:800;
+      font-size:clamp(1.2rem, 3.3vw, 1.85rem);
+      line-height:1.16;
+      padding:14px 16px;
+      word-break:break-word;
+      box-shadow:inset 0 -1px 0 rgba(0,0,0,.04);
+    }
+
+    .meeting-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.42rem;
+      padding:10px 16px 6px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.38rem;
+      padding:.28rem .82rem;
+      border-radius:999px;
+      background:#f7f7f7;
+      border:1px solid rgba(0,0,0,.10);
+      font-size:.76rem;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .badge-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--jw-blue);
+    }
+
+    .badge-hoy{
+      border-color:rgba(34,197,94,.30);
+      color:#166534;
+      background:rgba(34,197,94,.10);
+    }
+
+    .badge-hoy .badge-dot{
+      background:#22c55e;
+      box-shadow:0 0 8px rgba(34,197,94,.3);
+    }
+
+    .meeting-body{
+      display:grid;
+      grid-template-columns:minmax(0, 1.05fr) minmax(0, 1.65fr);
+      gap:.75rem 1rem;
+      padding:12px 16px 16px;
+      align-items:start;
+    }
+
+    .info-side{
+      display:flex;
+      flex-direction:column;
+      gap:.45rem;
+    }
+
+    .meeting-label{
+      font-size:.74rem;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .meeting-day{
+      font-size:1.08rem;
+      font-weight:800;
+      line-height:1.2;
+      color:#111;
+    }
+
+    .meeting-link{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:var(--jw-wine);
+      text-decoration:underline;
+      font-size:clamp(.94rem, 2vw, 1.04rem);
+      word-break:break-word;
+      cursor:pointer;
+      margin-top:.2rem;
+    }
+
+    .meeting-link::before{
+      content:"◉";
+      color:var(--jw-wine);
+      font-size:.9em;
+      flex:none;
+    }
+
+    .details-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:.55rem .65rem;
+    }
+
+    .detail-group{
+      display:flex;
+      flex-direction:column;
+      gap:.08rem;
+      background:#fcfcfb;
+      border:1px solid rgba(0,0,0,.07);
+      border-radius:10px;
+      padding:.5rem .58rem;
+    }
+
+    .detail-label{
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--muted);
+      position:relative;
+      padding-left:.9rem;
+      font-weight:800;
+      line-height:1.15;
+    }
+
+    .detail-label::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:50%;
+      transform:translateY(-50%);
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--jw-blue);
+    }
+
+    .detail-label.label-presidente::before { background:#2c7fb8; }
+    .detail-label.label-orador::before { background:#7c5cc4; }
+    .detail-label.label-tema::before { background:#c89b00; }
+    .detail-label.label-lector::before { background:#3aa35c; }
+
+    .detail-value{
+      font-size:.95rem;
+      color:#1f1f1f;
+      white-space:normal;
+      font-weight:500;
+      line-height:1.25;
+    }
+
+    .load-more-wrap{
+      display:flex;
+      justify-content:center;
+      padding:10px 0 0;
+    }
+
+    .load-more{
+      border:none;
+      background:#111;
+      color:#fff;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:1rem;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
+    }
+
+    .empty-msg{
+      font-size:.95rem;
+      color:var(--muted);
+      padding-top:.5rem;
+    }
+
+    body.modo-texto-grande .meeting-title{ font-size:clamp(1.28rem, 3.5vw, 1.98rem); }
+    body.modo-texto-grande .meeting-day{ font-size:1.15rem; }
+    body.modo-texto-grande .detail-value{ font-size:1rem; }
+
+    @media (max-width: 700px){
+      body{
+        padding:.8rem .4rem 1rem;
+      }
+
+      header h1{
+        font-size:1.58rem;
+        line-height:1.16;
+      }
+
+      .shell-inner{
+        padding:1rem .8rem .9rem;
+      }
+
+      .cards{
+        max-height:none;
+        overflow-y:visible;
+      }
+
+      .controls{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .controls-right{
+        justify-content:flex-start;
+      }
+
+      .section-head{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .meeting-body{
+        grid-template-columns:minmax(0, 1fr);
+        padding:12px 12px 14px;
+      }
+
+      .meeting-title,
+      .meeting-meta{
+        padding-left:12px;
+        padding-right:12px;
+      }
+
+      .details-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Reunión Pública</h1>
+      <div class="subhead">Programa semanal de la congregación</div>
+    </header>
+
+    <section class="controls">
+      <div class="controls-left">
+        <div class="select-wrapper">
+          <div class="select-label">Mes / año</div>
+          <select id="monthYearSelect"></select>
+        </div>
+      </div>
+
+      <div class="controls-right">
+        <div class="view-tabs" aria-label="Ver">
+          <button class="view-tab active" data-view="mes">Mes</button>
+          <button class="view-tab" data-view="semana">Semana</button>
+          <button class="view-tab" data-view="hoy">Hoy</button>
+        </div>
+
+        <button class="toggle-btn" id="btn-texto-grande"><span class="toggle-dot"></span>Letra grande</button>
+        <button class="toggle-btn" id="btn-alto-contraste"><span class="toggle-dot"></span>Más contraste</button>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="shell-inner">
+        <div class="section-head">
+          <h2>Programa de reuniones</h2>
+          <span id="count-resumen">Cargando…</span>
+        </div>
+
+        <p id="view-message" class="view-message"></p>
+
+        <div id="cards" class="cards"></div>
+
+        <div class="load-more-wrap">
+          <button id="loadMoreBtn" class="load-more" style="display:none;">Ver más reuniones</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const SHEET_ID = "184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo";
+    const GID = "1568836904";
+    const INITIAL_ITEMS = 4;
+    const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
+
+    const cardsEl = document.getElementById("cards");
+    const countResumenEl = document.getElementById("count-resumen");
+    const viewMessageEl = document.getElementById("view-message");
+    const monthYearSelect = document.getElementById("monthYearSelect");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+    let allMeetings = [];
+    let filteredMeetings = [];
+    let visibleItems = INITIAL_ITEMS;
+    let mesAnioActual = null;
+    let modoVista = "mes";
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function cleanText(value) {
+      if (value == null) return "";
+      return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function getCell(row, index) {
+      return row?.c?.[index]?.v != null ? cleanText(row.c[index].v) : "";
+    }
+
+    function normalizarTexto(str) {
+      return (str || "")
+        .toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
+
+    function soloFecha(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    function esHoyDate(fecha) {
+      const hoy = soloFecha(new Date());
+      const f = soloFecha(fecha);
+      return f.getTime() === hoy.getTime();
+    }
+
+    function obtenerMesAnioKey(date) {
+      const meses = [
+        "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+        "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+      ];
+      return {
+        label: meses[date.getMonth()] + " " + date.getFullYear(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
+      };
+    }
+
+    function mismoMesAnio(date, year, month) {
+      return date && date.getFullYear() === year && date.getMonth() === month;
+    }
+
+    function parseFechaTexto(fechaTexto) {
+      if (!fechaTexto) return null;
+      const limpio = fechaTexto.toString().trim();
+
+      const matchNum = limpio.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+      if (matchNum) {
+        const d = parseInt(matchNum[1], 10);
+        const m = parseInt(matchNum[2], 10) - 1;
+        let y = parseInt(matchNum[3], 10);
+        if (y < 100) y += 2000;
+        return new Date(y, m, d);
+      }
+
+      const limpioNorm = normalizarTexto(limpio);
+      const partes = limpioNorm.split(" ").filter(Boolean);
+
+      let dia = null;
+      for (const p of partes) {
+        const n = parseInt(p, 10);
+        if (!isNaN(n)) { dia = n; break; }
+      }
+      if (dia == null) return null;
+
+      const meses = {
+        enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
+        julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
+        noviembre:10, diciembre:11
+      };
+
+      let mes = null;
+      let year = null;
+
+      partes.forEach((p, idx) => {
+        if (meses[p] != null) mes = meses[p];
+        const n = parseInt(p, 10);
+        if (!isNaN(n) && idx === partes.length - 1 && n > 1900) year = n;
+      });
+
+      if (mes == null) return null;
+      if (!year) year = new Date().getFullYear();
+
+      return new Date(year, mes, dia);
+    }
+
+    function actualizarOpcionesMes() {
+      const opcionesMesSet = new Map();
+
+      allMeetings.forEach(item => {
+        const keyObj = obtenerMesAnioKey(item.fecha);
+        const key = keyObj.year + "-" + keyObj.month;
+        if (!opcionesMesSet.has(key)) opcionesMesSet.set(key, keyObj.label);
+      });
+
+      const opcionesOrdenadas = Array.from(opcionesMesSet.entries())
+        .map(([key, label]) => {
+          const [yearStr, monthStr] = key.split("-");
+          return { key, label, year: +yearStr, month: +monthStr };
+        })
+        .sort((a, b) => (a.year - b.year) || (a.month - b.month));
+
+      monthYearSelect.innerHTML = "";
+
+      const optProxima = document.createElement("option");
+      optProxima.value = "__PROXIMA__";
+      optProxima.textContent = "✅ Siguiente reunión";
+      monthYearSelect.appendChild(optProxima);
+
+      opcionesOrdenadas.forEach(opt => {
+        const option = document.createElement("option");
+        option.value = opt.key;
+        option.textContent = opt.label;
+        monthYearSelect.appendChild(option);
+      });
+    }
+
+    function setMesAProximaReunion() {
+      const hoy = soloFecha(new Date());
+      const proxima = allMeetings.find(x => x.fecha.getTime() >= hoy.getTime()) || allMeetings[0];
+      if (!proxima) return false;
+
+      const keyObj = obtenerMesAnioKey(proxima.fecha);
+      mesAnioActual = { year: keyObj.year, month: keyObj.month };
+      monthYearSelect.value = `${keyObj.year}-${keyObj.month}`;
+      return true;
+    }
+
+    function parseRows(rows) {
+      const meetings = [];
+
+      rows.forEach(row => {
+        const fechaTexto = getCell(row, 0);
+        const presidente = getCell(row, 1);
+        const orador = getCell(row, 2);
+        const tema = getCell(row, 3);
+        const lector = getCell(row, 4);
+
+        if (!fechaTexto) return;
+
+        const fecha = parseFechaTexto(fechaTexto);
+        if (!(fecha instanceof Date) || isNaN(fecha)) return;
+
+        meetings.push({
+          fecha: soloFecha(fecha),
+          fechaTexto,
+          presidente,
+          orador,
+          tema,
+          lector
+        });
+      });
+
+      return meetings.sort((a, b) => a.fecha - b.fecha);
+    }
+
+    function filtrarReuniones() {
+      const hoy = soloFecha(new Date());
+
+      let lista = allMeetings.filter(
+        item => mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month) &&
+        item.fecha.getTime() >= hoy.getTime()
+      );
+
+      if (!lista.length) {
+        const futuras = allMeetings.filter(item => item.fecha.getTime() >= hoy.getTime());
+        if (futuras.length) {
+          const first = futuras[0];
+          const keyObj = obtenerMesAnioKey(first.fecha);
+          mesAnioActual = { year: keyObj.year, month: keyObj.month };
+          monthYearSelect.value = `${keyObj.year}-${keyObj.month}`;
+
+          lista = allMeetings.filter(
+            item => mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month) &&
+            item.fecha.getTime() >= hoy.getTime()
+          );
         }
-      </style>
-   </head>
-   <body style="margin: 0px;">
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=1568836904&single=true" />
-   </body>
+      }
+
+      if (modoVista === "hoy") {
+        const hoyLista = lista.filter(item => esHoyDate(item.fecha));
+        if (hoyLista.length) {
+          lista = hoyLista;
+          viewMessageEl.textContent = "Mostrando el programa de hoy.";
+        } else if (lista.length) {
+          lista = [lista[0]];
+          viewMessageEl.textContent = "Hoy no hay reunión. Se muestra la siguiente reunión de este mes.";
+        } else {
+          viewMessageEl.textContent = "Hoy no hay reunión programada en este mes.";
+        }
+      } else if (modoVista === "semana") {
+        const semanaFin = new Date(hoy);
+        semanaFin.setDate(hoy.getDate() + 6);
+
+        const semanaLista = lista.filter(item => item.fecha <= semanaFin);
+        if (semanaLista.length) {
+          lista = semanaLista;
+          viewMessageEl.textContent = "Programas de esta semana.";
+        } else {
+          viewMessageEl.textContent = "No hay reuniones esta semana en este mes.";
+        }
+      } else {
+        viewMessageEl.textContent = "";
+      }
+
+      filteredMeetings = lista.sort((a, b) => a.fecha - b.fecha);
+    }
+
+    function createDetail(label, value, cls) {
+      return `
+        <div class="detail-group">
+          <div class="detail-label ${cls}">${escapeHtml(label)}</div>
+          <div class="detail-value">${escapeHtml(value || "-")}</div>
+        </div>
+      `;
+    }
+
+    function renderMeeting(item, featured = false) {
+      const esHoy = esHoyDate(item.fecha);
+
+      return `
+        <article class="meeting-card ${featured ? "destacada" : ""}">
+          <div class="meeting-title">${escapeHtml(item.fechaTexto)}</div>
+
+          <div class="meeting-meta">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              <span>${featured ? "Siguiente reunión" : "Programa"}</span>
+            </div>
+            ${esHoy ? `
+              <div class="badge badge-hoy">
+                <span class="badge-dot"></span>
+                <span>Hoy</span>
+              </div>
+            ` : ""}
+          </div>
+
+          <div class="meeting-body">
+            <div class="info-side">
+              <div class="meeting-label">Reunión pública</div>
+              <div class="meeting-day">${escapeHtml(item.fechaTexto)}</div>
+              <a
+                href="${DIRECT_ZOOM_LINK}"
+                class="meeting-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ingresar por Zoom
+              </a>
+            </div>
+
+            <div class="details-grid">
+              ${createDetail("Presidente", item.presidente, "label-presidente")}
+              ${createDetail("Orador", item.orador, "label-orador")}
+              ${createDetail("Tema", item.tema, "label-tema")}
+              ${createDetail("Lector", item.lector, "label-lector")}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function render() {
+      cardsEl.innerHTML = "";
+
+      if (!allMeetings.length) {
+        countResumenEl.textContent = "0 programas";
+        cardsEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
+        loadMoreBtn.style.display = "none";
+        return;
+      }
+
+      filtrarReuniones();
+
+      if (!filteredMeetings.length) {
+        countResumenEl.textContent = "0 programas";
+        cardsEl.innerHTML = `<p class="empty-msg">Sin reuniones futuras para mostrar.</p>`;
+        loadMoreBtn.style.display = "none";
+        return;
+      }
+
+      countResumenEl.textContent = filteredMeetings.length === 1
+        ? "1 programa visible"
+        : `${filteredMeetings.length} programas visibles`;
+
+      const visible = filteredMeetings.slice(0, visibleItems);
+      cardsEl.innerHTML = visible.map((item, index) => renderMeeting(item, index === 0)).join("");
+      loadMoreBtn.style.display = visibleItems < filteredMeetings.length ? "inline-block" : "none";
+    }
+
+    async function loadSheet() {
+      countResumenEl.textContent = "Cargando…";
+      cardsEl.innerHTML = "";
+
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${GID}&tqx=out:json`;
+        const response = await fetch(url, { cache: "no-store" });
+        const raw = await response.text();
+
+        const start = raw.indexOf("{");
+        const end = raw.lastIndexOf("}");
+        if (start === -1 || end === -1) throw new Error("Respuesta inválida de Google Sheets");
+
+        const json = JSON.parse(raw.slice(start, end + 1));
+        const rows = json?.table?.rows || [];
+
+        allMeetings = parseRows(rows);
+        actualizarOpcionesMes();
+        monthYearSelect.value = "__PROXIMA__";
+        setMesAProximaReunion();
+        render();
+      } catch (error) {
+        console.error(error);
+        countResumenEl.textContent = "Error";
+        cardsEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública y que el GID sea correcto.</p>`;
+      }
+    }
+
+    monthYearSelect.addEventListener("change", () => {
+      visibleItems = INITIAL_ITEMS;
+      if (monthYearSelect.value === "__PROXIMA__") {
+        setMesAProximaReunion();
+      } else {
+        const [yStr, mStr] = monthYearSelect.value.split("-");
+        mesAnioActual = { year: +yStr, month: +mStr };
+      }
+      render();
+    });
+
+    document.querySelectorAll(".view-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".view-tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        modoVista = btn.dataset.view || "mes";
+        visibleItems = INITIAL_ITEMS;
+        render();
+      });
+    });
+
+    document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
+      const active = document.body.classList.toggle("modo-texto-grande");
+      e.currentTarget.classList.toggle("active", active);
+    });
+
+    document.getElementById("btn-alto-contraste").addEventListener("click", (e) => {
+      const active = document.body.classList.toggle("modo-alto-contraste");
+      e.currentTarget.classList.toggle("active", active);
+    });
+
+    loadMoreBtn.addEventListener("click", () => {
+      visibleItems += 4;
+      render();
+    });
+
+    window.addEventListener("DOMContentLoaded", loadSheet);
+  </script>
+</body>
 </html>
