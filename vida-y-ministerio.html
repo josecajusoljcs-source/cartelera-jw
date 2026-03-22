@@ -13,8 +13,7 @@
       --bg:#ffffff;
       --text:#111111;
       --muted:#6b6b6b;
-      --soft:#f6f6f6;
-      --line:#e6e6e6;
+      --line:#ececec;
 
       --jw-beige:#efe0a1;
       --jw-black:#000000;
@@ -23,9 +22,8 @@
       --jw-gold:#c89b00;
       --jw-red:#b30000;
 
-      --accent:#d4af37;
-      --right-line:#d7d7d7;
-      --shadow:0 10px 24px rgba(0,0,0,.06);
+      --right-line:#d6d6d6;
+      --shadow:0 10px 24px rgba(0,0,0,.05);
       --radius:14px;
     }
 
@@ -151,11 +149,11 @@
       right:16px;
       top:50%;
       transform:translateY(-50%);
-      width:14px;
-      height:14px;
+      width:12px;
+      height:12px;
       border-radius:50%;
-      background:rgba(255,255,255,.18);
-      box-shadow:0 0 0 4px rgba(255,255,255,.08);
+      background:rgba(255,255,255,.16);
+      box-shadow:0 0 0 4px rgba(255,255,255,.07);
     }
 
     .section-title.gray{ background:var(--jw-gray); }
@@ -164,8 +162,8 @@
 
     .program-row{
       display:grid;
-      grid-template-columns:minmax(0, 1.7fr) minmax(240px, .88fr);
-      gap:16px;
+      grid-template-columns:minmax(0, 1.72fr) minmax(240px, .88fr);
+      gap:14px;
       padding:10px 16px;
       align-items:start;
       border-bottom:1px solid rgba(0,0,0,.03);
@@ -196,19 +194,25 @@
     .assign-group{
       display:flex;
       flex-direction:column;
-      gap:5px;
-      padding:2px 0;
+      gap:4px;
+      padding:0;
+      margin:0;
+    }
+
+    .assign-group.compact{
+      gap:2px;
     }
 
     .assign-line{
-      line-height:1.15;
+      line-height:1.08;
       word-break:break-word;
+      margin:0;
     }
 
     .assign-role{
       display:block;
-      font-size:.79rem;
-      line-height:1.05;
+      font-size:.78rem;
+      line-height:1.02;
       text-transform:uppercase;
       letter-spacing:.05em;
       color:var(--muted);
@@ -258,65 +262,6 @@
       opacity:.93;
     }
 
-    .zoom-help{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.45);
-      z-index:99;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-    }
-
-    .zoom-help.show{
-      display:flex;
-    }
-
-    .zoom-help-box{
-      width:min(100%, 420px);
-      background:#fff;
-      border-radius:16px;
-      box-shadow:0 20px 40px rgba(0,0,0,.18);
-      padding:18px 16px;
-    }
-
-    .zoom-help-box h3{
-      margin:0 0 10px;
-      font-size:1.1rem;
-    }
-
-    .zoom-help-box p{
-      margin:0 0 8px;
-      line-height:1.4;
-      color:#333;
-    }
-
-    .zoom-help-actions{
-      display:flex;
-      gap:10px;
-      margin-top:14px;
-      flex-wrap:wrap;
-    }
-
-    .zoom-btn{
-      border:none;
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .zoom-btn.primary{
-      background:#111;
-      color:#fff;
-    }
-
-    .zoom-btn.secondary{
-      background:#f2f2f2;
-      color:#111;
-    }
-
     @media (max-width: 900px){
       .page{
         padding:0 0 28px;
@@ -330,7 +275,7 @@
       }
 
       .program-row{
-        grid-template-columns:minmax(0, 1.42fr) minmax(150px, .85fr);
+        grid-template-columns:minmax(0, 1.34fr) minmax(156px, .86fr);
         gap:10px;
         padding:10px 12px;
       }
@@ -356,11 +301,11 @@
       }
 
       .right-col{
-        gap:6px;
+        gap:5px;
       }
 
       .assign-group{
-        gap:4px;
+        gap:3px;
       }
     }
 
@@ -374,13 +319,13 @@
       }
 
       .program-row{
-        grid-template-columns:minmax(0, 1.3fr) minmax(132px, .78fr);
+        grid-template-columns:minmax(0, 1.28fr) minmax(136px, .8fr);
         gap:8px;
       }
 
       .left-col{
         font-size:clamp(.96rem, 4.7vw, 1.05rem);
-        line-height:1.4;
+        line-height:1.38;
       }
 
       .right-col{
@@ -389,7 +334,11 @@
       }
 
       .assign-group{
-        gap:3px;
+        gap:2px;
+      }
+
+      .assign-group.compact{
+        gap:1px;
       }
 
       .assign-role{
@@ -399,7 +348,7 @@
 
       .assign-name{
         font-size:clamp(.84rem, 2.9vw, .94rem);
-        line-height:1.12;
+        line-height:1.08;
       }
 
       .meeting-id{
@@ -424,34 +373,18 @@
     </div>
   </main>
 
-  <div id="zoomHelp" class="zoom-help">
-    <div class="zoom-help-box">
-      <h3>Ingresar a la reunión</h3>
-      <p id="zoomHelpText">Abriendo Zoom…</p>
-      <div class="zoom-help-actions">
-        <button class="zoom-btn primary" id="zoomOpenWeb">Abrir Zoom Web</button>
-        <button class="zoom-btn secondary" id="zoomCopyData">Copiar ID y contraseña</button>
-        <button class="zoom-btn secondary" id="zoomClose">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     const SHEET_ID = "184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo";
     const GID = "334102173";
     const INITIAL_WEEKS = 3;
 
+    const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
+
     const content = document.getElementById("content");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
-    const zoomHelp = document.getElementById("zoomHelp");
-    const zoomHelpText = document.getElementById("zoomHelpText");
-    const zoomOpenWeb = document.getElementById("zoomOpenWeb");
-    const zoomCopyData = document.getElementById("zoomCopyData");
-    const zoomClose = document.getElementById("zoomClose");
 
     let allWeeks = [];
     let visibleWeeks = INITIAL_WEEKS;
-    let currentZoomData = null;
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -495,6 +428,18 @@
       return String(value).split(/\n+/).map(cleanText).filter(Boolean);
     }
 
+    function parseSingleRoleLine(text) {
+      if (!text) return null;
+
+      const match = text.match(/^(Presidente|Oración|Oracion|Conductor|Estudiante|Ayudante|Lector)\s*:?\s*(.+)$/i);
+      if (!match) return null;
+
+      return {
+        role: cleanText(match[1]).replace(/:$/, ""),
+        name: cleanText(match[2])
+      };
+    }
+
     function splitRightLines(colB, colC) {
       const leftLines = splitLinesRaw(colB);
       const rightLines = splitLinesRaw(colC);
@@ -510,17 +455,13 @@
         if (a && b) {
           result.push({ role: a.replace(/:$/, ""), name: b });
         } else if (a) {
-          const parts = a.split(":");
-          if (parts.length > 1) {
-            result.push({
-              role: cleanText(parts.shift()),
-              name: cleanText(parts.join(":"))
-            });
-          } else {
-            result.push({ role: "", name: a });
-          }
+          const parsed = parseSingleRoleLine(a);
+          if (parsed) result.push(parsed);
+          else result.push({ role: "", name: a });
         } else {
-          result.push({ role: "", name: b });
+          const parsed = parseSingleRoleLine(b);
+          if (parsed) result.push(parsed);
+          else result.push({ role: "", name: b });
         }
       }
 
@@ -534,22 +475,21 @@
       };
     }
 
-    function parseZoomData(meetingText) {
-      if (!meetingText) return null;
+    function getLastItem(targetList) {
+      if (!targetList || !targetList.length) return null;
+      return targetList[targetList.length - 1];
+    }
 
-      const idMatch = meetingText.match(/ID de reunión:\s*([\d\s]+)/i);
-      const passMatch = meetingText.match(/Contraseña:\s*([^\s]+)/i);
+    function pushAssignmentToPrevious(currentWeek, currentSection, parsedLine) {
+      const targetList = currentSection ? currentSection.items : currentWeek.intro;
+      const lastItem = getLastItem(targetList);
 
-      const meetingId = idMatch ? idMatch[1].replace(/\s+/g, "") : "";
-      const passcode = passMatch ? passMatch[1].trim() : "";
-
-      if (!meetingId) return null;
-
-      return {
-        meetingId,
-        passcode,
-        text: meetingText
-      };
+      if (lastItem) {
+        lastItem.rightLines = lastItem.rightLines || [];
+        lastItem.rightLines.push(parsedLine);
+        return true;
+      }
+      return false;
     }
 
     function parseWeeks(rows) {
@@ -596,7 +536,37 @@
           continue;
         }
 
+        const roleOnlyA = parseSingleRoleLine(colA);
+        const rowHasOnlyRoleInA = !!roleOnlyA && !colB && !colC;
+
+        if (rowHasOnlyRoleInA) {
+          if (pushAssignmentToPrevious(currentWeek, currentSection, roleOnlyA)) {
+            continue;
+          }
+        }
+
+        const rowHasOnlyRightSide = !colA && (colB || colC);
+        if (rowHasOnlyRightSide) {
+          const extraLines = splitRightLines(colB, colC);
+          const targetList = currentSection ? currentSection.items : currentWeek.intro;
+          const lastItem = getLastItem(targetList);
+
+          if (lastItem && extraLines.length) {
+            lastItem.rightLines = (lastItem.rightLines || []).concat(extraLines);
+            continue;
+          }
+        }
+
         const item = buildItem(colA, colB, colC);
+
+        if (!item.left && item.rightLines.length) {
+          const targetList = currentSection ? currentSection.items : currentWeek.intro;
+          const lastItem = getLastItem(targetList);
+          if (lastItem) {
+            lastItem.rightLines = (lastItem.rightLines || []).concat(item.rightLines);
+            continue;
+          }
+        }
 
         if (currentSection) {
           currentSection.items.push(item);
@@ -616,7 +586,8 @@
         || t.includes("ESCENIFICACIÓN")
         || t.includes("ESCENIFICACION")
         || t.includes("PREDICACIÓN INFORMAL")
-        || t.includes("PREDICACION INFORMAL");
+        || t.includes("PREDICACION INFORMAL")
+        || t.includes("DE CASA EN CASA");
     }
 
     function isEstudioCongregacion(text) {
@@ -625,20 +596,30 @@
         || t.includes("ESTUDIO BIBLICO DE LA CONGREGACION");
     }
 
+    function isIntroSongPrayer(text) {
+      const t = (text || "").toUpperCase();
+      return t.includes("CANCIÓN") || t.includes("CANCION");
+    }
+
     function groupAssignments(item) {
       const lines = item.rightLines || [];
       if (!lines.length) return [];
 
       const left = item.left || "";
+      const groups = [];
 
       if (isSeamosItem(left)) {
         const estudiante = lines.find(x => (x.role || "").toUpperCase().includes("ESTUDIANTE"));
         const ayudante = lines.find(x => (x.role || "").toUpperCase().includes("AYUDANTE"));
         const rest = lines.filter(x => x !== estudiante && x !== ayudante);
 
-        const groups = [];
-        if (estudiante || ayudante) groups.push([estudiante, ayudante].filter(Boolean));
-        rest.forEach(x => groups.push([x]));
+        if (estudiante || ayudante) {
+          groups.push({
+            compact: true,
+            lines: [estudiante, ayudante].filter(Boolean)
+          });
+        }
+        rest.forEach(x => groups.push({ compact: false, lines: [x] }));
         return groups;
       }
 
@@ -647,13 +628,35 @@
         const lector = lines.find(x => (x.role || "").toUpperCase().includes("LECTOR"));
         const rest = lines.filter(x => x !== conductor && x !== lector);
 
-        const groups = [];
-        if (conductor || lector) groups.push([conductor, lector].filter(Boolean));
-        rest.forEach(x => groups.push([x]));
+        if (conductor || lector) {
+          groups.push({
+            compact: true,
+            lines: [conductor, lector].filter(Boolean)
+          });
+        }
+        rest.forEach(x => groups.push({ compact: false, lines: [x] }));
         return groups;
       }
 
-      return lines.map(x => [x]);
+      if (isIntroSongPrayer(left)) {
+        const presidente = lines.find(x => (x.role || "").toUpperCase().includes("PRESIDENTE"));
+        const oracion = lines.find(x => {
+          const r = (x.role || "").toUpperCase();
+          return r.includes("ORACIÓN") || r.includes("ORACION");
+        });
+        const rest = lines.filter(x => x !== presidente && x !== oracion);
+
+        if (presidente || oracion) {
+          groups.push({
+            compact: true,
+            lines: [presidente, oracion].filter(Boolean)
+          });
+        }
+        rest.forEach(x => groups.push({ compact: false, lines: [x] }));
+        return groups;
+      }
+
+      return lines.map(x => ({ compact: false, lines: [x] }));
     }
 
     function renderRightCol(item) {
@@ -663,8 +666,8 @@
       return `
         <div class="right-col">
           ${groups.map(group => `
-            <div class="assign-group">
-              ${group.map(line => `
+            <div class="assign-group ${group.compact ? "compact" : ""}">
+              ${group.lines.map(line => `
                 <div class="assign-line">
                   ${line.role ? `<span class="assign-role">${escapeHtml(line.role)}</span>` : ""}
                   <span class="assign-name">${escapeHtml(line.name)}</span>
@@ -692,19 +695,12 @@
     }
 
     function renderMeetingLink(meetingText) {
-      const zoomData = parseZoomData(meetingText);
-
-      if (!zoomData) {
-        return `<span class="meeting-id">${escapeHtml(meetingText)}</span>`;
-      }
-
       return `
         <a
-          href="#"
-          class="meeting-id js-zoom-link"
-          data-meeting-id="${escapeHtml(zoomData.meetingId)}"
-          data-passcode="${escapeHtml(zoomData.passcode)}"
-          data-meeting-text="${escapeHtml(zoomData.text)}"
+          href="${DIRECT_ZOOM_LINK}"
+          class="meeting-id"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           ${escapeHtml(meetingText)}
         </a>
@@ -741,58 +737,7 @@
       const visible = allWeeks.slice(0, visibleWeeks);
       content.innerHTML = visible.map(renderWeek).join("");
       loadMoreBtn.style.display = visibleWeeks < allWeeks.length ? "inline-block" : "none";
-
-      bindZoomLinks();
     }
-
-    function openZoom(meetingId, passcode) {
-      currentZoomData = { meetingId, passcode };
-
-      const deepLink = `zoommtg://zoom.us/join?confno=${encodeURIComponent(meetingId)}${passcode ? `&pwd=${encodeURIComponent(passcode)}` : ""}`;
-      const webJoin = "https://zoom.us/join";
-
-      zoomHelpText.textContent = `ID: ${meetingId}${passcode ? ` · Contraseña: ${passcode}` : ""}`;
-      zoomHelp.classList.add("show");
-
-      zoomOpenWeb.onclick = () => {
-        window.open(webJoin, "_blank");
-      };
-
-      zoomCopyData.onclick = async () => {
-        try {
-          const text = `ID de reunión: ${meetingId}${passcode ? `\nContraseña: ${passcode}` : ""}`;
-          await navigator.clipboard.writeText(text);
-          zoomHelpText.textContent = `Copiado. ID: ${meetingId}${passcode ? ` · Contraseña: ${passcode}` : ""}`;
-        } catch (e) {
-          zoomHelpText.textContent = `No pude copiar automáticamente. ID: ${meetingId}${passcode ? ` · Contraseña: ${passcode}` : ""}`;
-        }
-      };
-
-      setTimeout(() => {
-        window.location.href = deepLink;
-      }, 150);
-    }
-
-    function bindZoomLinks() {
-      document.querySelectorAll(".js-zoom-link").forEach(link => {
-        link.addEventListener("click", e => {
-          e.preventDefault();
-          const meetingId = link.dataset.meetingId || "";
-          const passcode = link.dataset.passcode || "";
-          openZoom(meetingId, passcode);
-        });
-      });
-    }
-
-    zoomClose.addEventListener("click", () => {
-      zoomHelp.classList.remove("show");
-    });
-
-    zoomHelp.addEventListener("click", (e) => {
-      if (e.target === zoomHelp) {
-        zoomHelp.classList.remove("show");
-      }
-    });
 
     loadMoreBtn.addEventListener("click", () => {
       visibleWeeks += 3;
