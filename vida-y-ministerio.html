@@ -3,80 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <title>Reunión Vida y Ministerio</title>
-
-  <!-- CLAVE PARA CELULAR -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
       background: #ffffff;
-      overflow: hidden;
       font-family: Montserrat, Arial, sans-serif;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
     }
 
-    .container {
-      width: 100vw;
-      height: 100vh;
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      background: #fff;
+    }
+
+    .sheet-wrap {
+      width: 100%;
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
+      background: #fff;
     }
 
-    .scale-wrapper {
+    .sheet-scale {
       transform-origin: top left;
     }
 
     iframe {
-      border: none;
       display: block;
+      border: none;
       background: #fff;
     }
   </style>
 </head>
-
 <body>
-
-<div class="container">
-  <div class="scale-wrapper" id="scaleWrapper">
-    <iframe
-      id="frame"
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true&widget=false&headers=false"
-    ></iframe>
+  <div class="page">
+    <div class="sheet-wrap" id="sheetWrap">
+      <div class="sheet-scale" id="sheetScale">
+        <iframe
+          id="sheetFrame"
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true&widget=false&headers=false&chrome=false"
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
   </div>
-</div>
 
-<script>
-  function ajustarVista() {
-    const frame = document.getElementById("frame");
-    const wrapper = document.getElementById("scaleWrapper");
+  <script>
+    function ajustarCartelera() {
+      const wrap = document.getElementById("sheetWrap");
+      const scaleBox = document.getElementById("sheetScale");
+      const iframe = document.getElementById("sheetFrame");
 
-    const screenWidth = window.innerWidth;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-    // ancho real aproximado del sheet
-    const baseWidth = 1100;
+      // Ancho real aproximado de la hoja publicada con la parte verde incluida
+      const baseWidth = 1100;
 
-    // cálculo de escala
-    let scale = screenWidth / baseWidth;
+      // Alto base grande para que permita bajar bastante
+      const baseHeight = 5000;
 
-    // límites para que no quede ridículamente chico
-    if (scale < 0.85) scale = 0.85;
-    if (scale > 1) scale = 1;
+      let scale;
 
-    frame.style.width = baseWidth + "px";
-    frame.style.height = (window.innerHeight / scale + 1000) + "px";
+      // En celular/tablet: encoge proporcionalmente para que entre TODO el ancho
+      if (vw <= 900) {
+        scale = vw / baseWidth;
+      } else {
+        // En PC mantenemos tamaño grande parecido al original
+        scale = 1;
+      }
 
-    wrapper.style.transform = "scale(" + scale + ")";
-    wrapper.style.width = (baseWidth * scale) + "px";
-  }
+      iframe.style.width = baseWidth + "px";
+      iframe.style.height = baseHeight + "px";
 
-  window.addEventListener("load", ajustarVista);
-  window.addEventListener("resize", ajustarVista);
-  window.addEventListener("orientationchange", ajustarVista);
-</script>
+      scaleBox.style.transform = "scale(" + scale + ")";
+      scaleBox.style.width = (baseWidth * scale) + "px";
+      scaleBox.style.height = (baseHeight * scale) + "px";
 
+      wrap.style.width = "100%";
+      wrap.style.minHeight = vh + "px";
+    }
+
+    window.addEventListener("load", ajustarCartelera);
+    window.addEventListener("resize", ajustarCartelera);
+    window.addEventListener("orientationchange", ajustarCartelera);
+  </script>
 </body>
 </html>
