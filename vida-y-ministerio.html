@@ -2,186 +2,230 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Reunión Vida y Ministerio</title>
+  <title>Reuniones - Punta Gorda : Viernes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --muted:#5d5d5d;
+      --line:#d8d8d8;
+
+      --beige:#efe0a1;
+      --black:#000000;
+      --wine:#8b1236;
+      --green:#dff1e8;
+      --gray:#4a4a4a;
+      --gold:#c79c00;
+      --red:#b80000;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #ffffff;
-      font-family: Montserrat, Arial, sans-serif;
-      color: #111;
+    *{
+      box-sizing:border-box;
     }
 
-    body {
-      overflow-x: hidden;
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Montserrat', Arial, sans-serif;
+      overflow-x:hidden;
     }
 
-    .topbar {
-      padding: 14px 12px;
-      font-size: 17px;
-      border-bottom: 1px solid #ddd;
-      background: #fff;
+    body{
+      min-height:100vh;
     }
 
-    .container {
-      width: 100%;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 0 30px;
+    .topbar{
+      width:100%;
+      background:#fff;
+      border-bottom:1px solid #ddd;
+      padding:14px 16px;
+      font-size:clamp(1rem, 2.2vw, 1.35rem);
+      font-weight:600;
+      position:sticky;
+      top:0;
+      z-index:20;
     }
 
-    .week-card {
-      margin: 0 0 26px;
-      background: #fff;
+    .page{
+      width:min(100%, 1180px);
+      margin:0 auto;
+      padding:18px 12px 36px;
     }
 
-    .week-top-beige {
-      height: 42px;
-      background: #eed993;
-      width: 100%;
+    .hero{
+      background:var(--beige);
+      height:42px;
+      margin-bottom:0;
     }
 
-    .week-top-black {
-      height: 24px;
-      background: #000;
-      width: 100%;
+    .hero-black{
+      height:24px;
+      background:var(--black);
+      margin-bottom:16px;
     }
 
-    .week-title {
-      background: #f1e3af;
-      color: #000;
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1.15;
-      padding: 10px 12px;
-      word-break: break-word;
+    .status{
+      padding:24px 18px;
+      text-align:center;
+      font-size:1.05rem;
+      color:var(--muted);
     }
 
-    .meeting-id {
-      display: block;
-      color: #8a123c;
-      text-decoration: underline;
-      font-size: 17px;
-      padding: 6px 12px 2px;
-      word-break: break-word;
+    .week-card{
+      background:#fff;
+      border:1px solid #ececec;
+      margin:0 0 22px;
     }
 
-    .row {
-      display: grid;
-      grid-template-columns: minmax(0, 62%) minmax(250px, 38%);
-      gap: 14px;
-      padding: 8px 12px;
-      align-items: start;
+    .week-title{
+      background:var(--beige);
+      color:#000;
+      font-weight:800;
+      font-size:clamp(1.55rem, 4.6vw, 2.45rem);
+      line-height:1.15;
+      padding:12px 14px;
+      border-top:1px solid rgba(0,0,0,.08);
+      word-break:break-word;
     }
 
-    .left {
-      font-size: 18px;
-      line-height: 1.45;
-      font-weight: 700;
-      word-break: break-word;
+    .meeting-id{
+      display:block;
+      color:var(--wine);
+      text-decoration:underline;
+      font-size:clamp(1rem, 3.2vw, 1.25rem);
+      padding:8px 14px 4px;
+      word-break:break-word;
     }
 
-    .left.normal {
-      font-weight: 600;
+    .grid-row{
+      display:grid;
+      grid-template-columns:minmax(0, 1.5fr) minmax(260px, .95fr);
+      gap:14px;
+      padding:8px 14px 10px;
+      align-items:start;
     }
 
-    .right {
-      background: #dceee4;
-      padding: 8px 10px;
-      font-size: 16px;
-      line-height: 1.45;
-      word-break: break-word;
+    .left-cell{
+      font-size:clamp(1.02rem, 2.1vw, 1.25rem);
+      font-weight:700;
+      line-height:1.45;
+      word-break:break-word;
     }
 
-    .right:empty {
-      background: transparent;
-      padding: 0;
+    .right-cell{
+      background:var(--green);
+      padding:10px 12px;
+      font-size:clamp(.98rem, 1.9vw, 1.18rem);
+      line-height:1.45;
+      word-break:break-word;
     }
 
-    .section-title {
-      color: #fff;
-      font-size: 26px;
-      font-weight: 800;
-      line-height: 1.15;
-      padding: 8px 12px;
-      margin-top: 10px;
-      text-transform: uppercase;
+    .right-line{
+      margin:0 0 4px;
     }
 
-    .section-gray {
-      background: #4b4b4b;
+    .right-line:last-child{
+      margin-bottom:0;
     }
 
-    .section-gold {
-      background: #c69a00;
+    .section{
+      margin-top:8px;
     }
 
-    .section-red {
-      background: #b40000;
+    .section-title{
+      color:#fff;
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:clamp(1.35rem, 3.6vw, 2rem);
+      line-height:1.15;
+      padding:10px 14px;
+      word-break:break-word;
     }
 
-    .loading,
-    .error {
-      padding: 24px 14px;
-      font-size: 18px;
+    .section-title.gray{ background:var(--gray); }
+    .section-title.gold{ background:var(--gold); }
+    .section-title.red{ background:var(--red); }
+
+    .simple-line{
+      padding:10px 14px;
+      font-size:clamp(1.02rem, 2.1vw, 1.2rem);
+      line-height:1.5;
+      font-weight:700;
+      word-break:break-word;
     }
 
-    .error {
-      color: #a40000;
-      font-weight: 700;
+    .footer-space{
+      height:20px;
     }
 
-    @media (max-width: 768px) {
-      .topbar {
-        font-size: 15px;
-        padding: 12px 10px;
+    .load-more-wrap{
+      display:flex;
+      justify-content:center;
+      padding:10px 0 6px;
+    }
+
+    .load-more{
+      border:none;
+      background:#111;
+      color:#fff;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:1rem;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .load-more:hover{
+      opacity:.92;
+    }
+
+    @media (max-width: 820px){
+      .page{
+        padding:0 0 24px;
       }
 
-      .week-top-beige {
-        height: 34px;
+      .hero,
+      .hero-black{
+        margin-left:0;
+        margin-right:0;
       }
 
-      .week-top-black {
-        height: 18px;
+      .week-card{
+        border-left:none;
+        border-right:none;
       }
 
-      .week-title {
-        font-size: 24px;
-        padding: 10px 8px;
+      .grid-row{
+        grid-template-columns:1fr;
+        gap:8px;
+        padding:8px 12px 10px;
       }
 
-      .meeting-id {
-        font-size: 16px;
-        padding: 6px 8px 2px;
+      .week-title{
+        padding:10px 12px;
       }
 
-      .section-title {
-        font-size: 22px;
-        padding: 8px;
+      .meeting-id{
+        padding:8px 12px 4px;
       }
 
-      .row {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 10px 8px;
+      .section-title{
+        padding:10px 12px;
       }
 
-      .left {
-        font-size: 17px;
-        line-height: 1.42;
+      .simple-line{
+        padding:10px 12px;
       }
 
-      .right {
-        width: 100%;
-        font-size: 16px;
-        padding: 9px 10px;
+      .right-cell{
+        width:100%;
       }
     }
   </style>
@@ -189,56 +233,51 @@
 <body>
   <div class="topbar">Reuniones - Punta Gorda : Viernes</div>
 
-  <main class="container">
-    <div id="app" class="loading">Cargando programa...</div>
+  <main class="page">
+    <div class="hero"></div>
+    <div class="hero-black"></div>
+
+    <section id="content">
+      <div class="status">Cargando reuniones...</div>
+    </section>
+
+    <div class="load-more-wrap">
+      <button id="loadMoreBtn" class="load-more" style="display:none;">Ver más semanas</button>
+    </div>
+
+    <div class="footer-space"></div>
   </main>
 
   <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pub?gid=334102173&single=true&output=csv";
+    const SHEET_ID = "184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo";
+    const GID = "334102173";
+    const INITIAL_WEEKS = 3;
 
-    const app = document.getElementById("app");
+    const content = document.getElementById("content");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
 
-    function cleanText(value) {
-      return String(value || "").replace(/\s+/g, " ").trim();
+    let allWeeks = [];
+    let visibleWeeks = INITIAL_WEEKS;
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
-    function parseCSV(text) {
-      const rows = [];
-      let row = [];
-      let value = "";
-      let insideQuotes = false;
+    function cleanText(value) {
+      if (value == null) return "";
+      return String(value)
+        .replace(/\u00a0/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
 
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const next = text[i + 1];
-
-        if (char === '"') {
-          if (insideQuotes && next === '"') {
-            value += '"';
-            i++;
-          } else {
-            insideQuotes = !insideQuotes;
-          }
-        } else if (char === "," && !insideQuotes) {
-          row.push(value);
-          value = "";
-        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
-          if (char === "\r" && next === "\n") i++;
-          row.push(value);
-          rows.push(row);
-          row = [];
-          value = "";
-        } else {
-          value += char;
-        }
-      }
-
-      if (value.length || row.length) {
-        row.push(value);
-        rows.push(row);
-      }
-
-      return rows.map(r => r.map(cleanText));
+    function getCell(row, index) {
+      return row?.c?.[index]?.v != null ? cleanText(row.c[index].v) : "";
     }
 
     function isWeekTitle(text) {
@@ -249,62 +288,72 @@
       return /^ID de reunión:/i.test(text);
     }
 
-    function getSectionClass(text) {
+    function detectSection(text) {
       const t = text.toUpperCase();
-      if (t.includes("TESOROS DE LA BIBLIA")) return "section-gray";
-      if (t.includes("SEAMOS MEJORES MAESTROS")) return "section-gold";
-      if (t.includes("NUESTRA VIDA CRISTIANA")) return "section-red";
-      return "";
+
+      if (t.includes("TESOROS DE LA BIBLIA")) {
+        return { label: text, color: "gray" };
+      }
+
+      if (t.includes("SEAMOS MEJORES MAESTROS")) {
+        return { label: text, color: "gold" };
+      }
+
+      if (t.includes("NUESTRA VIDA CRISTIANA")) {
+        return { label: text, color: "red" };
+      }
+
+      return null;
     }
 
-    function isSectionTitle(text) {
-      const t = text.toUpperCase();
-      return (
-        t.includes("TESOROS DE LA BIBLIA") ||
-        t.includes("SEAMOS MEJORES MAESTROS") ||
-        t.includes("NUESTRA VIDA CRISTIANA")
-      );
+    function splitRightLines(colB, colC) {
+      const leftLines = colB ? String(colB).split(/\n+/).map(cleanText).filter(Boolean) : [];
+      const rightLines = colC ? String(colC).split(/\n+/).map(cleanText).filter(Boolean) : [];
+
+      const max = Math.max(leftLines.length, rightLines.length);
+      const result = [];
+
+      for (let i = 0; i < max; i++) {
+        const a = leftLines[i] || "";
+        const b = rightLines[i] || "";
+
+        if (a && b) result.push(`${a} ${b}`);
+        else if (a) result.push(a);
+        else if (b) result.push(b);
+      }
+
+      return result;
     }
 
-    function parseAssignments(colB, colC) {
-      const b = cleanText(colB);
-      const c = cleanText(colC);
-
-      if (!b && !c) return "";
-
-      if (b && c) return `<strong>${escapeHtml(b)}</strong>: ${escapeHtml(c)}`;
-      if (b) return escapeHtml(b);
-      return escapeHtml(c);
+    function buildItem(colA, colB, colC) {
+      return {
+        left: colA,
+        rightLines: splitRightLines(colB, colC)
+      };
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function buildWeeks(rows) {
+    function parseWeeks(rows) {
       const weeks = [];
       let currentWeek = null;
       let currentSection = null;
 
       for (const row of rows) {
-        const colA = cleanText(row[0]);
-        const colB = cleanText(row[1]);
-        const colC = cleanText(row[2]);
+        const colA = getCell(row, 0);
+        const colB = getCell(row, 1);
+        const colC = getCell(row, 2);
 
         if (!colA && !colB && !colC) continue;
 
         if (isWeekTitle(colA)) {
+          if (currentWeek) weeks.push(currentWeek);
+
           currentWeek = {
             title: colA,
             meetingId: "",
-            blocks: []
+            intro: [],
+            sections: []
           };
-          weeks.push(currentWeek);
+
           currentSection = null;
           continue;
         }
@@ -316,96 +365,121 @@
           continue;
         }
 
-        if (isSectionTitle(colA)) {
+        const section = detectSection(colA);
+        if (section) {
           currentSection = {
-            type: "section",
-            title: colA,
-            className: getSectionClass(colA),
+            title: section.label,
+            color: section.color,
             items: []
           };
-          currentWeek.blocks.push(currentSection);
+
+          currentWeek.sections.push(currentSection);
           continue;
         }
 
-        const item = {
-          left: colA,
-          rightB: colB,
-          rightC: colC
-        };
+        if (!colA && !colB && !colC) continue;
+
+        const item = buildItem(colA, colB, colC);
 
         if (currentSection) {
           currentSection.items.push(item);
         } else {
-          currentWeek.blocks.push({
-            type: "row",
-            item
-          });
+          currentWeek.intro.push(item);
         }
       }
+
+      if (currentWeek) weeks.push(currentWeek);
 
       return weeks;
     }
 
-    function renderRow(item, normal = false) {
-      const leftClass = normal ? "left normal" : "left";
-      const right = parseAssignments(item.rightB, item.rightC);
+    function renderRightBox(lines) {
+      if (!lines || !lines.length) return "";
 
       return `
-        <div class="row">
-          <div class="${leftClass}">${escapeHtml(item.left)}</div>
-          <div class="right">${right}</div>
+        <div class="right-cell">
+          ${lines.map(line => `<div class="right-line">${escapeHtml(line)}</div>`).join("")}
         </div>
       `;
     }
 
-    function renderWeek(week) {
-      let html = `
-        <section class="week-card">
-          <div class="week-top-beige"></div>
-          <div class="week-top-black"></div>
-          <div class="week-title">${escapeHtml(week.title)}</div>
-          ${week.meetingId ? `<a class="meeting-id" href="#">${escapeHtml(week.meetingId)}</a>` : ""}
-      `;
+    function renderItem(item) {
+      const hasRight = item.rightLines && item.rightLines.length > 0;
 
-      for (const block of week.blocks) {
-        if (block.type === "row") {
-          html += renderRow(block.item, true);
-        }
-
-        if (block.type === "section") {
-          html += `<div class="section-title ${block.className}">${escapeHtml(block.title)}</div>`;
-          for (const item of block.items) {
-            html += renderRow(item, false);
-          }
-        }
+      if (hasRight) {
+        return `
+          <div class="grid-row">
+            <div class="left-cell">${escapeHtml(item.left)}</div>
+            ${renderRightBox(item.rightLines)}
+          </div>
+        `;
       }
 
-      html += `</section>`;
-      return html;
+      return `<div class="simple-line">${escapeHtml(item.left)}</div>`;
+    }
+
+    function renderWeek(week) {
+      return `
+        <article class="week-card">
+          <div class="week-title">${escapeHtml(week.title)}</div>
+          ${week.meetingId ? `<a class="meeting-id" href="#">${escapeHtml(week.meetingId)}</a>` : ""}
+          ${week.intro.map(renderItem).join("")}
+          ${week.sections.map(section => `
+            <section class="section">
+              <div class="section-title ${section.color}">${escapeHtml(section.title)}</div>
+              ${section.items.map(renderItem).join("")}
+            </section>
+          `).join("")}
+        </article>
+      `;
+    }
+
+    function render() {
+      if (!allWeeks.length) {
+        content.innerHTML = `<div class="status">No encontré semanas para mostrar.</div>`;
+        loadMoreBtn.style.display = "none";
+        return;
+      }
+
+      const visible = allWeeks.slice(0, visibleWeeks);
+      content.innerHTML = visible.map(renderWeek).join("");
+
+      loadMoreBtn.style.display = visibleWeeks < allWeeks.length ? "inline-block" : "none";
     }
 
     async function loadSheet() {
       try {
-        const response = await fetch(CSV_URL);
-        if (!response.ok) throw new Error("No se pudo descargar el CSV");
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${GID}&tqx=out:json`;
+        const response = await fetch(url);
+        const raw = await response.text();
 
-        const csvText = await response.text();
-        const rows = parseCSV(csvText);
-        const weeks = buildWeeks(rows);
+        const start = raw.indexOf("{");
+        const end = raw.lastIndexOf("}");
 
-        if (!weeks.length) {
-          app.innerHTML = `<div class="error">No encontré semanas para mostrar.</div>`;
-          return;
+        if (start === -1 || end === -1) {
+          throw new Error("Respuesta inválida de Google Sheets");
         }
 
-        app.className = "";
-        app.innerHTML = weeks.map(renderWeek).join("");
+        const json = JSON.parse(raw.slice(start, end + 1));
+        const rows = json?.table?.rows || [];
+
+        allWeeks = parseWeeks(rows);
+        render();
       } catch (error) {
         console.error(error);
-        app.className = "error";
-        app.innerHTML = "No pude cargar la hoja publicada. Revisá que siga compartida/publicada.";
+        content.innerHTML = `
+          <div class="status">
+            No pude cargar la hoja.<br>
+            Verificá que siga pública y que el ID/GID sean correctos.
+          </div>
+        `;
       }
     }
+
+    loadMoreBtn.addEventListener("click", () => {
+      visibleWeeks += 3;
+      render();
+    });
 
     loadSheet();
   </script>
