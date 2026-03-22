@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Reunión Vida y Ministerio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800">
 
   <style>
     * {
@@ -16,92 +16,398 @@
       padding: 0;
       background: #ffffff;
       font-family: Montserrat, Arial, sans-serif;
-      width: 100%;
-      min-height: 100%;
-      overflow-x: hidden;
+      color: #111;
     }
 
     body {
-      display: flex;
-      justify-content: center;
-    }
-
-    .page {
-      width: 100%;
-      background: #fff;
-    }
-
-    .sheet-wrap {
-      width: 100%;
-      overflow-y: auto;
       overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar {
+      padding: 14px 12px;
+      font-size: 17px;
+      border-bottom: 1px solid #ddd;
       background: #fff;
     }
 
-    .sheet-scale {
-      transform-origin: top left;
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 0 30px;
     }
 
-    iframe {
+    .week-card {
+      margin: 0 0 26px;
+      background: #fff;
+    }
+
+    .week-top-beige {
+      height: 42px;
+      background: #eed993;
+      width: 100%;
+    }
+
+    .week-top-black {
+      height: 24px;
+      background: #000;
+      width: 100%;
+    }
+
+    .week-title {
+      background: #f1e3af;
+      color: #000;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.15;
+      padding: 10px 12px;
+      word-break: break-word;
+    }
+
+    .meeting-id {
       display: block;
-      border: none;
-      background: #fff;
+      color: #8a123c;
+      text-decoration: underline;
+      font-size: 17px;
+      padding: 6px 12px 2px;
+      word-break: break-word;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: minmax(0, 62%) minmax(250px, 38%);
+      gap: 14px;
+      padding: 8px 12px;
+      align-items: start;
+    }
+
+    .left {
+      font-size: 18px;
+      line-height: 1.45;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .left.normal {
+      font-weight: 600;
+    }
+
+    .right {
+      background: #dceee4;
+      padding: 8px 10px;
+      font-size: 16px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .right:empty {
+      background: transparent;
+      padding: 0;
+    }
+
+    .section-title {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.15;
+      padding: 8px 12px;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    .section-gray {
+      background: #4b4b4b;
+    }
+
+    .section-gold {
+      background: #c69a00;
+    }
+
+    .section-red {
+      background: #b40000;
+    }
+
+    .loading,
+    .error {
+      padding: 24px 14px;
+      font-size: 18px;
+    }
+
+    .error {
+      color: #a40000;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        font-size: 15px;
+        padding: 12px 10px;
+      }
+
+      .week-top-beige {
+        height: 34px;
+      }
+
+      .week-top-black {
+        height: 18px;
+      }
+
+      .week-title {
+        font-size: 24px;
+        padding: 10px 8px;
+      }
+
+      .meeting-id {
+        font-size: 16px;
+        padding: 6px 8px 2px;
+      }
+
+      .section-title {
+        font-size: 22px;
+        padding: 8px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px 8px;
+      }
+
+      .left {
+        font-size: 17px;
+        line-height: 1.42;
+      }
+
+      .right {
+        width: 100%;
+        font-size: 16px;
+        padding: 9px 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="sheet-wrap" id="sheetWrap">
-      <div class="sheet-scale" id="sheetScale">
-        <iframe
-          id="sheetFrame"
-          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true&widget=false&headers=false&chrome=false"
-          loading="lazy">
-        </iframe>
-      </div>
-    </div>
-  </div>
+  <div class="topbar">Reuniones - Punta Gorda : Viernes</div>
+
+  <main class="container">
+    <div id="app" class="loading">Cargando programa...</div>
+  </main>
 
   <script>
-    function ajustarCartelera() {
-      const wrap = document.getElementById("sheetWrap");
-      const scaleBox = document.getElementById("sheetScale");
-      const iframe = document.getElementById("sheetFrame");
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pub?gid=334102173&single=true&output=csv";
 
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+    const app = document.getElementById("app");
 
-      // Ancho real aproximado de la hoja publicada con la parte verde incluida
-      const baseWidth = 1100;
-
-      // Alto base grande para que permita bajar bastante
-      const baseHeight = 5000;
-
-      let scale;
-
-      // En celular/tablet: encoge proporcionalmente para que entre TODO el ancho
-      if (vw <= 900) {
-        scale = vw / baseWidth;
-      } else {
-        // En PC mantenemos tamaño grande parecido al original
-        scale = 1;
-      }
-
-      iframe.style.width = baseWidth + "px";
-      iframe.style.height = baseHeight + "px";
-
-      scaleBox.style.transform = "scale(" + scale + ")";
-      scaleBox.style.width = (baseWidth * scale) + "px";
-      scaleBox.style.height = (baseHeight * scale) + "px";
-
-      wrap.style.width = "100%";
-      wrap.style.minHeight = vh + "px";
+    function cleanText(value) {
+      return String(value || "").replace(/\s+/g, " ").trim();
     }
 
-    window.addEventListener("load", ajustarCartelera);
-    window.addEventListener("resize", ajustarCartelera);
-    window.addEventListener("orientationchange", ajustarCartelera);
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let value = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"') {
+          if (insideQuotes && next === '"') {
+            value += '"';
+            i++;
+          } else {
+            insideQuotes = !insideQuotes;
+          }
+        } else if (char === "," && !insideQuotes) {
+          row.push(value);
+          value = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(value);
+          rows.push(row);
+          row = [];
+          value = "";
+        } else {
+          value += char;
+        }
+      }
+
+      if (value.length || row.length) {
+        row.push(value);
+        rows.push(row);
+      }
+
+      return rows.map(r => r.map(cleanText));
+    }
+
+    function isWeekTitle(text) {
+      return /^(lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)\s/i.test(text);
+    }
+
+    function isMeetingId(text) {
+      return /^ID de reunión:/i.test(text);
+    }
+
+    function getSectionClass(text) {
+      const t = text.toUpperCase();
+      if (t.includes("TESOROS DE LA BIBLIA")) return "section-gray";
+      if (t.includes("SEAMOS MEJORES MAESTROS")) return "section-gold";
+      if (t.includes("NUESTRA VIDA CRISTIANA")) return "section-red";
+      return "";
+    }
+
+    function isSectionTitle(text) {
+      const t = text.toUpperCase();
+      return (
+        t.includes("TESOROS DE LA BIBLIA") ||
+        t.includes("SEAMOS MEJORES MAESTROS") ||
+        t.includes("NUESTRA VIDA CRISTIANA")
+      );
+    }
+
+    function parseAssignments(colB, colC) {
+      const b = cleanText(colB);
+      const c = cleanText(colC);
+
+      if (!b && !c) return "";
+
+      if (b && c) return `<strong>${escapeHtml(b)}</strong>: ${escapeHtml(c)}`;
+      if (b) return escapeHtml(b);
+      return escapeHtml(c);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function buildWeeks(rows) {
+      const weeks = [];
+      let currentWeek = null;
+      let currentSection = null;
+
+      for (const row of rows) {
+        const colA = cleanText(row[0]);
+        const colB = cleanText(row[1]);
+        const colC = cleanText(row[2]);
+
+        if (!colA && !colB && !colC) continue;
+
+        if (isWeekTitle(colA)) {
+          currentWeek = {
+            title: colA,
+            meetingId: "",
+            blocks: []
+          };
+          weeks.push(currentWeek);
+          currentSection = null;
+          continue;
+        }
+
+        if (!currentWeek) continue;
+
+        if (isMeetingId(colA)) {
+          currentWeek.meetingId = colA;
+          continue;
+        }
+
+        if (isSectionTitle(colA)) {
+          currentSection = {
+            type: "section",
+            title: colA,
+            className: getSectionClass(colA),
+            items: []
+          };
+          currentWeek.blocks.push(currentSection);
+          continue;
+        }
+
+        const item = {
+          left: colA,
+          rightB: colB,
+          rightC: colC
+        };
+
+        if (currentSection) {
+          currentSection.items.push(item);
+        } else {
+          currentWeek.blocks.push({
+            type: "row",
+            item
+          });
+        }
+      }
+
+      return weeks;
+    }
+
+    function renderRow(item, normal = false) {
+      const leftClass = normal ? "left normal" : "left";
+      const right = parseAssignments(item.rightB, item.rightC);
+
+      return `
+        <div class="row">
+          <div class="${leftClass}">${escapeHtml(item.left)}</div>
+          <div class="right">${right}</div>
+        </div>
+      `;
+    }
+
+    function renderWeek(week) {
+      let html = `
+        <section class="week-card">
+          <div class="week-top-beige"></div>
+          <div class="week-top-black"></div>
+          <div class="week-title">${escapeHtml(week.title)}</div>
+          ${week.meetingId ? `<a class="meeting-id" href="#">${escapeHtml(week.meetingId)}</a>` : ""}
+      `;
+
+      for (const block of week.blocks) {
+        if (block.type === "row") {
+          html += renderRow(block.item, true);
+        }
+
+        if (block.type === "section") {
+          html += `<div class="section-title ${block.className}">${escapeHtml(block.title)}</div>`;
+          for (const item of block.items) {
+            html += renderRow(item, false);
+          }
+        }
+      }
+
+      html += `</section>`;
+      return html;
+    }
+
+    async function loadSheet() {
+      try {
+        const response = await fetch(CSV_URL);
+        if (!response.ok) throw new Error("No se pudo descargar el CSV");
+
+        const csvText = await response.text();
+        const rows = parseCSV(csvText);
+        const weeks = buildWeeks(rows);
+
+        if (!weeks.length) {
+          app.innerHTML = `<div class="error">No encontré semanas para mostrar.</div>`;
+          return;
+        }
+
+        app.className = "";
+        app.innerHTML = weeks.map(renderWeek).join("");
+      } catch (error) {
+        console.error(error);
+        app.className = "error";
+        app.innerHTML = "No pude cargar la hoja publicada. Revisá que siga compartida/publicada.";
+      }
+    }
+
+    loadSheet();
   </script>
 </body>
 </html>
