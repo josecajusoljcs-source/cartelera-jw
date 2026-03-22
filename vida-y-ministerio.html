@@ -13,6 +13,8 @@
       --bg:#ffffff;
       --text:#111111;
       --muted:#6b6b6b;
+      --soft:#f6f6f6;
+      --line:#e6e6e6;
 
       --jw-beige:#efe0a1;
       --jw-black:#000000;
@@ -21,7 +23,10 @@
       --jw-gold:#c89b00;
       --jw-red:#b30000;
 
-      --right-line:#d9d9d9;
+      --accent:#d4af37;
+      --right-line:#d7d7d7;
+      --shadow:0 10px 24px rgba(0,0,0,.06);
+      --radius:14px;
     }
 
     *{
@@ -44,7 +49,7 @@
     .topbar{
       width:100%;
       background:#fff;
-      border-bottom:1px solid #d9d9d9;
+      border-bottom:1px solid #dadada;
       padding:14px 16px;
       font-size:clamp(1rem, 2vw, 1.35rem);
       font-weight:700;
@@ -56,23 +61,24 @@
     .page{
       width:min(100%, 1160px);
       margin:0 auto;
-      padding:18px 10px 40px;
+      padding:18px 12px 40px;
     }
 
     .hero{
-      height:42px;
+      height:40px;
       background:var(--jw-beige);
-      margin-bottom:0;
+      border-radius:10px 10px 0 0;
     }
 
     .hero-black{
-      height:24px;
+      height:22px;
       background:var(--jw-black);
-      margin-bottom:16px;
+      margin-bottom:18px;
+      border-radius:0 0 10px 10px;
     }
 
     .status{
-      padding:26px 18px;
+      padding:28px 18px;
       text-align:center;
       color:var(--muted);
       font-size:1.05rem;
@@ -80,42 +86,76 @@
 
     .week-card{
       background:#fff;
-      border:1px solid #ebebeb;
-      margin:0 0 22px;
+      border:1px solid #ececec;
+      border-radius:16px;
+      overflow:hidden;
+      margin:0 0 24px;
+      box-shadow:var(--shadow);
     }
 
     .week-title{
       background:var(--jw-beige);
       color:#000;
       font-weight:800;
-      font-size:clamp(1.45rem, 3.3vw, 2.25rem);
-      line-height:1.15;
-      padding:12px 14px;
+      font-size:clamp(1.45rem, 3.3vw, 2.2rem);
+      line-height:1.12;
+      padding:14px 16px;
       word-break:break-word;
+      border-top:4px solid rgba(0,0,0,.06);
     }
 
     .meeting-id{
-      display:block;
+      display:flex;
+      align-items:center;
+      gap:10px;
       color:var(--jw-wine);
       text-decoration:underline;
-      font-size:clamp(1rem, 2vw, 1.2rem);
-      padding:8px 14px 4px;
+      font-size:clamp(1rem, 2vw, 1.14rem);
+      padding:10px 16px 6px;
       word-break:break-word;
+      cursor:pointer;
+    }
+
+    .meeting-id::before{
+      content:"◉";
+      color:var(--jw-wine);
+      font-size:.9em;
+      flex:none;
+    }
+
+    .intro-wrap,
+    .section-body{
+      padding:4px 0 10px;
     }
 
     .section{
       margin-top:8px;
+      border-top:1px solid #f0f0f0;
     }
 
     .section-title{
+      position:relative;
       color:#fff;
       font-weight:800;
       text-transform:uppercase;
-      font-size:clamp(1.25rem, 3vw, 1.85rem);
-      line-height:1.15;
-      padding:10px 14px;
+      font-size:clamp(1.22rem, 3vw, 1.82rem);
+      line-height:1.12;
+      padding:11px 16px;
       word-break:break-word;
       letter-spacing:.01em;
+    }
+
+    .section-title::after{
+      content:"";
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-50%);
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:rgba(255,255,255,.18);
+      box-shadow:0 0 0 4px rgba(255,255,255,.08);
     }
 
     .section-title.gray{ background:var(--jw-gray); }
@@ -124,15 +164,20 @@
 
     .program-row{
       display:grid;
-      grid-template-columns:minmax(0, 1.68fr) minmax(235px, .92fr);
-      gap:14px;
-      padding:10px 14px;
+      grid-template-columns:minmax(0, 1.7fr) minmax(240px, .88fr);
+      gap:16px;
+      padding:10px 16px;
       align-items:start;
+      border-bottom:1px solid rgba(0,0,0,.03);
+    }
+
+    .program-row:last-child{
+      border-bottom:none;
     }
 
     .left-col{
       min-width:0;
-      font-size:clamp(1.02rem, 2vw, 1.2rem);
+      font-size:clamp(1.02rem, 2vw, 1.18rem);
       line-height:1.45;
       font-weight:700;
       word-break:break-word;
@@ -140,54 +185,61 @@
 
     .right-col{
       min-width:0;
-      border-left:3px solid var(--right-line);
       padding-left:12px;
+      border-left:3px solid var(--right-line);
       display:flex;
       flex-direction:column;
       gap:8px;
+      align-self:start;
     }
 
     .assign-group{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:5px;
+      padding:2px 0;
     }
 
     .assign-line{
-      line-height:1.25;
+      line-height:1.15;
       word-break:break-word;
     }
 
     .assign-role{
       display:block;
-      font-size:.83rem;
+      font-size:.79rem;
       line-height:1.05;
       text-transform:uppercase;
-      letter-spacing:.04em;
+      letter-spacing:.05em;
       color:var(--muted);
-      font-weight:700;
+      font-weight:800;
       margin-bottom:2px;
     }
 
     .assign-name{
       display:block;
-      font-size:clamp(.98rem, 1.8vw, 1.12rem);
+      font-size:clamp(.96rem, 1.8vw, 1.08rem);
       color:#222;
       font-weight:500;
     }
 
     .simple-line{
-      padding:10px 14px;
-      font-size:clamp(1.02rem, 2vw, 1.18rem);
-      line-height:1.5;
+      padding:10px 16px;
+      font-size:clamp(1.02rem, 2vw, 1.16rem);
+      line-height:1.45;
       font-weight:700;
       word-break:break-word;
+      border-bottom:1px solid rgba(0,0,0,.03);
+    }
+
+    .simple-line:last-child{
+      border-bottom:none;
     }
 
     .load-more-wrap{
       display:flex;
       justify-content:center;
-      padding:8px 0 0;
+      padding:10px 0 0;
     }
 
     .load-more{
@@ -199,10 +251,70 @@
       font-size:1rem;
       font-weight:700;
       cursor:pointer;
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
     }
 
     .load-more:hover{
-      opacity:.92;
+      opacity:.93;
+    }
+
+    .zoom-help{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      z-index:99;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+
+    .zoom-help.show{
+      display:flex;
+    }
+
+    .zoom-help-box{
+      width:min(100%, 420px);
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 20px 40px rgba(0,0,0,.18);
+      padding:18px 16px;
+    }
+
+    .zoom-help-box h3{
+      margin:0 0 10px;
+      font-size:1.1rem;
+    }
+
+    .zoom-help-box p{
+      margin:0 0 8px;
+      line-height:1.4;
+      color:#333;
+    }
+
+    .zoom-help-actions{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+
+    .zoom-btn{
+      border:none;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .zoom-btn.primary{
+      background:#111;
+      color:#fff;
+    }
+
+    .zoom-btn.secondary{
+      background:#f2f2f2;
+      color:#111;
     }
 
     @media (max-width: 900px){
@@ -213,6 +325,14 @@
       .week-card{
         border-left:none;
         border-right:none;
+        border-radius:0;
+        box-shadow:none;
+      }
+
+      .program-row{
+        grid-template-columns:minmax(0, 1.42fr) minmax(150px, .85fr);
+        gap:10px;
+        padding:10px 12px;
       }
 
       .week-title,
@@ -223,22 +343,16 @@
         padding-right:12px;
       }
 
-      .program-row{
-        grid-template-columns:minmax(0, 1.5fr) minmax(145px, .82fr);
-        gap:10px;
-        padding:10px 12px;
-      }
-
       .left-col{
-        font-size:clamp(1rem, 4.3vw, 1.14rem);
+        font-size:clamp(1rem, 4.2vw, 1.1rem);
       }
 
       .assign-role{
-        font-size:.75rem;
+        font-size:.72rem;
       }
 
       .assign-name{
-        font-size:clamp(.9rem, 3.2vw, 1rem);
+        font-size:clamp(.9rem, 3vw, .98rem);
       }
 
       .right-col{
@@ -246,27 +360,27 @@
       }
 
       .assign-group{
-        gap:6px;
+        gap:4px;
       }
     }
 
     @media (max-width: 560px){
       .week-title{
-        font-size:clamp(1.22rem, 7vw, 1.6rem);
+        font-size:clamp(1.18rem, 6.9vw, 1.52rem);
       }
 
       .section-title{
-        font-size:clamp(1.1rem, 6.2vw, 1.45rem);
+        font-size:clamp(1.06rem, 6vw, 1.34rem);
       }
 
       .program-row{
-        grid-template-columns:minmax(0, 1.42fr) minmax(130px, .8fr);
+        grid-template-columns:minmax(0, 1.3fr) minmax(132px, .78fr);
         gap:8px;
       }
 
       .left-col{
-        font-size:clamp(.98rem, 4.8vw, 1.08rem);
-        line-height:1.42;
+        font-size:clamp(.96rem, 4.7vw, 1.05rem);
+        line-height:1.4;
       }
 
       .right-col{
@@ -275,17 +389,17 @@
       }
 
       .assign-group{
-        gap:4px;
+        gap:3px;
       }
 
       .assign-role{
-        font-size:.68rem;
+        font-size:.66rem;
         letter-spacing:.03em;
       }
 
       .assign-name{
-        font-size:clamp(.84rem, 3vw, .96rem);
-        line-height:1.16;
+        font-size:clamp(.84rem, 2.9vw, .94rem);
+        line-height:1.12;
       }
 
       .meeting-id{
@@ -310,6 +424,18 @@
     </div>
   </main>
 
+  <div id="zoomHelp" class="zoom-help">
+    <div class="zoom-help-box">
+      <h3>Ingresar a la reunión</h3>
+      <p id="zoomHelpText">Abriendo Zoom…</p>
+      <div class="zoom-help-actions">
+        <button class="zoom-btn primary" id="zoomOpenWeb">Abrir Zoom Web</button>
+        <button class="zoom-btn secondary" id="zoomCopyData">Copiar ID y contraseña</button>
+        <button class="zoom-btn secondary" id="zoomClose">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const SHEET_ID = "184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo";
     const GID = "334102173";
@@ -317,9 +443,15 @@
 
     const content = document.getElementById("content");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
+    const zoomHelp = document.getElementById("zoomHelp");
+    const zoomHelpText = document.getElementById("zoomHelpText");
+    const zoomOpenWeb = document.getElementById("zoomOpenWeb");
+    const zoomCopyData = document.getElementById("zoomCopyData");
+    const zoomClose = document.getElementById("zoomClose");
 
     let allWeeks = [];
     let visibleWeeks = INITIAL_WEEKS;
+    let currentZoomData = null;
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -360,16 +492,12 @@
 
     function splitLinesRaw(value) {
       if (!value) return [];
-      return String(value)
-        .split(/\n+/)
-        .map(cleanText)
-        .filter(Boolean);
+      return String(value).split(/\n+/).map(cleanText).filter(Boolean);
     }
 
     function splitRightLines(colB, colC) {
       const leftLines = splitLinesRaw(colB);
       const rightLines = splitLinesRaw(colC);
-
       const max = Math.max(leftLines.length, rightLines.length);
       const result = [];
 
@@ -403,6 +531,24 @@
       return {
         left: colA,
         rightLines: splitRightLines(colB, colC)
+      };
+    }
+
+    function parseZoomData(meetingText) {
+      if (!meetingText) return null;
+
+      const idMatch = meetingText.match(/ID de reunión:\s*([\d\s]+)/i);
+      const passMatch = meetingText.match(/Contraseña:\s*([^\s]+)/i);
+
+      const meetingId = idMatch ? idMatch[1].replace(/\s+/g, "") : "";
+      const passcode = passMatch ? passMatch[1].trim() : "";
+
+      if (!meetingId) return null;
+
+      return {
+        meetingId,
+        passcode,
+        text: meetingText
       };
     }
 
@@ -463,37 +609,46 @@
       return weeks;
     }
 
+    function isSeamosItem(text) {
+      const t = (text || "").toUpperCase();
+      return t.includes("EMPIECE CONVERSACIONES")
+        || t.includes("HAGA REVISITAS")
+        || t.includes("ESCENIFICACIÓN")
+        || t.includes("ESCENIFICACION")
+        || t.includes("PREDICACIÓN INFORMAL")
+        || t.includes("PREDICACION INFORMAL");
+    }
+
+    function isEstudioCongregacion(text) {
+      const t = (text || "").toUpperCase();
+      return t.includes("ESTUDIO BÍBLICO DE LA CONGREGACIÓN")
+        || t.includes("ESTUDIO BIBLICO DE LA CONGREGACION");
+    }
+
     function groupAssignments(item) {
       const lines = item.rightLines || [];
       if (!lines.length) return [];
 
-      const left = (item.left || "").toUpperCase();
+      const left = item.left || "";
 
-      const isSeamos = left.includes("PREDICACIÓN INFORMAL") || left.includes("EMPIECE CONVERSACIONES") || left.includes("HAGA REVISITAS") || left.includes("ESCENIFICACIÓN");
-      const isEstudioCong = left.includes("ESTUDIO BÍBLICO DE LA CONGREGACIÓN") || left.includes("ESTUDIO BIBLICO DE LA CONGREGACION");
-
-      if (isSeamos) {
+      if (isSeamosItem(left)) {
         const estudiante = lines.find(x => (x.role || "").toUpperCase().includes("ESTUDIANTE"));
         const ayudante = lines.find(x => (x.role || "").toUpperCase().includes("AYUDANTE"));
         const rest = lines.filter(x => x !== estudiante && x !== ayudante);
 
         const groups = [];
-        if (estudiante || ayudante) {
-          groups.push([estudiante, ayudante].filter(Boolean));
-        }
+        if (estudiante || ayudante) groups.push([estudiante, ayudante].filter(Boolean));
         rest.forEach(x => groups.push([x]));
         return groups;
       }
 
-      if (isEstudioCong) {
+      if (isEstudioCongregacion(left)) {
         const conductor = lines.find(x => (x.role || "").toUpperCase().includes("CONDUCTOR"));
         const lector = lines.find(x => (x.role || "").toUpperCase().includes("LECTOR"));
         const rest = lines.filter(x => x !== conductor && x !== lector);
 
         const groups = [];
-        if (conductor || lector) {
-          groups.push([conductor, lector].filter(Boolean));
-        }
+        if (conductor || lector) groups.push([conductor, lector].filter(Boolean));
         rest.forEach(x => groups.push([x]));
         return groups;
       }
@@ -536,16 +691,40 @@
       `;
     }
 
+    function renderMeetingLink(meetingText) {
+      const zoomData = parseZoomData(meetingText);
+
+      if (!zoomData) {
+        return `<span class="meeting-id">${escapeHtml(meetingText)}</span>`;
+      }
+
+      return `
+        <a
+          href="#"
+          class="meeting-id js-zoom-link"
+          data-meeting-id="${escapeHtml(zoomData.meetingId)}"
+          data-passcode="${escapeHtml(zoomData.passcode)}"
+          data-meeting-text="${escapeHtml(zoomData.text)}"
+        >
+          ${escapeHtml(meetingText)}
+        </a>
+      `;
+    }
+
     function renderWeek(week) {
       return `
         <article class="week-card">
           <div class="week-title">${escapeHtml(week.title)}</div>
-          ${week.meetingId ? `<a class="meeting-id" href="#">${escapeHtml(week.meetingId)}</a>` : ""}
-          ${week.intro.map(renderItem).join("")}
+          ${week.meetingId ? renderMeetingLink(week.meetingId) : ""}
+          <div class="intro-wrap">
+            ${week.intro.map(renderItem).join("")}
+          </div>
           ${week.sections.map(section => `
             <section class="section">
               <div class="section-title ${section.color}">${escapeHtml(section.title)}</div>
-              ${section.items.map(renderItem).join("")}
+              <div class="section-body">
+                ${section.items.map(renderItem).join("")}
+              </div>
             </section>
           `).join("")}
         </article>
@@ -562,7 +741,63 @@
       const visible = allWeeks.slice(0, visibleWeeks);
       content.innerHTML = visible.map(renderWeek).join("");
       loadMoreBtn.style.display = visibleWeeks < allWeeks.length ? "inline-block" : "none";
+
+      bindZoomLinks();
     }
+
+    function openZoom(meetingId, passcode) {
+      currentZoomData = { meetingId, passcode };
+
+      const deepLink = `zoommtg://zoom.us/join?confno=${encodeURIComponent(meetingId)}${passcode ? `&pwd=${encodeURIComponent(passcode)}` : ""}`;
+      const webJoin = "https://zoom.us/join";
+
+      zoomHelpText.textContent = `ID: ${meetingId}${passcode ? ` · Contraseña: ${passcode}` : ""}`;
+      zoomHelp.classList.add("show");
+
+      zoomOpenWeb.onclick = () => {
+        window.open(webJoin, "_blank");
+      };
+
+      zoomCopyData.onclick = async () => {
+        try {
+          const text = `ID de reunión: ${meetingId}${passcode ? `\nContraseña: ${passcode}` : ""}`;
+          await navigator.clipboard.writeText(text);
+          zoomHelpText.textContent = `Copiado. ID: ${meetingId}${passcode ? ` · Contraseña: ${passcode}` : ""}`;
+        } catch (e) {
+          zoomHelpText.textContent = `No pude copiar automáticamente. ID: ${meetingId}${passcode ? ` · Contraseña: ${passcode}` : ""}`;
+        }
+      };
+
+      setTimeout(() => {
+        window.location.href = deepLink;
+      }, 150);
+    }
+
+    function bindZoomLinks() {
+      document.querySelectorAll(".js-zoom-link").forEach(link => {
+        link.addEventListener("click", e => {
+          e.preventDefault();
+          const meetingId = link.dataset.meetingId || "";
+          const passcode = link.dataset.passcode || "";
+          openZoom(meetingId, passcode);
+        });
+      });
+    }
+
+    zoomClose.addEventListener("click", () => {
+      zoomHelp.classList.remove("show");
+    });
+
+    zoomHelp.addEventListener("click", (e) => {
+      if (e.target === zoomHelp) {
+        zoomHelp.classList.remove("show");
+      }
+    });
+
+    loadMoreBtn.addEventListener("click", () => {
+      visibleWeeks += 3;
+      render();
+    });
 
     async function loadSheet() {
       try {
@@ -592,11 +827,6 @@
         `;
       }
     }
-
-    loadMoreBtn.addEventListener("click", () => {
-      visibleWeeks += 3;
-      render();
-    });
 
     loadSheet();
   </script>
