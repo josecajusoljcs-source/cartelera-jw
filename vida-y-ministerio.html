@@ -6,34 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg:#ffffff;
       --text:#111111;
-      --muted:#5d5d5d;
-      --line:#d8d8d8;
+      --muted:#6b6b6b;
+      --line:#dddddd;
 
-      --beige:#efe0a1;
-      --black:#000000;
-      --wine:#8b1236;
-      --green:#dff1e8;
-      --gray:#4a4a4a;
-      --gold:#c79c00;
-      --red:#b80000;
+      --jw-beige:#efe0a1;
+      --jw-black:#000000;
+      --jw-wine:#8c1d40;
+      --jw-gray:#4b4b4b;
+      --jw-gold:#c89b00;
+      --jw-red:#b30000;
+
+      --right-bg:#f7f7f7;
+      --right-border:#d7d7d7;
     }
 
     *{
       box-sizing:border-box;
     }
 
-    html,body{
+    html, body{
       margin:0;
       padding:0;
       background:var(--bg);
       color:var(--text);
-      font-family:'Montserrat', Arial, sans-serif;
+      font-family:"Noto Sans", Arial, sans-serif;
       overflow-x:hidden;
     }
 
@@ -44,95 +46,63 @@
     .topbar{
       width:100%;
       background:#fff;
-      border-bottom:1px solid #ddd;
+      border-bottom:1px solid #d9d9d9;
       padding:14px 16px;
-      font-size:clamp(1rem, 2.2vw, 1.35rem);
-      font-weight:600;
+      font-size:clamp(1rem, 2vw, 1.35rem);
+      font-weight:700;
       position:sticky;
       top:0;
-      z-index:20;
+      z-index:30;
     }
 
     .page{
-      width:min(100%, 1180px);
+      width:min(100%, 1160px);
       margin:0 auto;
-      padding:18px 12px 36px;
+      padding:18px 10px 40px;
     }
 
     .hero{
-      background:var(--beige);
       height:42px;
+      background:var(--jw-beige);
       margin-bottom:0;
     }
 
     .hero-black{
       height:24px;
-      background:var(--black);
+      background:var(--jw-black);
       margin-bottom:16px;
     }
 
     .status{
-      padding:24px 18px;
+      padding:26px 18px;
       text-align:center;
-      font-size:1.05rem;
       color:var(--muted);
+      font-size:1.05rem;
     }
 
     .week-card{
       background:#fff;
-      border:1px solid #ececec;
+      border:1px solid #ebebeb;
       margin:0 0 22px;
     }
 
     .week-title{
-      background:var(--beige);
+      background:var(--jw-beige);
       color:#000;
       font-weight:800;
-      font-size:clamp(1.55rem, 4.6vw, 2.45rem);
+      font-size:clamp(1.45rem, 3.3vw, 2.25rem);
       line-height:1.15;
       padding:12px 14px;
-      border-top:1px solid rgba(0,0,0,.08);
       word-break:break-word;
     }
 
     .meeting-id{
       display:block;
-      color:var(--wine);
+      color:var(--jw-wine);
       text-decoration:underline;
-      font-size:clamp(1rem, 3.2vw, 1.25rem);
+      font-size:clamp(1rem, 2vw, 1.2rem);
       padding:8px 14px 4px;
       word-break:break-word;
-    }
-
-    .grid-row{
-      display:grid;
-      grid-template-columns:minmax(0, 1.5fr) minmax(260px, .95fr);
-      gap:14px;
-      padding:8px 14px 10px;
-      align-items:start;
-    }
-
-    .left-cell{
-      font-size:clamp(1.02rem, 2.1vw, 1.25rem);
-      font-weight:700;
-      line-height:1.45;
-      word-break:break-word;
-    }
-
-    .right-cell{
-      background:var(--green);
-      padding:10px 12px;
-      font-size:clamp(.98rem, 1.9vw, 1.18rem);
-      line-height:1.45;
-      word-break:break-word;
-    }
-
-    .right-line{
-      margin:0 0 4px;
-    }
-
-    .right-line:last-child{
-      margin-bottom:0;
     }
 
     .section{
@@ -143,32 +113,80 @@
       color:#fff;
       font-weight:800;
       text-transform:uppercase;
-      font-size:clamp(1.35rem, 3.6vw, 2rem);
+      font-size:clamp(1.25rem, 3vw, 1.85rem);
       line-height:1.15;
       padding:10px 14px;
       word-break:break-word;
+      letter-spacing:.01em;
     }
 
-    .section-title.gray{ background:var(--gray); }
-    .section-title.gold{ background:var(--gold); }
-    .section-title.red{ background:var(--red); }
+    .section-title.gray{ background:var(--jw-gray); }
+    .section-title.gold{ background:var(--jw-gold); }
+    .section-title.red{ background:var(--jw-red); }
+
+    .program-row{
+      display:grid;
+      grid-template-columns:minmax(0, 1.65fr) minmax(220px, .95fr);
+      gap:14px;
+      padding:10px 14px;
+      align-items:start;
+    }
+
+    .left-col{
+      min-width:0;
+      font-size:clamp(1.02rem, 2vw, 1.2rem);
+      line-height:1.45;
+      font-weight:700;
+      word-break:break-word;
+    }
+
+    .right-col{
+      min-width:0;
+      text-align:left;
+      border-left:3px solid #d9d9d9;
+      padding-left:12px;
+    }
+
+    .assign-line{
+      margin:0 0 8px;
+      line-height:1.3;
+      word-break:break-word;
+    }
+
+    .assign-line:last-child{
+      margin-bottom:0;
+    }
+
+    .assign-role{
+      display:block;
+      font-size:.83rem;
+      line-height:1.1;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:var(--muted);
+      font-weight:700;
+      margin-bottom:2px;
+    }
+
+    .assign-name{
+      display:block;
+      font-size:clamp(.98rem, 1.8vw, 1.12rem);
+      color:#222;
+      font-weight:500;
+    }
 
     .simple-line{
       padding:10px 14px;
-      font-size:clamp(1.02rem, 2.1vw, 1.2rem);
+      font-size:clamp(1.02rem, 2vw, 1.18rem);
       line-height:1.5;
       font-weight:700;
       word-break:break-word;
     }
 
-    .footer-space{
-      height:20px;
-    }
-
     .load-more-wrap{
       display:flex;
       justify-content:center;
-      padding:10px 0 6px;
+      padding:8px 0 0;
     }
 
     .load-more{
@@ -186,15 +204,9 @@
       opacity:.92;
     }
 
-    @media (max-width: 820px){
+    @media (max-width: 900px){
       .page{
-        padding:0 0 24px;
-      }
-
-      .hero,
-      .hero-black{
-        margin-left:0;
-        margin-right:0;
+        padding:0 0 28px;
       }
 
       .week-card{
@@ -202,30 +214,68 @@
         border-right:none;
       }
 
-      .grid-row{
-        grid-template-columns:1fr;
-        gap:8px;
-        padding:8px 12px 10px;
+      .week-title,
+      .meeting-id,
+      .section-title,
+      .simple-line{
+        padding-left:12px;
+        padding-right:12px;
       }
 
-      .week-title{
+      .program-row{
+        grid-template-columns:minmax(0, 1.45fr) minmax(125px, .82fr);
+        gap:10px;
         padding:10px 12px;
       }
 
-      .meeting-id{
-        padding:8px 12px 4px;
+      .left-col{
+        font-size:clamp(1rem, 4.3vw, 1.14rem);
+      }
+
+      .assign-role{
+        font-size:.75rem;
+      }
+
+      .assign-name{
+        font-size:clamp(.9rem, 3.2vw, 1rem);
+      }
+    }
+
+    @media (max-width: 560px){
+      .week-title{
+        font-size:clamp(1.22rem, 7vw, 1.6rem);
       }
 
       .section-title{
-        padding:10px 12px;
+        font-size:clamp(1.1rem, 6.2vw, 1.45rem);
       }
 
-      .simple-line{
-        padding:10px 12px;
+      .program-row{
+        grid-template-columns:minmax(0, 1.35fr) minmax(118px, .78fr);
+        gap:8px;
       }
 
-      .right-cell{
-        width:100%;
+      .left-col{
+        font-size:clamp(.98rem, 4.8vw, 1.08rem);
+        line-height:1.42;
+      }
+
+      .right-col{
+        padding-left:8px;
+      }
+
+      .assign-role{
+        font-size:.68rem;
+        letter-spacing:.03em;
+      }
+
+      .assign-name{
+        font-size:clamp(.84rem, 3vw, .96rem);
+        line-height:1.2;
+      }
+
+      .meeting-id{
+        font-size:clamp(.92rem, 4vw, 1rem);
       }
     }
   </style>
@@ -244,8 +294,6 @@
     <div class="load-more-wrap">
       <button id="loadMoreBtn" class="load-more" style="display:none;">Ver más semanas</button>
     </div>
-
-    <div class="footer-space"></div>
   </main>
 
   <script>
@@ -290,19 +338,9 @@
 
     function detectSection(text) {
       const t = text.toUpperCase();
-
-      if (t.includes("TESOROS DE LA BIBLIA")) {
-        return { label: text, color: "gray" };
-      }
-
-      if (t.includes("SEAMOS MEJORES MAESTROS")) {
-        return { label: text, color: "gold" };
-      }
-
-      if (t.includes("NUESTRA VIDA CRISTIANA")) {
-        return { label: text, color: "red" };
-      }
-
+      if (t.includes("TESOROS DE LA BIBLIA")) return { label: text, color: "gray" };
+      if (t.includes("SEAMOS MEJORES MAESTROS")) return { label: text, color: "gold" };
+      if (t.includes("NUESTRA VIDA CRISTIANA")) return { label: text, color: "red" };
       return null;
     }
 
@@ -317,9 +355,23 @@
         const a = leftLines[i] || "";
         const b = rightLines[i] || "";
 
-        if (a && b) result.push(`${a} ${b}`);
-        else if (a) result.push(a);
-        else if (b) result.push(b);
+        if (!a && !b) continue;
+
+        if (a && b) {
+          result.push({ role: a.replace(/:$/, ""), name: b });
+        } else if (a) {
+          const parts = a.split(":");
+          if (parts.length > 1) {
+            result.push({
+              role: cleanText(parts.shift()),
+              name: cleanText(parts.join(":"))
+            });
+          } else {
+            result.push({ role: "", name: a });
+          }
+        } else {
+          result.push({ role: "", name: b });
+        }
       }
 
       return result;
@@ -372,12 +424,9 @@
             color: section.color,
             items: []
           };
-
           currentWeek.sections.push(currentSection);
           continue;
         }
-
-        if (!colA && !colB && !colC) continue;
 
         const item = buildItem(colA, colB, colC);
 
@@ -389,16 +438,20 @@
       }
 
       if (currentWeek) weeks.push(currentWeek);
-
       return weeks;
     }
 
-    function renderRightBox(lines) {
+    function renderRightCol(lines) {
       if (!lines || !lines.length) return "";
 
       return `
-        <div class="right-cell">
-          ${lines.map(line => `<div class="right-line">${escapeHtml(line)}</div>`).join("")}
+        <div class="right-col">
+          ${lines.map(line => `
+            <div class="assign-line">
+              ${line.role ? `<span class="assign-role">${escapeHtml(line.role)}</span>` : ""}
+              <span class="assign-name">${escapeHtml(line.name)}</span>
+            </div>
+          `).join("")}
         </div>
       `;
     }
@@ -406,16 +459,16 @@
     function renderItem(item) {
       const hasRight = item.rightLines && item.rightLines.length > 0;
 
-      if (hasRight) {
-        return `
-          <div class="grid-row">
-            <div class="left-cell">${escapeHtml(item.left)}</div>
-            ${renderRightBox(item.rightLines)}
-          </div>
-        `;
+      if (!hasRight) {
+        return `<div class="simple-line">${escapeHtml(item.left)}</div>`;
       }
 
-      return `<div class="simple-line">${escapeHtml(item.left)}</div>`;
+      return `
+        <div class="program-row">
+          <div class="left-col">${escapeHtml(item.left)}</div>
+          ${renderRightCol(item.rightLines)}
+        </div>
+      `;
     }
 
     function renderWeek(week) {
@@ -443,7 +496,6 @@
 
       const visible = allWeeks.slice(0, visibleWeeks);
       content.innerHTML = visible.map(renderWeek).join("");
-
       loadMoreBtn.style.display = visibleWeeks < allWeeks.length ? "inline-block" : "none";
     }
 
