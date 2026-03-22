@@ -1,19 +1,86 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <title>Reunión Vida y Ministerio</title>
-      <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-      <style>
-        iframe {
-            display: block;       /* iframes are inline by default */
-            border: none;         /* Reset default border */
-            height: 100vh;        /* Viewport-relative units */
-            width: 100vw;
-        }
-      </style>
-   </head>
-   <body style="margin: 0px;">
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true" />
-   </body>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Reunión Vida y Ministerio</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      font-family: Montserrat, Arial, sans-serif;
+    }
+
+    .iframe-wrapper {
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+      background: #fff;
+    }
+
+    .iframe-inner {
+      transform-origin: top left;
+      will-change: transform;
+    }
+
+    iframe {
+      display: block;
+      border: none;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="iframe-wrapper">
+    <div class="iframe-inner" id="iframeInner">
+      <iframe
+        id="sheetFrame"
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+
+  <script>
+    function ajustarIframe() {
+      const iframe = document.getElementById("sheetFrame");
+      const inner = document.getElementById("iframeInner");
+
+      const anchoBase = 1280;   // ancho de referencia de escritorio
+      const altoBase = 2200;    // ajustalo si querés más o menos largo visible
+
+      const anchoPantalla = window.innerWidth;
+      const altoPantalla = window.innerHeight;
+
+      let escala = 1;
+
+      if (anchoPantalla < anchoBase) {
+        escala = anchoPantalla / anchoBase;
+      }
+
+      iframe.style.width = anchoBase + "px";
+      iframe.style.height = Math.ceil(altoPantalla / escala) + "px";
+
+      inner.style.width = (anchoBase * escala) + "px";
+      inner.style.height = altoPantalla + "px";
+      inner.style.transform = "scale(" + escala + ")";
+    }
+
+    window.addEventListener("load", ajustarIframe);
+    window.addEventListener("resize", ajustarIframe);
+    window.addEventListener("orientationchange", ajustarIframe);
+  </script>
+</body>
 </html>
