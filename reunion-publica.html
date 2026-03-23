@@ -561,7 +561,7 @@
   </main>
 
   <script>
-    const PUBLISHED_JSON_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/gviz/tq?gid=1568836904&tqx=out:json";
+    const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pub?gid=1568836904&single=true&output=csv";
     const INITIAL_ITEMS = 4;
     const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
 
@@ -589,6 +589,49 @@
     function cleanText(value) {
       if (value == null) return "";
       return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let inQuotes = false;
+
+      const s = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        const next = s[i + 1];
+
+        if (ch === '"' && inQuotes && next === '"') {
+          cur += '"';
+          i++;
+          continue;
+        }
+        if (ch === '"') {
+          inQuotes = !inQuotes;
+          continue;
+        }
+        if (ch === "," && !inQuotes) {
+          row.push(cur);
+          cur = "";
+          continue;
+        }
+        if (ch === "\n" && !inQuotes) {
+          row.push(cur);
+          rows.push(row);
+          row = [];
+          cur = "";
+          continue;
+        }
+        cur += ch;
+      }
+
+      if (cur.length || row.length) {
+        row.push(cur);
+        rows.push(row);
+      }
+      return rows;
     }
 
     function normalizarTexto(str) {
@@ -679,13 +722,6 @@
         if (!opcionesMesSet.has(key)) opcionesMesSet.set(key, keyObj.label);
       });
 
-      const opcionesOrdenadas = Array.from(opcionesMesSet.entries())
-        .map(([key, label]) => {
-          const [yearStr, monthStr] = key.split("-");
-          return { key, label, year: +yearStr, month: +monthStr };
-        })
-        .sort((a, b) => (a.year - b.year) || (a.month - b.month));
-
       monthYearSelect.innerHTML = "";
 
       const optProxima = document.createElement("option");
@@ -693,12 +729,18 @@
       optProxima.textContent = "✅ Siguiente reunión";
       monthYearSelect.appendChild(optProxima);
 
-      opcionesOrdenadas.forEach(opt => {
-        const option = document.createElement("option");
-        option.value = opt.key;
-        option.textContent = opt.label;
-        monthYearSelect.appendChild(option);
-      });
+      Array.from(opcionesMesSet.entries())
+        .map(([key, label]) => {
+          const [yearStr, monthStr] = key.split("-");
+          return { key, label, year: +yearStr, month: +monthStr };
+        })
+        .sort((a, b) => (a.year - b.year) || (a.month - b.month))
+        .forEach(opt => {
+          const option = document.createElement("option");
+          option.value = opt.key;
+          option.textContent = opt.label;
+          monthYearSelect.appendChild(option);
+        });
     }
 
     function setMesAProximaReunion() {
@@ -715,27 +757,30 @@
     function parseRows(rows) {
       const meetings = [];
 
-      rows.forEach(row => {
-        const c = row.c || [];
-        const values = c.map(cell => cleanText(cell?.v ?? ""));
+      rows.forEach((row, idx) => {
+        if (!row || !row.length) return;
 
-        // Busca la primera celda que parezca fecha
+        const values = row.map(cleanText).filter(Boolean);
+        if (!values.length) return;
+
         const fechaTexto = values.find(v => parseFechaTexto(v));
         if (!fechaTexto) return;
 
         const fecha = parseFechaTexto(fechaTexto);
         if (!(fecha instanceof Date) || isNaN(fecha)) return;
 
-        // Toma el resto de celdas con texto útil
-        const utiles = values.filter(v => v && v !== fechaTexto);
+        const resto = values.filter(v => v !== fechaTexto);
+
+        // Salta encabezados o filas basura
+        if (!resto.length && idx === 0) return;
 
         meetings.push({
           fecha: soloFecha(fecha),
           fechaTexto,
-          presidente: utiles[0] || "",
-          orador: utiles[1] || "",
-          tema: utiles[2] || "",
-          lector: utiles[3] || ""
+          presidente: resto[0] || "",
+          orador: resto[1] || "",
+          tema: resto[2] || "",
+          lector: resto[3] || ""
         });
       });
 
@@ -881,17 +926,17 @@
       cardsEl.innerHTML = "";
 
       try {
-        const response = await fetch(PUBLISHED_JSON_URL, { cache: "no-store" });
-        const raw = await response.text();
+        const response = await fetch(PUBLISHED_CSV_URL, { cache: "no-store" });
+        if (!response.ok) throw new Error("No se pudo descargar el CSV");
 
-        const start = raw.indexOf("{");
-        const end = raw.lastIndexOf("}");
-        if (start === -1 || end === -1) throw new Error("Respuesta inválida de Google Sheets");
+        const text = await response.text();
+        if (text.includes("<html") || text.includes("<!DOCTYPE")) {
+          throw new Error("Google devolvió HTML en vez de CSV");
+        }
 
-        const json = JSON.parse(raw.slice(start, end + 1));
-        const rows = json?.table?.rows || [];
-
+        const rows = parseCSV(text);
         allMeetings = parseRows(rows);
+
         actualizarOpcionesMes();
         monthYearSelect.value = "__PROXIMA__";
         setMesAProximaReunion();
