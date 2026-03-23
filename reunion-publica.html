@@ -428,6 +428,9 @@
     .detail-label.label-orador::before { background:#7c5cc4; }
     .detail-label.label-tema::before { background:#c89b00; }
     .detail-label.label-lector::before { background:#3aa35c; }
+    .detail-label.label-cancion::before { background:#b45309; }
+    .detail-label.label-congregacion::before { background:#64748b; }
+    .detail-label.label-conductor::before { background:#0f766e; }
 
     .detail-value{
       font-size:.95rem;
@@ -561,7 +564,7 @@
   </main>
 
   <script>
-    const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pub?gid=1568836904&single=true&output=csv";
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo/export?format=csv&gid=1568836904";
     const INITIAL_ITEMS = 4;
     const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
 
@@ -683,34 +686,29 @@
       }
 
       const limpioNorm = normalizarTexto(limpio);
-      const partes = limpioNorm.split(" ").filter(Boolean);
+      const matchText = limpioNorm.match(/^(\d{1,2})\s+de\s+([a-záéíóú]+)/i);
+      if (matchText) {
+        const d = parseInt(matchText[1], 10);
+        const mesTxt = matchText[2];
 
-      let dia = null;
-      for (const p of partes) {
-        const n = parseInt(p, 10);
-        if (!isNaN(n)) { dia = n; break; }
+        const meses = {
+          enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
+          julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
+          noviembre:10, diciembre:11
+        };
+
+        const m = meses[mesTxt];
+        if (m == null) return null;
+
+        const actual = new Date();
+        return new Date(actual.getFullYear(), m, d);
       }
-      if (dia == null) return null;
 
-      const meses = {
-        enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
-        julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
-        noviembre:10, diciembre:11
-      };
+      return null;
+    }
 
-      let mes = null;
-      let year = null;
-
-      partes.forEach((p, idx) => {
-        if (meses[p] != null) mes = meses[p];
-        const n = parseInt(p, 10);
-        if (!isNaN(n) && idx === partes.length - 1 && n > 1900) year = n;
-      });
-
-      if (mes == null) return null;
-      if (!year) year = new Date().getFullYear();
-
-      return new Date(year, mes, dia);
+    function isDateRow(text) {
+      return /^\d{1,2}\s+de\s+[a-záéíóú]+$/i.test(normalizarTexto(text));
     }
 
     function actualizarOpcionesMes() {
@@ -754,35 +752,61 @@
       return true;
     }
 
+    function createEmptyMeeting(dateText, dateObj) {
+      return {
+        fecha: soloFecha(dateObj),
+        fechaTexto: dateText,
+        zoom: "",
+        presidente: "",
+        cancion: "",
+        tema: "",
+        orador: "",
+        congregacion: "",
+        conductor: "",
+        lector: ""
+      };
+    }
+
     function parseRows(rows) {
       const meetings = [];
+      let current = null;
 
-      rows.forEach((row, idx) => {
-        if (!row || !row.length) return;
+      for (const row of rows) {
+        const colA = cleanText(row[0] || "");
+        const colB = cleanText(row[1] || "");
+        const colC = cleanText(row[2] || "");
+        const colD = cleanText(row[3] || "");
 
-        const values = row.map(cleanText).filter(Boolean);
-        if (!values.length) return;
+        const values = [colA, colB, colC, colD].filter(Boolean);
 
-        const fechaTexto = values.find(v => parseFechaTexto(v));
-        if (!fechaTexto) return;
+        if (!values.length) continue;
 
-        const fecha = parseFechaTexto(fechaTexto);
-        if (!(fecha instanceof Date) || isNaN(fecha)) return;
+        const dateCandidate = values.find(v => isDateRow(v));
+        if (dateCandidate) {
+          const fecha = parseFechaTexto(dateCandidate);
+          if (fecha) {
+            if (current) meetings.push(current);
+            current = createEmptyMeeting(dateCandidate, fecha);
+            continue;
+          }
+        }
 
-        const resto = values.filter(v => v !== fechaTexto);
+        if (!current) continue;
 
-        // Salta encabezados o filas basura
-        if (!resto.length && idx === 0) return;
+        const label = normalizarTexto(colB || colA);
+        const value = colC || colD || "";
 
-        meetings.push({
-          fecha: soloFecha(fecha),
-          fechaTexto,
-          presidente: resto[0] || "",
-          orador: resto[1] || "",
-          tema: resto[2] || "",
-          lector: resto[3] || ""
-        });
-      });
+        if (label.startsWith("zoom")) current.zoom = value || current.zoom;
+        else if (label.startsWith("presidente")) current.presidente = value || current.presidente;
+        else if (label.startsWith("cancion") || label.startsWith("canción")) current.cancion = value || current.cancion;
+        else if (label.includes("discurso especial")) current.tema = value || current.tema;
+        else if (label.startsWith("orador")) current.orador = value || current.orador;
+        else if (label.startsWith("congregacion") || label.startsWith("congregación")) current.congregacion = value || current.congregacion;
+        else if (label.startsWith("conductor")) current.conductor = value || current.conductor;
+        else if (label.startsWith("lector")) current.lector = value || current.lector;
+      }
+
+      if (current) meetings.push(current);
 
       return meetings.sort((a, b) => a.fecha - b.fecha);
     }
@@ -791,24 +815,8 @@
       const hoy = soloFecha(new Date());
 
       let lista = allMeetings.filter(
-        item => mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month) &&
-        item.fecha.getTime() >= hoy.getTime()
+        item => mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month)
       );
-
-      if (!lista.length) {
-        const futuras = allMeetings.filter(item => item.fecha.getTime() >= hoy.getTime());
-        if (futuras.length) {
-          const first = futuras[0];
-          const keyObj = obtenerMesAnioKey(first.fecha);
-          mesAnioActual = { year: keyObj.year, month: keyObj.month };
-          monthYearSelect.value = `${keyObj.year}-${keyObj.month}`;
-
-          lista = allMeetings.filter(
-            item => mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month) &&
-            item.fecha.getTime() >= hoy.getTime()
-          );
-        }
-      }
 
       if (modoVista === "hoy") {
         const hoyLista = lista.filter(item => esHoyDate(item.fecha));
@@ -816,7 +824,8 @@
           lista = hoyLista;
           viewMessageEl.textContent = "Mostrando el programa de hoy.";
         } else if (lista.length) {
-          lista = [lista[0]];
+          const futura = lista.find(x => x.fecha.getTime() >= hoy.getTime()) || lista[0];
+          lista = futura ? [futura] : [];
           viewMessageEl.textContent = "Hoy no hay reunión. Se muestra la siguiente reunión de este mes.";
         } else {
           viewMessageEl.textContent = "Hoy no hay reunión programada en este mes.";
@@ -825,7 +834,7 @@
         const semanaFin = new Date(hoy);
         semanaFin.setDate(hoy.getDate() + 6);
 
-        const semanaLista = lista.filter(item => item.fecha <= semanaFin);
+        const semanaLista = lista.filter(item => item.fecha >= hoy && item.fecha <= semanaFin);
         if (semanaLista.length) {
           lista = semanaLista;
           viewMessageEl.textContent = "Programas de esta semana.";
@@ -850,6 +859,7 @@
 
     function renderMeeting(item, featured = false) {
       const esHoy = esHoyDate(item.fecha);
+      const zoomHref = DIRECT_ZOOM_LINK;
 
       return `
         <article class="meeting-card ${featured ? "destacada" : ""}">
@@ -872,14 +882,7 @@
             <div class="info-side">
               <div class="meeting-label">Reunión pública</div>
               <div class="meeting-day">${escapeHtml(item.fechaTexto)}</div>
-              <a
-                href="${DIRECT_ZOOM_LINK}"
-                class="meeting-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Ingresar por Zoom
-              </a>
+              <a href="${zoomHref}" class="meeting-link" target="_blank" rel="noopener noreferrer">Ingresar por Zoom</a>
             </div>
 
             <div class="details-grid">
@@ -887,6 +890,9 @@
               ${createDetail("Orador", item.orador, "label-orador")}
               ${createDetail("Tema", item.tema, "label-tema")}
               ${createDetail("Lector", item.lector, "label-lector")}
+              ${createDetail("Canción", item.cancion, "label-cancion")}
+              ${createDetail("Congregación", item.congregacion, "label-congregacion")}
+              ${createDetail("Conductor", item.conductor, "label-conductor")}
             </div>
           </div>
         </article>
@@ -907,7 +913,7 @@
 
       if (!filteredMeetings.length) {
         countResumenEl.textContent = "0 programas";
-        cardsEl.innerHTML = `<p class="empty-msg">Sin reuniones futuras para mostrar.</p>`;
+        cardsEl.innerHTML = `<p class="empty-msg">Sin reuniones para mostrar en este filtro.</p>`;
         loadMoreBtn.style.display = "none";
         return;
       }
@@ -926,14 +932,10 @@
       cardsEl.innerHTML = "";
 
       try {
-        const response = await fetch(PUBLISHED_CSV_URL, { cache: "no-store" });
+        const response = await fetch(CSV_URL, { cache: "no-store" });
         if (!response.ok) throw new Error("No se pudo descargar el CSV");
 
         const text = await response.text();
-        if (text.includes("<html") || text.includes("<!DOCTYPE")) {
-          throw new Error("Google devolvió HTML en vez de CSV");
-        }
-
         const rows = parseCSV(text);
         allMeetings = parseRows(rows);
 
@@ -944,7 +946,7 @@
       } catch (error) {
         console.error(error);
         countResumenEl.textContent = "Error";
-        cardsEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga publicada.</p>`;
+        cardsEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
       }
     }
 
