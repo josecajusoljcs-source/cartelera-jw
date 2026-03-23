@@ -580,6 +580,12 @@
     let mesAnioActual = null;
     let modoVista = "mes";
 
+    const MONTHS = {
+      enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
+      julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
+      noviembre:10, diciembre:11
+    };
+
     function escapeHtml(value) {
       return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -599,7 +605,6 @@
       let row = [];
       let cur = "";
       let inQuotes = false;
-
       const s = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
       for (let i = 0; i < s.length; i++) {
@@ -650,10 +655,12 @@
       return new Date(date.getFullYear(), date.getMonth(), date.getDate());
     }
 
+    function hoyBase() {
+      return soloFecha(new Date());
+    }
+
     function esHoyDate(fecha) {
-      const hoy = soloFecha(new Date());
-      const f = soloFecha(fecha);
-      return f.getTime() === hoy.getTime();
+      return fecha.getTime() === hoyBase().getTime();
     }
 
     function obtenerMesAnioKey(date) {
@@ -672,43 +679,24 @@
       return date && date.getFullYear() === year && date.getMonth() === month;
     }
 
-    function parseFechaTexto(fechaTexto) {
-      if (!fechaTexto) return null;
-      const limpio = fechaTexto.toString().trim();
-
-      const matchNum = limpio.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-      if (matchNum) {
-        const d = parseInt(matchNum[1], 10);
-        const m = parseInt(matchNum[2], 10) - 1;
-        let y = parseInt(matchNum[3], 10);
-        if (y < 100) y += 2000;
-        return new Date(y, m, d);
-      }
-
-      const limpioNorm = normalizarTexto(limpio);
-      const matchText = limpioNorm.match(/^(\d{1,2})\s+de\s+([a-záéíóú]+)/i);
-      if (matchText) {
-        const d = parseInt(matchText[1], 10);
-        const mesTxt = matchText[2];
-
-        const meses = {
-          enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
-          julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
-          noviembre:10, diciembre:11
-        };
-
-        const m = meses[mesTxt];
-        if (m == null) return null;
-
-        const actual = new Date();
-        return new Date(actual.getFullYear(), m, d);
-      }
-
-      return null;
+    function parseDateParts(text) {
+      const t = normalizarTexto(text);
+      const m = t.match(/^(\d{1,2})\s+de\s+([a-záéíóú]+)$/i);
+      if (!m) return null;
+      const day = parseInt(m[1], 10);
+      const month = MONTHS[m[2]];
+      if (month == null) return null;
+      return { day, month, raw: cleanText(text) };
     }
 
-    function isDateRow(text) {
-      return /^\d{1,2}\s+de\s+[a-záéíóú]+$/i.test(normalizarTexto(text));
+    function isPureDateRow(row) {
+      const values = row.map(cleanText).filter(Boolean);
+      if (values.length !== 1) return false;
+      return !!parseDateParts(values[0]);
+    }
+
+    function buildDateFromParts(parts, year) {
+      return new Date(year, parts.month, parts.day);
     }
 
     function actualizarOpcionesMes() {
@@ -742,7 +730,7 @@
     }
 
     function setMesAProximaReunion() {
-      const hoy = soloFecha(new Date());
+      const hoy = hoyBase();
       const proxima = allMeetings.find(x => x.fecha.getTime() >= hoy.getTime()) || allMeetings[0];
       if (!proxima) return false;
 
@@ -767,80 +755,123 @@
       };
     }
 
+    function getFirstTwoNonEmpty(row) {
+      const vals = row.map(cleanText).filter(Boolean);
+      return {
+        label: vals[0] || "",
+        value: vals[1] || ""
+      };
+    }
+
+    function assignField(meeting, labelRaw, valueRaw) {
+      const label = normalizarTexto(labelRaw);
+      const value = cleanText(valueRaw);
+      if (!label) return;
+
+      if (label.startsWith("zoom")) meeting.zoom = value || meeting.zoom;
+      else if (label.startsWith("presidente")) meeting.presidente = value || meeting.presidente;
+      else if (label.startsWith("cancion") || label.startsWith("canción")) meeting.cancion = value || meeting.cancion;
+      else if (label.includes("discurso especial")) meeting.tema = value || meeting.tema;
+      else if (label.startsWith("orador")) meeting.orador = value || meeting.orador;
+      else if (label.startsWith("congregacion") || label.startsWith("congregación")) meeting.congregacion = value || meeting.congregacion;
+      else if (label.startsWith("conductor")) meeting.conductor = value || meeting.conductor;
+      else if (label.startsWith("lector")) meeting.lector = value || meeting.lector;
+    }
+
+    function dedupeMeetings(meetings) {
+      const seen = new Set();
+      return meetings.filter(m => {
+        const key = [
+          m.fecha?.toISOString?.().slice(0,10) || "",
+          m.fechaTexto,
+          m.presidente,
+          m.orador,
+          m.tema,
+          m.lector,
+          m.cancion,
+          m.congregacion,
+          m.conductor
+        ].join("|");
+
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
     function parseRows(rows) {
       const meetings = [];
       let current = null;
+      let inferredYear = hoyBase().getFullYear();
+      let lastDate = null;
 
       for (const row of rows) {
-        const colA = cleanText(row[0] || "");
-        const colB = cleanText(row[1] || "");
-        const colC = cleanText(row[2] || "");
-        const colD = cleanText(row[3] || "");
+        if (!row || !row.length) continue;
 
-        const values = [colA, colB, colC, colD].filter(Boolean);
+        if (isPureDateRow(row)) {
+          const onlyValue = row.map(cleanText).filter(Boolean)[0];
+          const parts = parseDateParts(onlyValue);
+          if (!parts) continue;
 
-        if (!values.length) continue;
+          let tentative = buildDateFromParts(parts, inferredYear);
 
-        const dateCandidate = values.find(v => isDateRow(v));
-        if (dateCandidate) {
-          const fecha = parseFechaTexto(dateCandidate);
-          if (fecha) {
-            if (current) meetings.push(current);
-            current = createEmptyMeeting(dateCandidate, fecha);
-            continue;
+          if (lastDate && tentative.getTime() <= lastDate.getTime()) {
+            // Si la fecha va para atrás, la tratamos como próxima ocurrencia válida
+            if (tentative.getMonth() < lastDate.getMonth() || tentative.getDate() < lastDate.getDate()) {
+              tentative = buildDateFromParts(parts, inferredYear + 1);
+              inferredYear = tentative.getFullYear();
+            }
           }
+
+          if (current) meetings.push(current);
+          current = createEmptyMeeting(onlyValue, tentative);
+          lastDate = tentative;
+          continue;
         }
 
         if (!current) continue;
 
-        const label = normalizarTexto(colB || colA);
-        const value = colC || colD || "";
-
-        if (label.startsWith("zoom")) current.zoom = value || current.zoom;
-        else if (label.startsWith("presidente")) current.presidente = value || current.presidente;
-        else if (label.startsWith("cancion") || label.startsWith("canción")) current.cancion = value || current.cancion;
-        else if (label.includes("discurso especial")) current.tema = value || current.tema;
-        else if (label.startsWith("orador")) current.orador = value || current.orador;
-        else if (label.startsWith("congregacion") || label.startsWith("congregación")) current.congregacion = value || current.congregacion;
-        else if (label.startsWith("conductor")) current.conductor = value || current.conductor;
-        else if (label.startsWith("lector")) current.lector = value || current.lector;
+        const { label, value } = getFirstTwoNonEmpty(row);
+        assignField(current, label, value);
       }
 
       if (current) meetings.push(current);
 
-      return meetings.sort((a, b) => a.fecha - b.fecha);
+      return dedupeMeetings(meetings).sort((a, b) => a.fecha - b.fecha);
     }
 
     function filtrarReuniones() {
-      const hoy = soloFecha(new Date());
+      const hoy = hoyBase();
 
-      let lista = allMeetings.filter(
-        item => mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month)
-      );
+      let lista = allMeetings.filter(item => {
+        if (!mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month)) return false;
+
+        if (modoVista === "mes") {
+          // Mostrar desde hoy en adelante dentro del mes actual seleccionado
+          if (mesAnioActual.year === hoy.getFullYear() && mesAnioActual.month === hoy.getMonth()) {
+            return item.fecha.getTime() >= hoy.getTime();
+          }
+          return true;
+        }
+
+        return true;
+      });
 
       if (modoVista === "hoy") {
         const hoyLista = lista.filter(item => esHoyDate(item.fecha));
         if (hoyLista.length) {
           lista = hoyLista;
           viewMessageEl.textContent = "Mostrando el programa de hoy.";
-        } else if (lista.length) {
-          const futura = lista.find(x => x.fecha.getTime() >= hoy.getTime()) || lista[0];
-          lista = futura ? [futura] : [];
-          viewMessageEl.textContent = "Hoy no hay reunión. Se muestra la siguiente reunión de este mes.";
         } else {
-          viewMessageEl.textContent = "Hoy no hay reunión programada en este mes.";
+          const proxima = allMeetings.find(item => item.fecha.getTime() > hoy.getTime());
+          lista = proxima ? [proxima] : [];
+          viewMessageEl.textContent = "Hoy no hay reunión. Se muestra la siguiente reunión.";
         }
       } else if (modoVista === "semana") {
         const semanaFin = new Date(hoy);
         semanaFin.setDate(hoy.getDate() + 6);
-
-        const semanaLista = lista.filter(item => item.fecha >= hoy && item.fecha <= semanaFin);
-        if (semanaLista.length) {
-          lista = semanaLista;
-          viewMessageEl.textContent = "Programas de esta semana.";
-        } else {
-          viewMessageEl.textContent = "No hay reuniones esta semana en este mes.";
-        }
+        lista = lista.filter(item => item.fecha.getTime() >= hoy.getTime() && item.fecha.getTime() <= semanaFin.getTime());
+        viewMessageEl.textContent = lista.length ? "Programas de esta semana." : "No hay reuniones esta semana.";
       } else {
         viewMessageEl.textContent = "";
       }
