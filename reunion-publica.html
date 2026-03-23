@@ -561,8 +561,7 @@
   </main>
 
   <script>
-    const SHEET_ID = "184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo";
-    const GID = "1568836904";
+    const PUBLISHED_JSON_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/gviz/tq?gid=1568836904&tqx=out:json";
     const INITIAL_ITEMS = 4;
     const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
 
@@ -590,10 +589,6 @@
     function cleanText(value) {
       if (value == null) return "";
       return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
-    }
-
-    function getCell(row, index) {
-      return row?.c?.[index]?.v != null ? cleanText(row.c[index].v) : "";
     }
 
     function normalizarTexto(str) {
@@ -721,24 +716,26 @@
       const meetings = [];
 
       rows.forEach(row => {
-        const fechaTexto = getCell(row, 0);
-        const presidente = getCell(row, 1);
-        const orador = getCell(row, 2);
-        const tema = getCell(row, 3);
-        const lector = getCell(row, 4);
+        const c = row.c || [];
+        const values = c.map(cell => cleanText(cell?.v ?? ""));
 
+        // Busca la primera celda que parezca fecha
+        const fechaTexto = values.find(v => parseFechaTexto(v));
         if (!fechaTexto) return;
 
         const fecha = parseFechaTexto(fechaTexto);
         if (!(fecha instanceof Date) || isNaN(fecha)) return;
 
+        // Toma el resto de celdas con texto útil
+        const utiles = values.filter(v => v && v !== fechaTexto);
+
         meetings.push({
           fecha: soloFecha(fecha),
           fechaTexto,
-          presidente,
-          orador,
-          tema,
-          lector
+          presidente: utiles[0] || "",
+          orador: utiles[1] || "",
+          tema: utiles[2] || "",
+          lector: utiles[3] || ""
         });
       });
 
@@ -884,8 +881,7 @@
       cardsEl.innerHTML = "";
 
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${GID}&tqx=out:json`;
-        const response = await fetch(url, { cache: "no-store" });
+        const response = await fetch(PUBLISHED_JSON_URL, { cache: "no-store" });
         const raw = await response.text();
 
         const start = raw.indexOf("{");
@@ -903,7 +899,7 @@
       } catch (error) {
         console.error(error);
         countResumenEl.textContent = "Error";
-        cardsEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública y que el GID sea correcto.</p>`;
+        cardsEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga publicada.</p>`;
       }
     }
 
