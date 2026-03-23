@@ -11,14 +11,11 @@
   <style>
     :root{
       --bg:#f6f4ef;
-      --paper:#ffffff;
       --text:#171717;
       --muted:#6f6f6f;
       --line:rgba(0,0,0,.10);
 
       --jw-beige:#efe0a1;
-      --jw-black:#111111;
-      --jw-gray:#4b4b4b;
       --jw-blue:#5f6f86;
       --jw-blue-soft:#e8edf3;
       --jw-wine:#8c1d40;
@@ -76,109 +73,6 @@
     .subhead{
       color:var(--muted);
       font-size:.95rem;
-    }
-
-    .controls{
-      display:flex;
-      flex-wrap:wrap;
-      gap:.7rem;
-      align-items:end;
-      justify-content:space-between;
-      margin-bottom:.75rem;
-      width:100%;
-    }
-
-    .controls-left,
-    .controls-right{
-      display:flex;
-      flex-wrap:wrap;
-      gap:.55rem;
-      align-items:center;
-      max-width:100%;
-    }
-
-    .select-wrapper{
-      width:100%;
-      max-width:260px;
-    }
-
-    .select-label{
-      font-size:.74rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--jw-gray);
-      margin-bottom:.34rem;
-      font-weight:800;
-    }
-
-    select{
-      width:100%;
-      border-radius:999px;
-      padding:.56rem .95rem;
-      border:1px solid rgba(0,0,0,.10);
-      background:#fff;
-      color:var(--text);
-      font-size:.92rem;
-      outline:none;
-      appearance:auto;
-    }
-
-    .toggle-btn{
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.10);
-      background:#fff;
-      color:var(--muted);
-      font-size:.78rem;
-      padding:.38rem .9rem;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:.35rem;
-      transition:.16s ease;
-      font-weight:700;
-    }
-
-    .toggle-btn.active{
-      border-color:rgba(95,111,134,.35);
-      color:#111;
-      background:#f5f7fa;
-    }
-
-    .toggle-dot{
-      width:7px;
-      height:7px;
-      border-radius:999px;
-      background:rgba(107,107,107,.7);
-    }
-
-    .toggle-btn.active .toggle-dot{
-      background:var(--jw-blue);
-      box-shadow:0 0 8px rgba(95,111,134,.35);
-    }
-
-    .view-tabs{
-      display:inline-flex;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.10);
-      background:#fff;
-      overflow:hidden;
-      max-width:100%;
-    }
-
-    .view-tab{
-      padding:.4rem .9rem;
-      font-size:.79rem;
-      color:var(--muted);
-      border:none;
-      background:transparent;
-      cursor:pointer;
-      white-space:nowrap;
-      font-weight:700;
-    }
-
-    .view-tab.active{
-      background:var(--jw-blue);
-      color:#fff;
     }
 
     .shell{
@@ -244,7 +138,7 @@
       display:grid;
       grid-template-columns:minmax(0,1fr);
       gap:.95rem;
-      max-height:calc(100vh - 220px);
+      max-height:calc(100vh - 180px);
       overflow-y:auto;
       overflow-x:hidden;
       padding-right:.15rem;
@@ -324,17 +218,6 @@
       height:8px;
       border-radius:999px;
       background:var(--jw-blue);
-    }
-
-    .badge-hoy{
-      border-color:rgba(34,197,94,.30);
-      color:#166534;
-      background:rgba(34,197,94,.10);
-    }
-
-    .badge-hoy .badge-dot{
-      background:#22c55e;
-      box-shadow:0 0 8px rgba(34,197,94,.3);
     }
 
     .meeting-body{
@@ -487,20 +370,6 @@
         overflow-y:visible;
       }
 
-      .controls{
-        flex-direction:column;
-        align-items:stretch;
-      }
-
-      .controls-right{
-        justify-content:flex-start;
-      }
-
-      .section-head{
-        align-items:flex-start;
-        flex-direction:column;
-      }
-
       .meeting-body{
         grid-template-columns:minmax(0, 1fr);
         padding:12px 12px 14px;
@@ -525,26 +394,6 @@
       <div class="subhead">Programa semanal de la congregación</div>
     </header>
 
-    <section class="controls">
-      <div class="controls-left">
-        <div class="select-wrapper">
-          <div class="select-label">Mes / año</div>
-          <select id="monthYearSelect"></select>
-        </div>
-      </div>
-
-      <div class="controls-right">
-        <div class="view-tabs" aria-label="Ver">
-          <button class="view-tab active" data-view="mes">Mes</button>
-          <button class="view-tab" data-view="semana">Semana</button>
-          <button class="view-tab" data-view="hoy">Hoy</button>
-        </div>
-
-        <button class="toggle-btn" id="btn-texto-grande"><span class="toggle-dot"></span>Letra grande</button>
-        <button class="toggle-btn" id="btn-alto-contraste"><span class="toggle-dot"></span>Más contraste</button>
-      </div>
-    </section>
-
     <section class="shell">
       <div class="shell-inner">
         <div class="section-head">
@@ -552,7 +401,7 @@
           <span id="count-resumen">Cargando…</span>
         </div>
 
-        <p id="view-message" class="view-message"></p>
+        <p id="view-message" class="view-message">Se muestra la siguiente reunión según el orden actual de la hoja.</p>
 
         <div id="cards" class="cards"></div>
 
@@ -570,21 +419,10 @@
 
     const cardsEl = document.getElementById("cards");
     const countResumenEl = document.getElementById("count-resumen");
-    const viewMessageEl = document.getElementById("view-message");
-    const monthYearSelect = document.getElementById("monthYearSelect");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
 
     let allMeetings = [];
-    let filteredMeetings = [];
     let visibleItems = INITIAL_ITEMS;
-    let mesAnioActual = null;
-    let modoVista = "mes";
-
-    const MONTHS = {
-      enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
-      julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
-      noviembre:10, diciembre:11
-    };
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -651,98 +489,25 @@
         .trim();
     }
 
-    function soloFecha(date) {
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
-
-    function hoyBase() {
-      return soloFecha(new Date());
-    }
-
-    function esHoyDate(fecha) {
-      return fecha.getTime() === hoyBase().getTime();
-    }
-
-    function obtenerMesAnioKey(date) {
-      const meses = [
-        "Enero","Febrero","Marzo","Abril","Mayo","Junio",
-        "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
-      ];
-      return {
-        label: meses[date.getMonth()] + " " + date.getFullYear(),
-        month: date.getMonth(),
-        year: date.getFullYear(),
-      };
-    }
-
-    function mismoMesAnio(date, year, month) {
-      return date && date.getFullYear() === year && date.getMonth() === month;
-    }
-
-    function parseDateParts(text) {
-      const t = normalizarTexto(text);
-      const m = t.match(/^(\d{1,2})\s+de\s+([a-záéíóú]+)$/i);
-      if (!m) return null;
-      const day = parseInt(m[1], 10);
-      const month = MONTHS[m[2]];
-      if (month == null) return null;
-      return { day, month, raw: cleanText(text) };
+    function isDateLabel(text) {
+      return /^\d{1,2}\s+de\s+[a-záéíóú]+$/i.test(normalizarTexto(text));
     }
 
     function isPureDateRow(row) {
       const values = row.map(cleanText).filter(Boolean);
-      if (values.length !== 1) return false;
-      return !!parseDateParts(values[0]);
+      return values.length === 1 && isDateLabel(values[0]);
     }
 
-    function buildDateFromParts(parts, year) {
-      return new Date(year, parts.month, parts.day);
-    }
-
-    function actualizarOpcionesMes() {
-      const opcionesMesSet = new Map();
-
-      allMeetings.forEach(item => {
-        const keyObj = obtenerMesAnioKey(item.fecha);
-        const key = keyObj.year + "-" + keyObj.month;
-        if (!opcionesMesSet.has(key)) opcionesMesSet.set(key, keyObj.label);
-      });
-
-      monthYearSelect.innerHTML = "";
-
-      const optProxima = document.createElement("option");
-      optProxima.value = "__PROXIMA__";
-      optProxima.textContent = "✅ Siguiente reunión";
-      monthYearSelect.appendChild(optProxima);
-
-      Array.from(opcionesMesSet.entries())
-        .map(([key, label]) => {
-          const [yearStr, monthStr] = key.split("-");
-          return { key, label, year: +yearStr, month: +monthStr };
-        })
-        .sort((a, b) => (a.year - b.year) || (a.month - b.month))
-        .forEach(opt => {
-          const option = document.createElement("option");
-          option.value = opt.key;
-          option.textContent = opt.label;
-          monthYearSelect.appendChild(option);
-        });
-    }
-
-    function setMesAProximaReunion() {
-      const hoy = hoyBase();
-      const proxima = allMeetings.find(x => x.fecha.getTime() >= hoy.getTime()) || allMeetings[0];
-      if (!proxima) return false;
-
-      const keyObj = obtenerMesAnioKey(proxima.fecha);
-      mesAnioActual = { year: keyObj.year, month: keyObj.month };
-      monthYearSelect.value = `${keyObj.year}-${keyObj.month}`;
-      return true;
-    }
-
-    function createEmptyMeeting(dateText, dateObj) {
+    function getFirstTwoNonEmpty(row) {
+      const vals = row.map(cleanText).filter(Boolean);
       return {
-        fecha: soloFecha(dateObj),
+        label: vals[0] || "",
+        value: vals[1] || ""
+      };
+    }
+
+    function createEmptyMeeting(dateText) {
+      return {
         fechaTexto: dateText,
         zoom: "",
         presidente: "",
@@ -752,14 +517,6 @@
         congregacion: "",
         conductor: "",
         lector: ""
-      };
-    }
-
-    function getFirstTwoNonEmpty(row) {
-      const vals = row.map(cleanText).filter(Boolean);
-      return {
-        label: vals[0] || "",
-        value: vals[1] || ""
       };
     }
 
@@ -779,57 +536,38 @@
     }
 
     function dedupeMeetings(meetings) {
-      const seen = new Set();
-      return meetings.filter(m => {
-        const key = [
-          m.fecha?.toISOString?.().slice(0,10) || "",
-          m.fechaTexto,
-          m.presidente,
-          m.orador,
-          m.tema,
-          m.lector,
-          m.cancion,
-          m.congregacion,
-          m.conductor
-        ].join("|");
+      const seenDates = new Set();
+      const result = [];
 
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
+      for (const m of meetings) {
+        const key = normalizarTexto(m.fechaTexto);
+        if (seenDates.has(key)) continue;
+        seenDates.add(key);
+        result.push(m);
+      }
+
+      return result;
     }
 
     function parseRows(rows) {
       const meetings = [];
       let current = null;
-      let inferredYear = hoyBase().getFullYear();
-      let lastDate = null;
+      let started = false;
 
       for (const row of rows) {
         if (!row || !row.length) continue;
 
         if (isPureDateRow(row)) {
-          const onlyValue = row.map(cleanText).filter(Boolean)[0];
-          const parts = parseDateParts(onlyValue);
-          if (!parts) continue;
+          const dateValue = row.map(cleanText).filter(Boolean)[0];
 
-          let tentative = buildDateFromParts(parts, inferredYear);
-
-          if (lastDate && tentative.getTime() <= lastDate.getTime()) {
-            // Si la fecha va para atrás, la tratamos como próxima ocurrencia válida
-            if (tentative.getMonth() < lastDate.getMonth() || tentative.getDate() < lastDate.getDate()) {
-              tentative = buildDateFromParts(parts, inferredYear + 1);
-              inferredYear = tentative.getFullYear();
-            }
-          }
+          if (!started) started = true;
 
           if (current) meetings.push(current);
-          current = createEmptyMeeting(onlyValue, tentative);
-          lastDate = tentative;
+          current = createEmptyMeeting(dateValue);
           continue;
         }
 
-        if (!current) continue;
+        if (!started || !current) continue;
 
         const { label, value } = getFirstTwoNonEmpty(row);
         assignField(current, label, value);
@@ -837,46 +575,7 @@
 
       if (current) meetings.push(current);
 
-      return dedupeMeetings(meetings).sort((a, b) => a.fecha - b.fecha);
-    }
-
-    function filtrarReuniones() {
-      const hoy = hoyBase();
-
-      let lista = allMeetings.filter(item => {
-        if (!mismoMesAnio(item.fecha, mesAnioActual.year, mesAnioActual.month)) return false;
-
-        if (modoVista === "mes") {
-          // Mostrar desde hoy en adelante dentro del mes actual seleccionado
-          if (mesAnioActual.year === hoy.getFullYear() && mesAnioActual.month === hoy.getMonth()) {
-            return item.fecha.getTime() >= hoy.getTime();
-          }
-          return true;
-        }
-
-        return true;
-      });
-
-      if (modoVista === "hoy") {
-        const hoyLista = lista.filter(item => esHoyDate(item.fecha));
-        if (hoyLista.length) {
-          lista = hoyLista;
-          viewMessageEl.textContent = "Mostrando el programa de hoy.";
-        } else {
-          const proxima = allMeetings.find(item => item.fecha.getTime() > hoy.getTime());
-          lista = proxima ? [proxima] : [];
-          viewMessageEl.textContent = "Hoy no hay reunión. Se muestra la siguiente reunión.";
-        }
-      } else if (modoVista === "semana") {
-        const semanaFin = new Date(hoy);
-        semanaFin.setDate(hoy.getDate() + 6);
-        lista = lista.filter(item => item.fecha.getTime() >= hoy.getTime() && item.fecha.getTime() <= semanaFin.getTime());
-        viewMessageEl.textContent = lista.length ? "Programas de esta semana." : "No hay reuniones esta semana.";
-      } else {
-        viewMessageEl.textContent = "";
-      }
-
-      filteredMeetings = lista.sort((a, b) => a.fecha - b.fecha);
+      return dedupeMeetings(meetings);
     }
 
     function createDetail(label, value, cls) {
@@ -889,9 +588,6 @@
     }
 
     function renderMeeting(item, featured = false) {
-      const esHoy = esHoyDate(item.fecha);
-      const zoomHref = DIRECT_ZOOM_LINK;
-
       return `
         <article class="meeting-card ${featured ? "destacada" : ""}">
           <div class="meeting-title">${escapeHtml(item.fechaTexto)}</div>
@@ -899,21 +595,15 @@
           <div class="meeting-meta">
             <div class="badge">
               <span class="badge-dot"></span>
-              <span>${featured ? "Siguiente reunión" : "Programa"}</span>
+              <span>${featured ? "Siguiente reunión" : "Próxima reunión"}</span>
             </div>
-            ${esHoy ? `
-              <div class="badge badge-hoy">
-                <span class="badge-dot"></span>
-                <span>Hoy</span>
-              </div>
-            ` : ""}
           </div>
 
           <div class="meeting-body">
             <div class="info-side">
               <div class="meeting-label">Reunión pública</div>
               <div class="meeting-day">${escapeHtml(item.fechaTexto)}</div>
-              <a href="${zoomHref}" class="meeting-link" target="_blank" rel="noopener noreferrer">Ingresar por Zoom</a>
+              <a href="${DIRECT_ZOOM_LINK}" class="meeting-link" target="_blank" rel="noopener noreferrer">Ingresar por Zoom</a>
             </div>
 
             <div class="details-grid">
@@ -934,28 +624,19 @@
       cardsEl.innerHTML = "";
 
       if (!allMeetings.length) {
-        countResumenEl.textContent = "0 programas";
+        countResumenEl.textContent = "0 reuniones";
         cardsEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
         loadMoreBtn.style.display = "none";
         return;
       }
 
-      filtrarReuniones();
+      const visible = allMeetings.slice(0, visibleItems);
+      countResumenEl.textContent = visible.length === 1
+        ? "1 reunión visible"
+        : `${allMeetings.length} reuniones visibles`;
 
-      if (!filteredMeetings.length) {
-        countResumenEl.textContent = "0 programas";
-        cardsEl.innerHTML = `<p class="empty-msg">Sin reuniones para mostrar en este filtro.</p>`;
-        loadMoreBtn.style.display = "none";
-        return;
-      }
-
-      countResumenEl.textContent = filteredMeetings.length === 1
-        ? "1 programa visible"
-        : `${filteredMeetings.length} programas visibles`;
-
-      const visible = filteredMeetings.slice(0, visibleItems);
       cardsEl.innerHTML = visible.map((item, index) => renderMeeting(item, index === 0)).join("");
-      loadMoreBtn.style.display = visibleItems < filteredMeetings.length ? "inline-block" : "none";
+      loadMoreBtn.style.display = visibleItems < allMeetings.length ? "inline-block" : "none";
     }
 
     async function loadSheet() {
@@ -970,9 +651,6 @@
         const rows = parseCSV(text);
         allMeetings = parseRows(rows);
 
-        actualizarOpcionesMes();
-        monthYearSelect.value = "__PROXIMA__";
-        setMesAProximaReunion();
         render();
       } catch (error) {
         console.error(error);
@@ -981,35 +659,8 @@
       }
     }
 
-    monthYearSelect.addEventListener("change", () => {
-      visibleItems = INITIAL_ITEMS;
-      if (monthYearSelect.value === "__PROXIMA__") {
-        setMesAProximaReunion();
-      } else {
-        const [yStr, mStr] = monthYearSelect.value.split("-");
-        mesAnioActual = { year: +yStr, month: +mStr };
-      }
-      render();
-    });
-
-    document.querySelectorAll(".view-tab").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".view-tab").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        modoVista = btn.dataset.view || "mes";
-        visibleItems = INITIAL_ITEMS;
-        render();
-      });
-    });
-
-    document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
-      const active = document.body.classList.toggle("modo-texto-grande");
-      e.currentTarget.classList.toggle("active", active);
-    });
-
-    document.getElementById("btn-alto-contraste").addEventListener("click", (e) => {
-      const active = document.body.classList.toggle("modo-alto-contraste");
-      e.currentTarget.classList.toggle("active", active);
+    document.getElementById("btn-texto-grande")?.addEventListener?.("click", () => {
+      document.body.classList.toggle("modo-texto-grande");
     });
 
     loadMoreBtn.addEventListener("click", () => {
