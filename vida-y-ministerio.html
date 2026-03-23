@@ -1,19 +1,803 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <title>Reunión Vida y Ministerio</title>
-      <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-      <style>
-        iframe {
-            display: block;       /* iframes are inline by default */
-            border: none;         /* Reset default border */
-            height: 100vh;        /* Viewport-relative units */
-            width: 100vw;
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reuniones - Punta Gorda : Viernes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --muted:#6b6b6b;
+      --line:#ececec;
+
+      --jw-beige:#efe0a1;
+      --jw-black:#000000;
+      --jw-wine:#8c1d40;
+      --jw-gray:#4b4b4b;
+      --jw-gold:#c89b00;
+      --jw-red:#b30000;
+
+      --right-line:#d6d6d6;
+      --right-soft:#fafafa;
+      --right-sep:#e5e5e5;
+      --label:#7a7a7a;
+      --name:#222222;
+
+      --shadow:0 10px 24px rgba(0,0,0,.05);
+      --shadow-soft:0 6px 18px rgba(0,0,0,.04);
+      --radius:14px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Noto Sans", Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    body{
+      min-height:100vh;
+    }
+
+    .topbar{
+      width:100%;
+      background:#fff;
+      border-bottom:1px solid #dadada;
+      padding:14px 16px;
+      font-size:clamp(1rem, 2vw, 1.35rem);
+      font-weight:700;
+      position:sticky;
+      top:0;
+      z-index:30;
+      box-shadow:0 1px 0 rgba(0,0,0,.03);
+    }
+
+    .page{
+      width:min(100%, 1160px);
+      margin:0 auto;
+      padding:18px 12px 40px;
+    }
+
+    .hero{
+      height:40px;
+      background:linear-gradient(180deg, #f1e3aa, var(--jw-beige));
+      border-radius:12px 12px 0 0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.3);
+    }
+
+    .hero-black{
+      height:22px;
+      background:linear-gradient(180deg, #1a1a1a, var(--jw-black));
+      margin-bottom:18px;
+      border-radius:0 0 12px 12px;
+    }
+
+    .status{
+      padding:28px 18px;
+      text-align:center;
+      color:var(--muted);
+      font-size:1.05rem;
+    }
+
+    .week-card{
+      background:#fff;
+      border:1px solid #ececec;
+      border-radius:16px;
+      overflow:hidden;
+      margin:0 0 24px;
+      box-shadow:var(--shadow);
+    }
+
+    .week-title{
+      background:linear-gradient(180deg, #efe4b5 0%, var(--jw-beige) 100%);
+      color:#000;
+      font-weight:800;
+      font-size:clamp(1.45rem, 3.3vw, 2.2rem);
+      line-height:1.12;
+      padding:14px 16px;
+      word-break:break-word;
+      border-top:4px solid rgba(0,0,0,.06);
+      box-shadow:inset 0 -1px 0 rgba(0,0,0,.04);
+    }
+
+    .meeting-id{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--jw-wine);
+      text-decoration:underline;
+      font-size:clamp(1rem, 2vw, 1.14rem);
+      padding:10px 16px 6px;
+      word-break:break-word;
+      cursor:pointer;
+    }
+
+    .meeting-id::before{
+      content:"◉";
+      color:var(--jw-wine);
+      font-size:.9em;
+      flex:none;
+    }
+
+    .intro-wrap,
+    .section-body{
+      padding:4px 0 10px;
+    }
+
+    .section{
+      margin-top:8px;
+      border-top:1px solid #f0f0f0;
+    }
+
+    .section-title{
+      position:relative;
+      color:#fff;
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:clamp(1.22rem, 3vw, 1.82rem);
+      line-height:1.12;
+      padding:11px 16px;
+      word-break:break-word;
+      letter-spacing:.01em;
+      box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);
+    }
+
+    .section-title::after{
+      content:"";
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-50%);
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:rgba(255,255,255,.16);
+      box-shadow:0 0 0 4px rgba(255,255,255,.07);
+    }
+
+    .section-title.gray{ background:linear-gradient(180deg, #585858, var(--jw-gray)); }
+    .section-title.gold{ background:linear-gradient(180deg, #d4a600, var(--jw-gold)); }
+    .section-title.red{ background:linear-gradient(180deg, #c50000, var(--jw-red)); }
+
+    .program-row{
+      display:grid;
+      grid-template-columns:minmax(0, 1.72fr) minmax(240px, .88fr);
+      gap:14px;
+      padding:10px 16px;
+      align-items:start;
+      border-bottom:1px solid rgba(0,0,0,.03);
+    }
+
+    .program-row:last-child{
+      border-bottom:none;
+    }
+
+    .left-col{
+      min-width:0;
+      font-size:clamp(1.02rem, 2vw, 1.18rem);
+      line-height:1.45;
+      font-weight:700;
+      word-break:break-word;
+    }
+
+    .right-col{
+      min-width:0;
+      padding:8px 10px 8px 12px;
+      border-left:3px solid var(--right-line);
+      background:linear-gradient(180deg, #fcfcfc, var(--right-soft));
+      border-radius:0 10px 10px 0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      align-self:start;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .assign-group{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      padding:0;
+      margin:0;
+    }
+
+    .assign-group.compact{
+      gap:0;
+    }
+
+    .assign-line{
+      line-height:1.08;
+      word-break:break-word;
+      margin:0;
+      padding:2px 0;
+    }
+
+    .assign-group.compact .assign-line + .assign-line{
+      border-top:1px solid var(--right-sep);
+      margin-top:6px;
+      padding-top:8px;
+    }
+
+    .assign-role{
+      display:block;
+      font-size:.78rem;
+      line-height:1.02;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:var(--label);
+      font-weight:800;
+      margin-bottom:2px;
+    }
+
+    .assign-name{
+      display:block;
+      font-size:clamp(.96rem, 1.8vw, 1.08rem);
+      color:var(--name);
+      font-weight:500;
+    }
+
+    .simple-line{
+      padding:10px 16px;
+      font-size:clamp(1.02rem, 2vw, 1.16rem);
+      line-height:1.45;
+      font-weight:700;
+      word-break:break-word;
+      border-bottom:1px solid rgba(0,0,0,.03);
+    }
+
+    .simple-line:last-child{
+      border-bottom:none;
+    }
+
+    .load-more-wrap{
+      display:flex;
+      justify-content:center;
+      padding:10px 0 0;
+    }
+
+    .load-more{
+      border:none;
+      background:#111;
+      color:#fff;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:1rem;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
+      transition:.18s ease;
+    }
+
+    .load-more:hover{
+      opacity:.93;
+      transform:translateY(-1px);
+    }
+
+    @media (max-width: 900px){
+      .page{
+        padding:0 0 28px;
+      }
+
+      .week-card{
+        border-left:none;
+        border-right:none;
+        border-radius:0;
+        box-shadow:none;
+      }
+
+      .program-row{
+        grid-template-columns:minmax(0, 1.34fr) minmax(156px, .86fr);
+        gap:10px;
+        padding:10px 12px;
+      }
+
+      .week-title,
+      .meeting-id,
+      .section-title,
+      .simple-line{
+        padding-left:12px;
+        padding-right:12px;
+      }
+
+      .left-col{
+        font-size:clamp(1rem, 4.2vw, 1.1rem);
+      }
+
+      .assign-role{
+        font-size:.72rem;
+      }
+
+      .assign-name{
+        font-size:clamp(.9rem, 3vw, .98rem);
+      }
+
+      .right-col{
+        gap:5px;
+        padding:7px 8px 7px 8px;
+      }
+
+      .assign-group{
+        gap:3px;
+      }
+    }
+
+    @media (max-width: 560px){
+      .week-title{
+        font-size:clamp(1.18rem, 6.9vw, 1.52rem);
+      }
+
+      .section-title{
+        font-size:clamp(1.06rem, 6vw, 1.34rem);
+      }
+
+      .program-row{
+        grid-template-columns:minmax(0, 1.28fr) minmax(136px, .8fr);
+        gap:8px;
+      }
+
+      .left-col{
+        font-size:clamp(.96rem, 4.7vw, 1.05rem);
+        line-height:1.38;
+      }
+
+      .right-col{
+        padding-left:8px;
+        gap:4px;
+      }
+
+      .assign-group{
+        gap:2px;
+      }
+
+      .assign-group.compact .assign-line + .assign-line{
+        margin-top:5px;
+        padding-top:6px;
+      }
+
+      .assign-role{
+        font-size:.66rem;
+        letter-spacing:.03em;
+      }
+
+      .assign-name{
+        font-size:clamp(.84rem, 2.9vw, .94rem);
+        line-height:1.08;
+      }
+
+      .meeting-id{
+        font-size:clamp(.92rem, 4vw, 1rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Reuniones - Punta Gorda : Viernes</div>
+
+  <main class="page">
+    <div class="hero"></div>
+    <div class="hero-black"></div>
+
+    <section id="content">
+      <div class="status">Cargando reuniones...</div>
+    </section>
+
+    <div class="load-more-wrap">
+      <button id="loadMoreBtn" class="load-more" style="display:none;">Ver más semanas</button>
+    </div>
+  </main>
+
+  <script>
+    const SHEET_ID = "184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo";
+    const GID = "334102173";
+    const INITIAL_WEEKS = 3;
+
+    const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
+
+    const content = document.getElementById("content");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+    let allWeeks = [];
+    let visibleWeeks = INITIAL_WEEKS;
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function cleanText(value) {
+      if (value == null) return "";
+      return String(value)
+        .replace(/\u00a0/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getCell(row, index) {
+      return row?.c?.[index]?.v != null ? cleanText(row.c[index].v) : "";
+    }
+
+    function isWeekTitle(text) {
+      return /^(lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)\s/i.test(text);
+    }
+
+    function isMeetingId(text) {
+      return /^ID de reunión:/i.test(text);
+    }
+
+    function detectSection(text) {
+      const t = text.toUpperCase();
+      if (t.includes("TESOROS DE LA BIBLIA")) return { label: text, color: "gray" };
+      if (t.includes("SEAMOS MEJORES MAESTROS")) return { label: text, color: "gold" };
+      if (t.includes("NUESTRA VIDA CRISTIANA")) return { label: text, color: "red" };
+      return null;
+    }
+
+    function splitLinesRaw(value) {
+      if (!value) return [];
+      return String(value).split(/\n+/).map(cleanText).filter(Boolean);
+    }
+
+    function parseSingleRoleLine(text) {
+      if (!text) return null;
+
+      const match = text.match(/^(Presidente|Oración|Oracion|Conductor|Estudiante|Ayudante|Lector)\s*:?\s*(.+)$/i);
+      if (!match) return null;
+
+      return {
+        role: cleanText(match[1]).replace(/:$/, ""),
+        name: cleanText(match[2])
+      };
+    }
+
+    function splitRightLines(colB, colC) {
+      const leftLines = splitLinesRaw(colB);
+      const rightLines = splitLinesRaw(colC);
+      const max = Math.max(leftLines.length, rightLines.length);
+      const result = [];
+
+      for (let i = 0; i < max; i++) {
+        const a = leftLines[i] || "";
+        const b = rightLines[i] || "";
+
+        if (!a && !b) continue;
+
+        if (a && b) {
+          result.push({ role: a.replace(/:$/, ""), name: b });
+        } else if (a) {
+          const parsed = parseSingleRoleLine(a);
+          if (parsed) result.push(parsed);
+          else result.push({ role: "", name: a });
+        } else {
+          const parsed = parseSingleRoleLine(b);
+          if (parsed) result.push(parsed);
+          else result.push({ role: "", name: b });
         }
-      </style>
-   </head>
-   <body style="margin: 0px;">
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true" />
-   </body>
+      }
+
+      return result;
+    }
+
+    function buildItem(colA, colB, colC) {
+      return {
+        left: colA,
+        rightLines: splitRightLines(colB, colC)
+      };
+    }
+
+    function getLastItem(targetList) {
+      if (!targetList || !targetList.length) return null;
+      return targetList[targetList.length - 1];
+    }
+
+    function pushAssignmentToPrevious(currentWeek, currentSection, parsedLine) {
+      const targetList = currentSection ? currentSection.items : currentWeek.intro;
+      const lastItem = getLastItem(targetList);
+
+      if (lastItem) {
+        lastItem.rightLines = lastItem.rightLines || [];
+        lastItem.rightLines.push(parsedLine);
+        return true;
+      }
+      return false;
+    }
+
+    function parseWeeks(rows) {
+      const weeks = [];
+      let currentWeek = null;
+      let currentSection = null;
+
+      for (const row of rows) {
+        const colA = getCell(row, 0);
+        const colB = getCell(row, 1);
+        const colC = getCell(row, 2);
+
+        if (!colA && !colB && !colC) continue;
+
+        if (isWeekTitle(colA)) {
+          if (currentWeek) weeks.push(currentWeek);
+
+          currentWeek = {
+            title: colA,
+            meetingId: "",
+            intro: [],
+            sections: []
+          };
+
+          currentSection = null;
+          continue;
+        }
+
+        if (!currentWeek) continue;
+
+        if (isMeetingId(colA)) {
+          currentWeek.meetingId = colA;
+          continue;
+        }
+
+        const section = detectSection(colA);
+        if (section) {
+          currentSection = {
+            title: section.label,
+            color: section.color,
+            items: []
+          };
+          currentWeek.sections.push(currentSection);
+          continue;
+        }
+
+        const roleOnlyA = parseSingleRoleLine(colA);
+        const rowHasOnlyRoleInA = !!roleOnlyA && !colB && !colC;
+
+        if (rowHasOnlyRoleInA) {
+          if (pushAssignmentToPrevious(currentWeek, currentSection, roleOnlyA)) {
+            continue;
+          }
+        }
+
+        const rowHasOnlyRightSide = !colA && (colB || colC);
+        if (rowHasOnlyRightSide) {
+          const extraLines = splitRightLines(colB, colC);
+          const targetList = currentSection ? currentSection.items : currentWeek.intro;
+          const lastItem = getLastItem(targetList);
+
+          if (lastItem && extraLines.length) {
+            lastItem.rightLines = (lastItem.rightLines || []).concat(extraLines);
+            continue;
+          }
+        }
+
+        const item = buildItem(colA, colB, colC);
+
+        if (!item.left && item.rightLines.length) {
+          const targetList = currentSection ? currentSection.items : currentWeek.intro;
+          const lastItem = getLastItem(targetList);
+          if (lastItem) {
+            lastItem.rightLines = (lastItem.rightLines || []).concat(item.rightLines);
+            continue;
+          }
+        }
+
+        if (currentSection) {
+          currentSection.items.push(item);
+        } else {
+          currentWeek.intro.push(item);
+        }
+      }
+
+      if (currentWeek) weeks.push(currentWeek);
+      return weeks;
+    }
+
+    function isSeamosItem(text) {
+      const t = (text || "").toUpperCase();
+      return t.includes("EMPIECE CONVERSACIONES")
+        || t.includes("HAGA REVISITAS")
+        || t.includes("ESCENIFICACIÓN")
+        || t.includes("ESCENIFICACION")
+        || t.includes("PREDICACIÓN INFORMAL")
+        || t.includes("PREDICACION INFORMAL")
+        || t.includes("DE CASA EN CASA");
+    }
+
+    function isEstudioCongregacion(text) {
+      const t = (text || "").toUpperCase();
+      return t.includes("ESTUDIO BÍBLICO DE LA CONGREGACIÓN")
+        || t.includes("ESTUDIO BIBLICO DE LA CONGREGACION");
+    }
+
+    function isIntroSongPrayer(text) {
+      const t = (text || "").toUpperCase();
+      return t.includes("CANCIÓN") || t.includes("CANCION");
+    }
+
+    function groupAssignments(item) {
+      const lines = item.rightLines || [];
+      if (!lines.length) return [];
+
+      const left = item.left || "";
+      const groups = [];
+
+      if (isSeamosItem(left)) {
+        const estudiante = lines.find(x => (x.role || "").toUpperCase().includes("ESTUDIANTE"));
+        const ayudante = lines.find(x => (x.role || "").toUpperCase().includes("AYUDANTE"));
+        const rest = lines.filter(x => x !== estudiante && x !== ayudante);
+
+        if (estudiante || ayudante) {
+          groups.push({
+            compact: true,
+            lines: [estudiante, ayudante].filter(Boolean)
+          });
+        }
+        rest.forEach(x => groups.push({ compact: false, lines: [x] }));
+        return groups;
+      }
+
+      if (isEstudioCongregacion(left)) {
+        const conductor = lines.find(x => (x.role || "").toUpperCase().includes("CONDUCTOR"));
+        const lector = lines.find(x => (x.role || "").toUpperCase().includes("LECTOR"));
+        const rest = lines.filter(x => x !== conductor && x !== lector);
+
+        if (conductor || lector) {
+          groups.push({
+            compact: true,
+            lines: [conductor, lector].filter(Boolean)
+          });
+        }
+        rest.forEach(x => groups.push({ compact: false, lines: [x] }));
+        return groups;
+      }
+
+      if (isIntroSongPrayer(left)) {
+        const presidente = lines.find(x => (x.role || "").toUpperCase().includes("PRESIDENTE"));
+        const oracion = lines.find(x => {
+          const r = (x.role || "").toUpperCase();
+          return r.includes("ORACIÓN") || r.includes("ORACION");
+        });
+        const rest = lines.filter(x => x !== presidente && x !== oracion);
+
+        if (presidente || oracion) {
+          groups.push({
+            compact: true,
+            lines: [presidente, oracion].filter(Boolean)
+          });
+        }
+        rest.forEach(x => groups.push({ compact: false, lines: [x] }));
+        return groups;
+      }
+
+      return lines.map(x => ({ compact: false, lines: [x] }));
+    }
+
+    function renderRightCol(item) {
+      const groups = groupAssignments(item);
+      if (!groups.length) return "";
+
+      return `
+        <div class="right-col">
+          ${groups.map(group => `
+            <div class="assign-group ${group.compact ? "compact" : ""}">
+              ${group.lines.map(line => `
+                <div class="assign-line">
+                  ${line.role ? `<span class="assign-role">${escapeHtml(line.role)}</span>` : ""}
+                  <span class="assign-name">${escapeHtml(line.name)}</span>
+                </div>
+              `).join("")}
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderItem(item) {
+      const hasRight = item.rightLines && item.rightLines.length > 0;
+
+      if (!hasRight) {
+        return `<div class="simple-line">${escapeHtml(item.left)}</div>`;
+      }
+
+      return `
+        <div class="program-row">
+          <div class="left-col">${escapeHtml(item.left)}</div>
+          ${renderRightCol(item)}
+        </div>
+      `;
+    }
+
+    function renderMeetingLink(meetingText) {
+      return `
+        <a
+          href="${DIRECT_ZOOM_LINK}"
+          class="meeting-id"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${escapeHtml(meetingText)}
+        </a>
+      `;
+    }
+
+    function renderWeek(week) {
+      return `
+        <article class="week-card">
+          <div class="week-title">${escapeHtml(week.title)}</div>
+          ${week.meetingId ? renderMeetingLink(week.meetingId) : ""}
+          <div class="intro-wrap">
+            ${week.intro.map(renderItem).join("")}
+          </div>
+          ${week.sections.map(section => `
+            <section class="section">
+              <div class="section-title ${section.color}">${escapeHtml(section.title)}</div>
+              <div class="section-body">
+                ${section.items.map(renderItem).join("")}
+              </div>
+            </section>
+          `).join("")}
+        </article>
+      `;
+    }
+
+    function render() {
+      if (!allWeeks.length) {
+        content.innerHTML = `<div class="status">No encontré semanas para mostrar.</div>`;
+        loadMoreBtn.style.display = "none";
+        return;
+      }
+
+      const visible = allWeeks.slice(0, visibleWeeks);
+      content.innerHTML = visible.map(renderWeek).join("");
+      loadMoreBtn.style.display = visibleWeeks < allWeeks.length ? "inline-block" : "none";
+    }
+
+    loadMoreBtn.addEventListener("click", () => {
+      visibleWeeks += 3;
+      render();
+    });
+
+    async function loadSheet() {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${GID}&tqx=out:json`;
+        const response = await fetch(url);
+        const raw = await response.text();
+
+        const start = raw.indexOf("{");
+        const end = raw.lastIndexOf("}");
+
+        if (start === -1 || end === -1) {
+          throw new Error("Respuesta inválida de Google Sheets");
+        }
+
+        const json = JSON.parse(raw.slice(start, end + 1));
+        const rows = json?.table?.rows || [];
+
+        allWeeks = parseWeeks(rows);
+        render();
+      } catch (error) {
+        console.error(error);
+        content.innerHTML = `
+          <div class="status">
+            No pude cargar la hoja.<br>
+            Verificá que siga pública y que el ID/GID sean correctos.
+          </div>
+        `;
+      }
+    }
+
+    loadSheet();
+  </script>
+</body>
 </html>
