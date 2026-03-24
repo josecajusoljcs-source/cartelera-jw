@@ -1,345 +1,793 @@
-<script>
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo/export?format=csv&gid=1568836904";
-  const INITIAL_WEEKS = 3;
-  const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reuniones - Punta Gorda : Reunión Pública</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-  const weeksEl = document.getElementById("weeks");
-  const countResumenEl = document.getElementById("count-resumen");
-  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  <style>
+    :root{
+      --bg:#f6f4ef;
+      --paper:#ffffff;
+      --paper-2:#fbfaf7;
+      --text:#171717;
+      --muted:#6f6f6f;
+      --line:rgba(0,0,0,.10);
 
-  let allMeetings = [];
-  let visibleWeeks = INITIAL_WEEKS;
+      --jw-beige:#efe0a1;
+      --jw-black:#111111;
+      --jw-gray:#4b4b4b;
+      --jw-blue:#5f6f86;
+      --jw-blue-soft:#e8edf3;
+      --jw-gold:#c89b00;
+      --jw-red:#b30000;
+      --jw-wine:#8c1d40;
 
-  const MONTHS = {
-    enero: 0,
-    febrero: 1,
-    marzo: 2,
-    abril: 3,
-    mayo: 4,
-    junio: 5,
-    julio: 6,
-    agosto: 7,
-    septiembre: 8,
-    setiembre: 8,
-    octubre: 9,
-    noviembre: 10,
-    diciembre: 11
-  };
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  function cleanText(value) {
-    if (value == null) return "";
-    return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
-  }
-
-  function parseCSV(text) {
-    const rows = [];
-    let row = [];
-    let cur = "";
-    let inQuotes = false;
-    const s = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-
-    for (let i = 0; i < s.length; i++) {
-      const ch = s[i];
-      const next = s[i + 1];
-
-      if (ch === '"' && inQuotes && next === '"') {
-        cur += '"';
-        i++;
-        continue;
-      }
-      if (ch === '"') {
-        inQuotes = !inQuotes;
-        continue;
-      }
-      if (ch === "," && !inQuotes) {
-        row.push(cur);
-        cur = "";
-        continue;
-      }
-      if (ch === "\n" && !inQuotes) {
-        row.push(cur);
-        rows.push(row);
-        row = [];
-        cur = "";
-        continue;
-      }
-      cur += ch;
+      --shadow-card:0 6px 16px rgba(0,0,0,.04);
+      --radius-xl:18px;
+      --radius-lg:14px;
     }
 
-    if (cur.length || row.length) {
-      row.push(cur);
-      rows.push(row);
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    return rows;
-  }
 
-  function normalizarTexto(str) {
-    return (str || "")
-      .toString()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
-  }
-
-  function todayOnly() {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  }
-
-  function parseDateLabel(text) {
-    const raw = cleanText(text);
-    const norm = normalizarTexto(raw);
-    const m = norm.match(/^(\d{1,2})\s+de\s+([a-z]+)$/);
-    if (!m) return null;
-
-    const day = parseInt(m[1], 10);
-    const month = MONTHS[m[2]];
-    if (month == null) return null;
-
-    return {
-      raw,
-      day,
-      month,
-      key: `${String(day).padStart(2, "0")}-${String(month + 1).padStart(2, "0")}`
-    };
-  }
-
-  function isPureDateRow(row) {
-    const values = row.map(cleanText).filter(Boolean);
-    return values.length === 1 && !!parseDateLabel(values[0]);
-  }
-
-  function getFirstTwoNonEmpty(row) {
-    const vals = row.map(cleanText).filter(Boolean);
-    return {
-      label: vals[0] || "",
-      value: vals[1] || ""
-    };
-  }
-
-  function createEmptyMeeting(dateInfo) {
-    return {
-      title: dateInfo.raw,
-      day: dateInfo.day,
-      month: dateInfo.month,
-      dateKey: dateInfo.key,
-      nextDate: null,
-      zoom: "",
-      presidente: "",
-      cancion: "",
-      tema: "",
-      orador: "",
-      congregacion: "",
-      conductor: "",
-      lector: ""
-    };
-  }
-
-  function assignField(meeting, labelRaw, valueRaw) {
-    const label = normalizarTexto(labelRaw);
-    const value = cleanText(valueRaw);
-    if (!label) return;
-
-    if (label.startsWith("zoom")) meeting.zoom = value || meeting.zoom;
-    else if (label.startsWith("presidente")) meeting.presidente = value || meeting.presidente;
-    else if (label.startsWith("cancion") || label.startsWith("canción")) meeting.cancion = value || meeting.cancion;
-    else if (label.includes("discurso especial")) meeting.tema = value || meeting.tema;
-    else if (label.startsWith("orador")) meeting.orador = value || meeting.orador;
-    else if (label.startsWith("congregacion") || label.startsWith("congregación")) meeting.congregacion = value || meeting.congregacion;
-    else if (label.startsWith("conductor")) meeting.conductor = value || meeting.conductor;
-    else if (label.startsWith("lector")) meeting.lector = value || meeting.lector;
-  }
-
-  function scoreMeeting(m) {
-    return [
-      m.zoom,
-      m.presidente,
-      m.cancion,
-      m.tema,
-      m.orador,
-      m.congregacion,
-      m.conductor,
-      m.lector
-    ].filter(Boolean).length;
-  }
-
-  function nextOccurrence(day, month) {
-    const today = todayOnly();
-    let year = today.getFullYear();
-    let candidate = new Date(year, month, day);
-
-    if (candidate < today) {
-      candidate = new Date(year + 1, month, day);
+    html, body{
+      width:100%;
+      max-width:100%;
+      overflow-x:hidden;
     }
-    return candidate;
-  }
 
-  function dedupeAndSortMeetings(meetings) {
-    const byDate = new Map();
+    body{
+      min-height:100vh;
+      background:
+        linear-gradient(180deg, rgba(239,224,161,.22), transparent 150px),
+        linear-gradient(180deg, #fbfaf6, var(--bg));
+      color:var(--text);
+      padding:1rem;
+      display:flex;
+      justify-content:center;
+    }
 
-    for (const meeting of meetings) {
-      const current = byDate.get(meeting.dateKey);
-      if (!current || scoreMeeting(meeting) > scoreMeeting(current)) {
-        byDate.set(meeting.dateKey, meeting);
+    .page{
+      width:100%;
+      max-width:1000px;
+      margin:0 auto;
+    }
+
+    header{
+      text-align:center;
+      margin-bottom:1rem;
+      padding-top:.25rem;
+    }
+
+    header h1{
+      font-size:clamp(1.8rem, 4.8vw, 2.4rem);
+      line-height:1.12;
+      font-weight:800;
+      letter-spacing:-.02em;
+      color:#111;
+      margin-bottom:.2rem;
+    }
+
+    .subhead{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.7rem;
+      align-items:center;
+      justify-content:flex-end;
+      margin-bottom:.75rem;
+      width:100%;
+    }
+
+    .controls-right{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+      align-items:center;
+      max-width:100%;
+    }
+
+    .toggle-btn{
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:var(--muted);
+      font-size:.78rem;
+      padding:.38rem .9rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      transition:.16s ease;
+      font-weight:700;
+    }
+
+    .toggle-btn.active{
+      border-color:rgba(95,111,134,.32);
+      color:#111;
+      background:#f5f7fa;
+    }
+
+    .toggle-dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:rgba(107,107,107,.7);
+    }
+
+    .toggle-btn.active .toggle-dot{
+      background:var(--jw-blue);
+      box-shadow:0 0 8px rgba(95,111,134,.35);
+    }
+
+    .shell{
+      background:linear-gradient(180deg, #fffefb, #ffffff);
+      border-radius:var(--radius-xl);
+      border:1px solid var(--line);
+      position:relative;
+      overflow:hidden;
+      width:100%;
+    }
+
+    .shell::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:18px;
+      background:linear-gradient(90deg, var(--jw-beige), #cdbb79 45%, var(--jw-blue));
+    }
+
+    .shell-inner{
+      position:relative;
+      z-index:1;
+      padding:1.1rem 1rem 1rem;
+      margin-top:.35rem;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.75rem;
+      margin-bottom:.8rem;
+      padding-top:.1rem;
+      flex-wrap:wrap;
+    }
+
+    .section-head h2{
+      font-size:.98rem;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      color:var(--jw-blue);
+      font-weight:800;
+    }
+
+    .section-head span{
+      font-size:.86rem;
+      color:var(--jw-blue);
+      padding:.26rem .92rem;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      font-weight:700;
+    }
+
+    .view-message{
+      font-size:.86rem;
+      color:var(--muted);
+      margin-bottom:.6rem;
+      padding-left:.1rem;
+    }
+
+    .weeks{
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      gap:.95rem;
+      max-height:calc(100vh - 210px);
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding-right:.15rem;
+      width:100%;
+    }
+
+    .weeks::-webkit-scrollbar{ width:6px; }
+    .weeks::-webkit-scrollbar-track{
+      background:#ecebe7;
+      border-radius:999px;
+    }
+    .weeks::-webkit-scrollbar-thumb{
+      background:#c8c4bb;
+      border-radius:999px;
+    }
+
+    .week-card{
+      background:linear-gradient(180deg, #ffffff, #fcfcfa);
+      border-radius:var(--radius-lg);
+      border:1px solid var(--line);
+      overflow:hidden;
+      box-shadow:var(--shadow-card);
+      width:100%;
+    }
+
+    .week-card.destacada{
+      border-color:rgba(95,111,134,.30);
+      background:linear-gradient(180deg, #fafcff, #ffffff);
+      box-shadow:
+        0 0 0 1px rgba(95,111,134,.10),
+        0 10px 24px rgba(0,0,0,.05);
+      position:relative;
+    }
+
+    .week-card.destacada::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:4px;
+      background:linear-gradient(90deg, var(--jw-blue), var(--jw-beige));
+      z-index:2;
+    }
+
+    .week-title{
+      background:linear-gradient(180deg, #eef2f7 0%, var(--jw-blue-soft) 100%);
+      color:#1f2c3a;
+      font-weight:800;
+      font-size:clamp(1.24rem, 3.5vw, 1.95rem);
+      line-height:1.14;
+      padding:14px 16px;
+      word-break:break-word;
+      box-shadow:inset 0 -1px 0 rgba(0,0,0,.04);
+    }
+
+    .week-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.42rem;
+      padding:10px 16px 4px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.38rem;
+      padding:.28rem .82rem;
+      border-radius:999px;
+      background:#f7f7f7;
+      border:1px solid rgba(0,0,0,.10);
+      font-size:.76rem;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .badge-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--jw-blue);
+    }
+
+    .meeting-link{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--jw-wine);
+      text-decoration:underline;
+      font-size:clamp(.96rem, 2vw, 1.08rem);
+      padding:10px 16px 8px;
+      word-break:break-word;
+      cursor:pointer;
+    }
+
+    .meeting-link::before{
+      content:"◉";
+      color:var(--jw-wine);
+      font-size:.9em;
+      flex:none;
+    }
+
+    .block{
+      margin-top:8px;
+      border-top:1px solid #f0f0f0;
+    }
+
+    .block-title{
+      position:relative;
+      color:#fff;
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:clamp(1.02rem, 2.7vw, 1.3rem);
+      line-height:1.12;
+      padding:11px 16px;
+      word-break:break-word;
+      letter-spacing:.01em;
+      box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);
+      background:linear-gradient(180deg, #6f7f95, var(--jw-blue));
+    }
+
+    .block-title::after{
+      content:"";
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-50%);
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:rgba(255,255,255,.16);
+      box-shadow:0 0 0 4px rgba(255,255,255,.07);
+    }
+
+    .details-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:.55rem .65rem;
+      padding:10px 16px 16px;
+    }
+
+    .detail-group{
+      display:flex;
+      flex-direction:column;
+      gap:.08rem;
+      background:#fcfcfb;
+      border:1px solid rgba(0,0,0,.07);
+      border-radius:10px;
+      padding:.55rem .62rem;
+    }
+
+    .detail-label{
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--muted);
+      position:relative;
+      padding-left:.9rem;
+      font-weight:800;
+      line-height:1.15;
+    }
+
+    .detail-label::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:50%;
+      transform:translateY(-50%);
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--jw-blue);
+    }
+
+    .detail-label.label-presidente::before { background:#2c7fb8; }
+    .detail-label.label-orador::before { background:#7c5cc4; }
+    .detail-label.label-tema::before { background:#c89b00; }
+    .detail-label.label-lector::before { background:#3aa35c; }
+    .detail-label.label-cancion::before { background:#b45309; }
+    .detail-label.label-congregacion::before { background:#64748b; }
+    .detail-label.label-conductor::before { background:#0f766e; }
+
+    .detail-value{
+      font-size:.95rem;
+      color:#1f1f1f;
+      white-space:normal;
+      font-weight:500;
+      line-height:1.25;
+    }
+
+    .load-more-wrap{
+      display:flex;
+      justify-content:center;
+      padding:10px 0 0;
+    }
+
+    .load-more{
+      border:none;
+      background:#111;
+      color:#fff;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:1rem;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
+      transition:.18s ease;
+    }
+
+    .empty-msg{
+      font-size:.95rem;
+      color:var(--muted);
+      padding-top:.5rem;
+    }
+
+    body.modo-texto-grande .week-title{ font-size:clamp(1.34rem, 4vw, 2.08rem); }
+    body.modo-texto-grande .detail-value{ font-size:1rem; }
+
+    @media (max-width: 900px){
+      body{
+        padding:.9rem .65rem 1rem;
       }
     }
 
-    const list = Array.from(byDate.values());
-
-    for (const meeting of list) {
-      meeting.nextDate = nextOccurrence(meeting.day, meeting.month);
-    }
-
-    list.sort((a, b) => a.nextDate - b.nextDate);
-    return list;
-  }
-
-  function parseMeetings(rows) {
-    const meetings = [];
-    let current = null;
-    let started = false;
-
-    for (const row of rows) {
-      if (!row || !row.length) continue;
-
-      if (isPureDateRow(row)) {
-        const dateValue = row.map(cleanText).filter(Boolean)[0];
-        const dateInfo = parseDateLabel(dateValue);
-        if (!dateInfo) continue;
-
-        started = true;
-
-        if (current) meetings.push(current);
-        current = createEmptyMeeting(dateInfo);
-        continue;
+    @media (max-width: 640px){
+      body{
+        padding:.75rem .35rem 1rem;
       }
 
-      if (!started || !current) continue;
+      header h1{
+        font-size:1.55rem;
+        line-height:1.16;
+      }
 
-      const { label, value } = getFirstTwoNonEmpty(row);
-      assignField(current, label, value);
+      .shell-inner{
+        padding:1rem .8rem .9rem;
+      }
+
+      .weeks{
+        max-height:none;
+        overflow-y:visible;
+      }
+
+      .controls{
+        justify-content:flex-start;
+      }
+
+      .week-title,
+      .meeting-link,
+      .block-title{
+        padding-left:12px;
+        padding-right:12px;
+      }
+
+      .details-grid{
+        grid-template-columns:minmax(0,1fr);
+        padding:10px 12px 14px;
+      }
     }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Reunión Pública</h1>
+      <div class="subhead">Programa semanal de la congregación</div>
+    </header>
 
-    if (current) meetings.push(current);
-
-    return dedupeAndSortMeetings(meetings);
-  }
-
-  function createDetail(label, value, cls) {
-    return `
-      <div class="detail-group">
-        <div class="detail-label ${cls}">${escapeHtml(label)}</div>
-        <div class="detail-value">${escapeHtml(value || "-")}</div>
+    <section class="controls">
+      <div class="controls-right">
+        <button class="toggle-btn" id="btn-texto-grande"><span class="toggle-dot"></span>Letra grande</button>
       </div>
-    `;
-  }
+    </section>
 
-  function renderMeetingLink(meetingZoomText) {
-    const visibleText = meetingZoomText
-      ? `ID de reunión: ${meetingZoomText}`
-      : "Ingresar por Zoom";
-
-    return `
-      <a
-        href="${DIRECT_ZOOM_LINK}"
-        class="meeting-link"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        ${escapeHtml(visibleText)}
-      </a>
-    `;
-  }
-
-  function renderWeek(week, isFeatured = false) {
-    return `
-      <article class="week-card ${isFeatured ? "destacada" : ""}">
-        <div class="week-title">${escapeHtml(week.title)}</div>
-
-        <div class="week-meta">
-          <div class="badge">
-            <span class="badge-dot"></span>
-            <span>${isFeatured ? "Siguiente reunión" : "Próxima reunión"}</span>
-          </div>
+    <section class="shell">
+      <div class="shell-inner">
+        <div class="section-head">
+          <h2>Programa de reuniones</h2>
+          <span id="count-resumen">Cargando…</span>
         </div>
 
-        ${renderMeetingLink(week.zoom)}
+        <p id="view-message" class="view-message">Se muestra la siguiente reunión calculada desde la fecha actual.</p>
 
-        <section class="block">
-          <div class="block-title">Reunión Pública</div>
-          <div class="details-grid">
-            ${createDetail("Presidente", week.presidente, "label-presidente")}
-            ${createDetail("Orador", week.orador, "label-orador")}
-            ${createDetail("Tema", week.tema, "label-tema")}
-            ${createDetail("Lector", week.lector, "label-lector")}
-            ${createDetail("Canción", week.cancion, "label-cancion")}
-            ${createDetail("Congregación", week.congregacion, "label-congregacion")}
-            ${createDetail("Conductor", week.conductor, "label-conductor")}
+        <div id="weeks" class="weeks"></div>
+
+        <div class="load-more-wrap">
+          <button id="loadMoreBtn" class="load-more" style="display:none;">Ver más reuniones</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo/export?format=csv&gid=1568836904";
+    const INITIAL_WEEKS = 3;
+    const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
+
+    const weeksEl = document.getElementById("weeks");
+    const countResumenEl = document.getElementById("count-resumen");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+    let allMeetings = [];
+    let visibleWeeks = INITIAL_WEEKS;
+
+    const MONTHS = {
+      enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
+      julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
+      noviembre:10, diciembre:11
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function cleanText(value) {
+      if (value == null) return "";
+      return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let inQuotes = false;
+      const s = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        const next = s[i + 1];
+
+        if (ch === '"' && inQuotes && next === '"') {
+          cur += '"';
+          i++;
+          continue;
+        }
+        if (ch === '"') {
+          inQuotes = !inQuotes;
+          continue;
+        }
+        if (ch === "," && !inQuotes) {
+          row.push(cur);
+          cur = "";
+          continue;
+        }
+        if (ch === "\n" && !inQuotes) {
+          row.push(cur);
+          rows.push(row);
+          row = [];
+          cur = "";
+          continue;
+        }
+        cur += ch;
+      }
+
+      if (cur.length || row.length) {
+        row.push(cur);
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    function normalizarTexto(str) {
+      return (str || "")
+        .toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
+
+    function parseDayMonth(text) {
+      const t = normalizarTexto(text);
+      const m = t.match(/^(\d{1,2})\s+de\s+([a-záéíóú]+)$/i);
+      if (!m) return null;
+      const day = parseInt(m[1], 10);
+      const month = MONTHS[m[2]];
+      if (month == null) return null;
+      return { day, month };
+    }
+
+    function isDateLabel(text) {
+      return !!parseDayMonth(text);
+    }
+
+    function isPureDateRow(row) {
+      const values = row.map(cleanText).filter(Boolean);
+      return values.length === 1 && isDateLabel(values[0]);
+    }
+
+    function getFirstTwoNonEmpty(row) {
+      const vals = row.map(cleanText).filter(Boolean);
+      return {
+        label: vals[0] || "",
+        value: vals[1] || ""
+      };
+    }
+
+    function nextOccurrenceFromToday(label) {
+      const parts = parseDayMonth(label);
+      if (!parts) return null;
+
+      const today = new Date();
+      const base = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      let candidate = new Date(today.getFullYear(), parts.month, parts.day);
+      if (candidate < base) {
+        candidate = new Date(today.getFullYear() + 1, parts.month, parts.day);
+      }
+      return candidate;
+    }
+
+    function createEmptyMeeting(dateText) {
+      return {
+        title: dateText,
+        sortDate: nextOccurrenceFromToday(dateText),
+        zoom: "",
+        presidente: "",
+        cancion: "",
+        tema: "",
+        orador: "",
+        congregacion: "",
+        conductor: "",
+        lector: ""
+      };
+    }
+
+    function assignField(meeting, labelRaw, valueRaw) {
+      const label = normalizarTexto(labelRaw);
+      const value = cleanText(valueRaw);
+      if (!label) return;
+
+      if (label.startsWith("zoom")) meeting.zoom = value || meeting.zoom;
+      else if (label.startsWith("presidente")) meeting.presidente = value || meeting.presidente;
+      else if (label.startsWith("cancion") || label.startsWith("canción")) meeting.cancion = value || meeting.cancion;
+      else if (label.includes("discurso especial")) meeting.tema = value || meeting.tema;
+      else if (label.startsWith("orador")) meeting.orador = value || meeting.orador;
+      else if (label.startsWith("congregacion") || label.startsWith("congregación")) meeting.congregacion = value || meeting.congregacion;
+      else if (label.startsWith("conductor")) meeting.conductor = value || meeting.conductor;
+      else if (label.startsWith("lector")) meeting.lector = value || meeting.lector;
+    }
+
+    function dedupeMeetings(meetings) {
+      const seen = new Set();
+      const result = [];
+
+      for (const m of meetings) {
+        const key = normalizarTexto(m.title);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        result.push(m);
+      }
+
+      return result;
+    }
+
+    function parseMeetings(rows) {
+      const meetings = [];
+      let current = null;
+      let started = false;
+
+      for (const row of rows) {
+        if (!row || !row.length) continue;
+
+        if (isPureDateRow(row)) {
+          const dateValue = row.map(cleanText).filter(Boolean)[0];
+          if (!started) started = true;
+
+          if (current) meetings.push(current);
+          current = createEmptyMeeting(dateValue);
+          continue;
+        }
+
+        if (!started || !current) continue;
+
+        const { label, value } = getFirstTwoNonEmpty(row);
+        assignField(current, label, value);
+      }
+
+      if (current) meetings.push(current);
+
+      return dedupeMeetings(meetings)
+        .filter(m => m.sortDate instanceof Date && !isNaN(m.sortDate))
+        .sort((a, b) => a.sortDate - b.sortDate);
+    }
+
+    function createDetail(label, value, cls) {
+      return `
+        <div class="detail-group">
+          <div class="detail-label ${cls}">${escapeHtml(label)}</div>
+          <div class="detail-value">${escapeHtml(value || "-")}</div>
+        </div>
+      `;
+    }
+
+    function renderMeetingLink(meetingText) {
+      const visibleText = meetingText ? `ID de reunión: ${meetingText}` : "Ingresar por Zoom";
+      return `
+        <a
+          href="${DIRECT_ZOOM_LINK}"
+          class="meeting-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${escapeHtml(visibleText)}
+        </a>
+      `;
+    }
+
+    function renderWeek(week, isFeatured = false) {
+      return `
+        <article class="week-card ${isFeatured ? "destacada" : ""}">
+          <div class="week-title">${escapeHtml(week.title)}</div>
+
+          <div class="week-meta">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              <span>${isFeatured ? "Siguiente reunión" : "Próxima reunión"}</span>
+            </div>
           </div>
-        </section>
-      </article>
-    `;
-  }
 
-  function render() {
-    weeksEl.innerHTML = "";
+          ${renderMeetingLink(week.zoom)}
 
-    if (!allMeetings.length) {
-      countResumenEl.textContent = "0 reuniones";
-      weeksEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
-      loadMoreBtn.style.display = "none";
-      return;
+          <section class="block">
+            <div class="block-title">Reunión Pública</div>
+            <div class="details-grid">
+              ${createDetail("Presidente", week.presidente, "label-presidente")}
+              ${createDetail("Orador", week.orador, "label-orador")}
+              ${createDetail("Tema", week.tema, "label-tema")}
+              ${createDetail("Lector", week.lector, "label-lector")}
+              ${createDetail("Canción", week.cancion, "label-cancion")}
+              ${createDetail("Congregación", week.congregacion, "label-congregacion")}
+              ${createDetail("Conductor", week.conductor, "label-conductor")}
+            </div>
+          </section>
+        </article>
+      `;
     }
 
-    const visible = allMeetings.slice(0, visibleWeeks);
+    function render() {
+      weeksEl.innerHTML = "";
 
-    countResumenEl.textContent = allMeetings.length === 1
-      ? "1 reunión visible"
-      : `${allMeetings.length} reuniones visibles`;
+      if (!allMeetings.length) {
+        countResumenEl.textContent = "0 reuniones";
+        weeksEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
+        loadMoreBtn.style.display = "none";
+        return;
+      }
 
-    weeksEl.innerHTML = visible.map((week, index) => renderWeek(week, index === 0)).join("");
-    loadMoreBtn.style.display = visibleWeeks < allMeetings.length ? "inline-block" : "none";
-  }
+      const visible = allMeetings.slice(0, visibleWeeks);
 
-  async function loadSheet() {
-    countResumenEl.textContent = "Cargando…";
-    weeksEl.innerHTML = "";
+      countResumenEl.textContent = allMeetings.length === 1
+        ? "1 reunión visible"
+        : `${allMeetings.length} reuniones visibles`;
 
-    try {
-      const response = await fetch(CSV_URL, { cache: "no-store" });
-      if (!response.ok) throw new Error("No se pudo descargar el CSV");
+      weeksEl.innerHTML = visible.map((week, index) => renderWeek(week, index === 0)).join("");
+      loadMoreBtn.style.display = visibleWeeks < allMeetings.length ? "inline-block" : "none";
+    }
 
-      const text = await response.text();
-      const rows = parseCSV(text);
-      allMeetings = parseMeetings(rows);
+    async function loadSheet() {
+      countResumenEl.textContent = "Cargando…";
+      weeksEl.innerHTML = "";
 
+      try {
+        const response = await fetch(CSV_URL, { cache: "no-store" });
+        if (!response.ok) throw new Error("No se pudo descargar el CSV");
+
+        const text = await response.text();
+        const rows = parseCSV(text);
+        allMeetings = parseMeetings(rows);
+
+        render();
+      } catch (error) {
+        console.error(error);
+        countResumenEl.textContent = "Error";
+        weeksEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
+      }
+    }
+
+    document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
+      const active = document.body.classList.toggle("modo-texto-grande");
+      e.currentTarget.classList.toggle("active", active);
+    });
+
+    loadMoreBtn.addEventListener("click", () => {
+      visibleWeeks += 3;
       render();
-    } catch (error) {
-      console.error(error);
-      countResumenEl.textContent = "Error";
-      weeksEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
-    }
-  }
+    });
 
-  document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
-    const active = document.body.classList.toggle("modo-texto-grande");
-    e.currentTarget.classList.toggle("active", active);
-  });
-
-  loadMoreBtn.addEventListener("click", () => {
-    visibleWeeks += 3;
-    render();
-  });
-
-  window.addEventListener("DOMContentLoaded", loadSheet);
-</script>
+    window.addEventListener("DOMContentLoaded", loadSheet);
+  </script>
+</body>
+</html>
