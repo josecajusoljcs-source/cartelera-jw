@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Reunión Pública</title>
+  <title>Reuniones - Punta Gorda : Reunión Pública</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,13 +11,19 @@
   <style>
     :root{
       --bg:#f6f4ef;
+      --paper:#ffffff;
+      --paper-2:#fbfaf7;
       --text:#171717;
       --muted:#6f6f6f;
       --line:rgba(0,0,0,.10);
 
       --jw-beige:#efe0a1;
+      --jw-black:#111111;
+      --jw-gray:#4b4b4b;
       --jw-blue:#5f6f86;
       --jw-blue-soft:#e8edf3;
+      --jw-gold:#c89b00;
+      --jw-red:#b30000;
       --jw-wine:#8c1d40;
 
       --shadow-card:0 6px 16px rgba(0,0,0,.04);
@@ -51,14 +57,14 @@
 
     .page{
       width:100%;
-      max-width:980px;
+      max-width:1000px;
       margin:0 auto;
     }
 
     header{
       text-align:center;
       margin-bottom:1rem;
-      padding-top:.3rem;
+      padding-top:.25rem;
     }
 
     header h1{
@@ -67,12 +73,63 @@
       font-weight:800;
       letter-spacing:-.02em;
       color:#111;
-      margin-bottom:.18rem;
+      margin-bottom:.2rem;
     }
 
     .subhead{
       color:var(--muted);
       font-size:.95rem;
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.7rem;
+      align-items:center;
+      justify-content:flex-end;
+      margin-bottom:.75rem;
+      width:100%;
+    }
+
+    .controls-right{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+      align-items:center;
+      max-width:100%;
+    }
+
+    .toggle-btn{
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:var(--muted);
+      font-size:.78rem;
+      padding:.38rem .9rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      transition:.16s ease;
+      font-weight:700;
+    }
+
+    .toggle-btn.active{
+      border-color:rgba(95,111,134,.32);
+      color:#111;
+      background:#f5f7fa;
+    }
+
+    .toggle-dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:rgba(107,107,107,.7);
+    }
+
+    .toggle-btn.active .toggle-dot{
+      background:var(--jw-blue);
+      box-shadow:0 0 8px rgba(95,111,134,.35);
     }
 
     .shell{
@@ -89,7 +146,7 @@
       position:absolute;
       inset:0 0 auto 0;
       height:18px;
-      background:linear-gradient(90deg, var(--jw-beige), #cdbb79 40%, var(--jw-blue));
+      background:linear-gradient(90deg, var(--jw-beige), #cdbb79 45%, var(--jw-blue));
     }
 
     .shell-inner{
@@ -130,32 +187,32 @@
     .view-message{
       font-size:.86rem;
       color:var(--muted);
-      margin-bottom:.5rem;
+      margin-bottom:.6rem;
       padding-left:.1rem;
     }
 
-    .cards{
+    .weeks{
       display:grid;
       grid-template-columns:minmax(0,1fr);
       gap:.95rem;
-      max-height:calc(100vh - 180px);
+      max-height:calc(100vh - 210px);
       overflow-y:auto;
       overflow-x:hidden;
       padding-right:.15rem;
       width:100%;
     }
 
-    .cards::-webkit-scrollbar{ width:6px; }
-    .cards::-webkit-scrollbar-track{
+    .weeks::-webkit-scrollbar{ width:6px; }
+    .weeks::-webkit-scrollbar-track{
       background:#ecebe7;
       border-radius:999px;
     }
-    .cards::-webkit-scrollbar-thumb{
+    .weeks::-webkit-scrollbar-thumb{
       background:#c8c4bb;
       border-radius:999px;
     }
 
-    .meeting-card{
+    .week-card{
       background:linear-gradient(180deg, #ffffff, #fcfcfa);
       border-radius:var(--radius-lg);
       border:1px solid var(--line);
@@ -164,7 +221,7 @@
       width:100%;
     }
 
-    .meeting-card.destacada{
+    .week-card.destacada{
       border-color:rgba(95,111,134,.30);
       background:linear-gradient(180deg, #fafcff, #ffffff);
       box-shadow:
@@ -173,7 +230,7 @@
       position:relative;
     }
 
-    .meeting-card.destacada::before{
+    .week-card.destacada::before{
       content:"";
       position:absolute;
       inset:0 0 auto 0;
@@ -182,22 +239,22 @@
       z-index:2;
     }
 
-    .meeting-title{
+    .week-title{
       background:linear-gradient(180deg, #eef2f7 0%, var(--jw-blue-soft) 100%);
       color:#1f2c3a;
       font-weight:800;
-      font-size:clamp(1.2rem, 3.3vw, 1.85rem);
-      line-height:1.16;
+      font-size:clamp(1.24rem, 3.5vw, 1.95rem);
+      line-height:1.14;
       padding:14px 16px;
       word-break:break-word;
       box-shadow:inset 0 -1px 0 rgba(0,0,0,.04);
     }
 
-    .meeting-meta{
+    .week-meta{
       display:flex;
       flex-wrap:wrap;
       gap:.42rem;
-      padding:10px 16px 6px;
+      padding:10px 16px 4px;
     }
 
     .badge{
@@ -220,45 +277,16 @@
       background:var(--jw-blue);
     }
 
-    .meeting-body{
-      display:grid;
-      grid-template-columns:minmax(0, 1.05fr) minmax(0, 1.65fr);
-      gap:.75rem 1rem;
-      padding:12px 16px 16px;
-      align-items:start;
-    }
-
-    .info-side{
-      display:flex;
-      flex-direction:column;
-      gap:.45rem;
-    }
-
-    .meeting-label{
-      font-size:.74rem;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      color:var(--muted);
-      font-weight:800;
-    }
-
-    .meeting-day{
-      font-size:1.08rem;
-      font-weight:800;
-      line-height:1.2;
-      color:#111;
-    }
-
     .meeting-link{
-      display:inline-flex;
+      display:flex;
       align-items:center;
       gap:10px;
       color:var(--jw-wine);
       text-decoration:underline;
-      font-size:clamp(.94rem, 2vw, 1.04rem);
+      font-size:clamp(.96rem, 2vw, 1.08rem);
+      padding:10px 16px 8px;
       word-break:break-word;
       cursor:pointer;
-      margin-top:.2rem;
     }
 
     .meeting-link::before{
@@ -268,10 +296,75 @@
       flex:none;
     }
 
+    .block{
+      margin-top:8px;
+      border-top:1px solid #f0f0f0;
+    }
+
+    .block-title{
+      position:relative;
+      color:#fff;
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:clamp(1.02rem, 2.7vw, 1.3rem);
+      line-height:1.12;
+      padding:11px 16px;
+      word-break:break-word;
+      letter-spacing:.01em;
+      box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);
+      background:linear-gradient(180deg, #6f7f95, var(--jw-blue));
+    }
+
+    .block-title::after{
+      content:"";
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-50%);
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:rgba(255,255,255,.16);
+      box-shadow:0 0 0 4px rgba(255,255,255,.07);
+    }
+
+    .program-row{
+      display:grid;
+      grid-template-columns:minmax(0, 1.1fr) minmax(180px, 1fr);
+      gap:10px;
+      padding:10px 16px;
+      align-items:start;
+      border-bottom:1px solid rgba(0,0,0,.03);
+      width:100%;
+    }
+
+    .left-col{
+      min-width:0;
+      font-size:clamp(.96rem, 2vw, 1.08rem);
+      line-height:1.42;
+      font-weight:700;
+      word-break:break-word;
+    }
+
+    .right-col{
+      min-width:0;
+      padding:7px 8px 7px 10px;
+      border-left:3px solid #d6d6d6;
+      background:linear-gradient(180deg, #fcfcfc, #fafafa);
+      border-radius:0 10px 10px 0;
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      align-self:start;
+      box-shadow:0 6px 18px rgba(0,0,0,.04);
+      width:100%;
+    }
+
     .details-grid{
       display:grid;
       grid-template-columns:repeat(2, minmax(0,1fr));
       gap:.55rem .65rem;
+      padding:10px 16px 16px;
     }
 
     .detail-group{
@@ -281,7 +374,7 @@
       background:#fcfcfb;
       border:1px solid rgba(0,0,0,.07);
       border-radius:10px;
-      padding:.5rem .58rem;
+      padding:.55rem .62rem;
     }
 
     .detail-label{
@@ -339,6 +432,7 @@
       font-weight:700;
       cursor:pointer;
       box-shadow:0 10px 20px rgba(0,0,0,.08);
+      transition:.18s ease;
     }
 
     .empty-msg{
@@ -347,17 +441,23 @@
       padding-top:.5rem;
     }
 
-    body.modo-texto-grande .meeting-title{ font-size:clamp(1.28rem, 3.5vw, 1.98rem); }
-    body.modo-texto-grande .meeting-day{ font-size:1.15rem; }
+    body.modo-texto-grande .week-title{ font-size:clamp(1.34rem, 4vw, 2.08rem); }
+    body.modo-texto-grande .left-col{ font-size:clamp(1rem, 2.2vw, 1.14rem); }
     body.modo-texto-grande .detail-value{ font-size:1rem; }
 
-    @media (max-width: 700px){
+    @media (max-width: 900px){
       body{
-        padding:.8rem .4rem 1rem;
+        padding:.9rem .65rem 1rem;
+      }
+    }
+
+    @media (max-width: 640px){
+      body{
+        padding:.75rem .35rem 1rem;
       }
 
       header h1{
-        font-size:1.58rem;
+        font-size:1.55rem;
         line-height:1.16;
       }
 
@@ -365,24 +465,31 @@
         padding:1rem .8rem .9rem;
       }
 
-      .cards{
+      .weeks{
         max-height:none;
         overflow-y:visible;
       }
 
-      .meeting-body{
-        grid-template-columns:minmax(0, 1fr);
-        padding:12px 12px 14px;
+      .controls{
+        justify-content:flex-start;
       }
 
-      .meeting-title,
-      .meeting-meta{
+      .program-row{
+        grid-template-columns:minmax(0,1fr);
+        gap:8px;
+        padding:10px 12px;
+      }
+
+      .week-title,
+      .meeting-link,
+      .block-title{
         padding-left:12px;
         padding-right:12px;
       }
 
       .details-grid{
         grid-template-columns:minmax(0,1fr);
+        padding:10px 12px 14px;
       }
     }
   </style>
@@ -394,6 +501,12 @@
       <div class="subhead">Programa semanal de la congregación</div>
     </header>
 
+    <section class="controls">
+      <div class="controls-right">
+        <button class="toggle-btn" id="btn-texto-grande"><span class="toggle-dot"></span>Letra grande</button>
+      </div>
+    </section>
+
     <section class="shell">
       <div class="shell-inner">
         <div class="section-head">
@@ -401,9 +514,9 @@
           <span id="count-resumen">Cargando…</span>
         </div>
 
-        <p id="view-message" class="view-message">Se muestra la siguiente reunión según el orden actual de la hoja.</p>
+        <p id="view-message" class="view-message">Se muestra la siguiente reunión según el orden visible de la hoja.</p>
 
-        <div id="cards" class="cards"></div>
+        <div id="weeks" class="weeks"></div>
 
         <div class="load-more-wrap">
           <button id="loadMoreBtn" class="load-more" style="display:none;">Ver más reuniones</button>
@@ -414,15 +527,15 @@
 
   <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo/export?format=csv&gid=1568836904";
-    const INITIAL_ITEMS = 4;
+    const INITIAL_WEEKS = 3;
     const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
 
-    const cardsEl = document.getElementById("cards");
+    const weeksEl = document.getElementById("weeks");
     const countResumenEl = document.getElementById("count-resumen");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
 
     let allMeetings = [];
-    let visibleItems = INITIAL_ITEMS;
+    let visibleWeeks = INITIAL_WEEKS;
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -508,7 +621,7 @@
 
     function createEmptyMeeting(dateText) {
       return {
-        fechaTexto: dateText,
+        title: dateText,
         zoom: "",
         presidente: "",
         cancion: "",
@@ -540,7 +653,7 @@
       const result = [];
 
       for (const m of meetings) {
-        const key = normalizarTexto(m.fechaTexto);
+        const key = normalizarTexto(m.title);
         if (seenDates.has(key)) continue;
         seenDates.add(key);
         result.push(m);
@@ -549,7 +662,7 @@
       return result;
     }
 
-    function parseRows(rows) {
+    function parseMeetings(rows) {
       const meetings = [];
       let current = null;
       let started = false;
@@ -587,61 +700,73 @@
       `;
     }
 
-    function renderMeeting(item, featured = false) {
+    function renderMeetingLink(meetingText) {
+      const visibleText = meetingText ? `ID de reunión: ${meetingText}` : "Ingresar por Zoom";
       return `
-        <article class="meeting-card ${featured ? "destacada" : ""}">
-          <div class="meeting-title">${escapeHtml(item.fechaTexto)}</div>
+        <a
+          href="${DIRECT_ZOOM_LINK}"
+          class="meeting-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${escapeHtml(visibleText)}
+        </a>
+      `;
+    }
 
-          <div class="meeting-meta">
+    function renderWeek(week, isFeatured = false) {
+      return `
+        <article class="week-card ${isFeatured ? "destacada" : ""}">
+          <div class="week-title">${escapeHtml(week.title)}</div>
+
+          <div class="week-meta">
             <div class="badge">
               <span class="badge-dot"></span>
-              <span>${featured ? "Siguiente reunión" : "Próxima reunión"}</span>
+              <span>${isFeatured ? "Siguiente reunión" : "Próxima reunión"}</span>
             </div>
           </div>
 
-          <div class="meeting-body">
-            <div class="info-side">
-              <div class="meeting-label">Reunión pública</div>
-              <div class="meeting-day">${escapeHtml(item.fechaTexto)}</div>
-              <a href="${DIRECT_ZOOM_LINK}" class="meeting-link" target="_blank" rel="noopener noreferrer">Ingresar por Zoom</a>
-            </div>
+          ${renderMeetingLink(week.zoom)}
 
+          <section class="block">
+            <div class="block-title">Reunión Pública</div>
             <div class="details-grid">
-              ${createDetail("Presidente", item.presidente, "label-presidente")}
-              ${createDetail("Orador", item.orador, "label-orador")}
-              ${createDetail("Tema", item.tema, "label-tema")}
-              ${createDetail("Lector", item.lector, "label-lector")}
-              ${createDetail("Canción", item.cancion, "label-cancion")}
-              ${createDetail("Congregación", item.congregacion, "label-congregacion")}
-              ${createDetail("Conductor", item.conductor, "label-conductor")}
+              ${createDetail("Presidente", week.presidente, "label-presidente")}
+              ${createDetail("Orador", week.orador, "label-orador")}
+              ${createDetail("Tema", week.tema, "label-tema")}
+              ${createDetail("Lector", week.lector, "label-lector")}
+              ${createDetail("Canción", week.cancion, "label-cancion")}
+              ${createDetail("Congregación", week.congregacion, "label-congregacion")}
+              ${createDetail("Conductor", week.conductor, "label-conductor")}
             </div>
-          </div>
+          </section>
         </article>
       `;
     }
 
     function render() {
-      cardsEl.innerHTML = "";
+      weeksEl.innerHTML = "";
 
       if (!allMeetings.length) {
         countResumenEl.textContent = "0 reuniones";
-        cardsEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
+        weeksEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
         loadMoreBtn.style.display = "none";
         return;
       }
 
-      const visible = allMeetings.slice(0, visibleItems);
-      countResumenEl.textContent = visible.length === 1
+      const visible = allMeetings.slice(0, visibleWeeks);
+
+      countResumenEl.textContent = allMeetings.length === 1
         ? "1 reunión visible"
         : `${allMeetings.length} reuniones visibles`;
 
-      cardsEl.innerHTML = visible.map((item, index) => renderMeeting(item, index === 0)).join("");
-      loadMoreBtn.style.display = visibleItems < allMeetings.length ? "inline-block" : "none";
+      weeksEl.innerHTML = visible.map((week, index) => renderWeek(week, index === 0)).join("");
+      loadMoreBtn.style.display = visibleWeeks < allMeetings.length ? "inline-block" : "none";
     }
 
     async function loadSheet() {
       countResumenEl.textContent = "Cargando…";
-      cardsEl.innerHTML = "";
+      weeksEl.innerHTML = "";
 
       try {
         const response = await fetch(CSV_URL, { cache: "no-store" });
@@ -649,22 +774,23 @@
 
         const text = await response.text();
         const rows = parseCSV(text);
-        allMeetings = parseRows(rows);
+        allMeetings = parseMeetings(rows);
 
         render();
       } catch (error) {
         console.error(error);
         countResumenEl.textContent = "Error";
-        cardsEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
+        weeksEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
       }
     }
 
-    document.getElementById("btn-texto-grande")?.addEventListener?.("click", () => {
-      document.body.classList.toggle("modo-texto-grande");
+    document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
+      const active = document.body.classList.toggle("modo-texto-grande");
+      e.currentTarget.classList.toggle("active", active);
     });
 
     loadMoreBtn.addEventListener("click", () => {
-      visibleItems += 4;
+      visibleWeeks += 3;
       render();
     });
 
