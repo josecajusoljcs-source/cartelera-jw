@@ -486,308 +486,342 @@
     </section>
   </main>
 
-  <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo/export?format=csv&gid=1568836904";
-    const INITIAL_WEEKS = 3;
-    const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
+ <script>
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/184BIXu7VDAOyGTGEj1RvjyNE6MH05tmV_XLzQThUaoo/export?format=csv&gid=1568836904";
+  const INITIAL_WEEKS = 3;
+  const DIRECT_ZOOM_LINK = "https://us02web.zoom.us/j/87811088916?pwd=L1FTWDdQa203M2RHQi9iZjJBb1NnUT09";
 
-    const weeksEl = document.getElementById("weeks");
-    const countResumenEl = document.getElementById("count-resumen");
-    const loadMoreBtn = document.getElementById("loadMoreBtn");
+  const weeksEl = document.getElementById("weeks");
+  const countResumenEl = document.getElementById("count-resumen");
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
 
-    let allMeetings = [];
-    let visibleWeeks = INITIAL_WEEKS;
+  let allMeetings = [];
+  let visibleWeeks = INITIAL_WEEKS;
 
-    const MONTHS = {
-      enero:0, febrero:1, marzo:2, abril:3, mayo:4, junio:5,
-      julio:6, agosto:7, septiembre:8, setiembre:8, octubre:9,
-      noviembre:10, diciembre:11
-    };
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+  function cleanText(value) {
+    if (value == null) return "";
+    return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+  }
 
-    function cleanText(value) {
-      if (value == null) return "";
-      return String(value).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
-    }
+  function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let cur = "";
+    let inQuotes = false;
+    const s = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
-    function parseCSV(text) {
-      const rows = [];
-      let row = [];
-      let cur = "";
-      let inQuotes = false;
-      const s = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    for (let i = 0; i < s.length; i++) {
+      const ch = s[i];
+      const next = s[i + 1];
 
-      for (let i = 0; i < s.length; i++) {
-        const ch = s[i];
-        const next = s[i + 1];
-
-        if (ch === '"' && inQuotes && next === '"') {
-          cur += '"';
-          i++;
-          continue;
-        }
-        if (ch === '"') {
-          inQuotes = !inQuotes;
-          continue;
-        }
-        if (ch === "," && !inQuotes) {
-          row.push(cur);
-          cur = "";
-          continue;
-        }
-        if (ch === "\n" && !inQuotes) {
-          row.push(cur);
-          rows.push(row);
-          row = [];
-          cur = "";
-          continue;
-        }
-        cur += ch;
+      if (ch === '"' && inQuotes && next === '"') {
+        cur += '"';
+        i++;
+        continue;
       }
-
-      if (cur.length || row.length) {
+      if (ch === '"') {
+        inQuotes = !inQuotes;
+        continue;
+      }
+      if (ch === "," && !inQuotes) {
+        row.push(cur);
+        cur = "";
+        continue;
+      }
+      if (ch === "\n" && !inQuotes) {
         row.push(cur);
         rows.push(row);
+        row = [];
+        cur = "";
+        continue;
       }
-      return rows;
+      cur += ch;
     }
 
-    function normalizarTexto(str) {
-      return (str || "")
-        .toString()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim();
+    if (cur.length || row.length) {
+      row.push(cur);
+      rows.push(row);
+    }
+    return rows;
+  }
+
+  function normalizarTexto(str) {
+    return (str || "")
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+  }
+
+  function isDateLabel(text) {
+    return /^\d{1,2}\s+de\s+[a-záéíóú]+$/i.test(normalizarTexto(text));
+  }
+
+  function isPureDateRow(row) {
+    const values = row.map(cleanText).filter(Boolean);
+    return values.length === 1 && isDateLabel(values[0]);
+  }
+
+  function getFirstTwoNonEmpty(row) {
+    const vals = row.map(cleanText).filter(Boolean);
+    return {
+      label: vals[0] || "",
+      value: vals[1] || ""
+    };
+  }
+
+  function createEmptyMeeting(dateText) {
+    return {
+      title: dateText,
+      zoom: "",
+      presidente: "",
+      cancion: "",
+      tema: "",
+      orador: "",
+      congregacion: "",
+      conductor: "",
+      lector: ""
+    };
+  }
+
+  function assignField(meeting, labelRaw, valueRaw) {
+    const label = normalizarTexto(labelRaw);
+    const value = cleanText(valueRaw);
+    if (!label) return;
+
+    if (label.startsWith("zoom")) meeting.zoom = value || meeting.zoom;
+    else if (label.startsWith("presidente")) meeting.presidente = value || meeting.presidente;
+    else if (label.startsWith("cancion") || label.startsWith("canción")) meeting.cancion = value || meeting.cancion;
+    else if (label.includes("discurso especial")) meeting.tema = value || meeting.tema;
+    else if (label === "discurso" && value) meeting.tema = value;
+    else if (label.startsWith("orador")) meeting.orador = value || meeting.orador;
+    else if (label.startsWith("congregacion") || label.startsWith("congregación")) meeting.congregacion = value || meeting.congregacion;
+    else if (label.startsWith("conductor")) meeting.conductor = value || meeting.conductor;
+    else if (label.startsWith("lector")) meeting.lector = value || meeting.lector;
+  }
+
+  function hasMeaningfulData(meeting) {
+    return Boolean(
+      cleanText(meeting.presidente) ||
+      cleanText(meeting.cancion) ||
+      cleanText(meeting.tema) ||
+      cleanText(meeting.orador) ||
+      cleanText(meeting.congregacion) ||
+      cleanText(meeting.conductor) ||
+      cleanText(meeting.lector)
+    );
+  }
+
+  function dedupeMeetings(meetings) {
+    const seen = new Set();
+    const result = [];
+
+    for (const m of meetings) {
+      const key = [
+        normalizarTexto(m.title),
+        normalizarTexto(m.presidente),
+        normalizarTexto(m.orador),
+        normalizarTexto(m.tema)
+      ].join("|");
+
+      if (seen.has(key)) continue;
+      seen.add(key);
+      result.push(m);
     }
 
-    function parseDayMonth(text) {
-      const t = normalizarTexto(text);
-      const m = t.match(/^(\d{1,2})\s+de\s+([a-záéíóú]+)$/i);
-      if (!m) return null;
-      const day = parseInt(m[1], 10);
-      const month = MONTHS[m[2]];
-      if (month == null) return null;
-      return { day, month };
-    }
+    return result;
+  }
 
-    function isDateLabel(text) {
-      return !!parseDayMonth(text);
-    }
+  function findLastRelevantSectionIndex(rows) {
+    let idx = -1;
 
-    function isPureDateRow(row) {
-      const values = row.map(cleanText).filter(Boolean);
-      return values.length === 1 && isDateLabel(values[0]);
-    }
+    for (let i = 0; i < rows.length; i++) {
+      const joined = rows[i].map(cleanText).filter(Boolean).join(" | ");
+      const t = normalizarTexto(joined);
 
-    function getFirstTwoNonEmpty(row) {
-      const vals = row.map(cleanText).filter(Boolean);
-      return {
-        label: vals[0] || "",
-        value: vals[1] || ""
-      };
-    }
-
-    function nextOccurrenceFromToday(label) {
-      const parts = parseDayMonth(label);
-      if (!parts) return null;
-
-      const today = new Date();
-      const base = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-      let candidate = new Date(today.getFullYear(), parts.month, parts.day);
-      if (candidate < base) {
-        candidate = new Date(today.getFullYear() + 1, parts.month, parts.day);
+      if (
+        t.includes("programa para la reunion de fin semana") &&
+        t.includes("congregacion punta gorda")
+      ) {
+        idx = i;
       }
-      return candidate;
     }
 
-    function createEmptyMeeting(dateText) {
-      return {
-        title: dateText,
-        sortDate: nextOccurrenceFromToday(dateText),
-        zoom: "",
-        presidente: "",
-        cancion: "",
-        tema: "",
-        orador: "",
-        congregacion: "",
-        conductor: "",
-        lector: ""
-      };
-    }
+    return idx;
+  }
 
-    function assignField(meeting, labelRaw, valueRaw) {
-      const label = normalizarTexto(labelRaw);
-      const value = cleanText(valueRaw);
-      if (!label) return;
+  function parseMeetings(rows) {
+    const startIndex = findLastRelevantSectionIndex(rows);
+    const sourceRows = startIndex >= 0 ? rows.slice(startIndex) : rows;
 
-      if (label.startsWith("zoom")) meeting.zoom = value || meeting.zoom;
-      else if (label.startsWith("presidente")) meeting.presidente = value || meeting.presidente;
-      else if (label.startsWith("cancion") || label.startsWith("canción")) meeting.cancion = value || meeting.cancion;
-      else if (label.includes("discurso especial")) meeting.tema = value || meeting.tema;
-      else if (label.startsWith("orador")) meeting.orador = value || meeting.orador;
-      else if (label.startsWith("congregacion") || label.startsWith("congregación")) meeting.congregacion = value || meeting.congregacion;
-      else if (label.startsWith("conductor")) meeting.conductor = value || meeting.conductor;
-      else if (label.startsWith("lector")) meeting.lector = value || meeting.lector;
-    }
+    const meetings = [];
+    let current = null;
+    let started = false;
 
-    function dedupeMeetings(meetings) {
-      const seen = new Set();
-      const result = [];
+    for (const row of sourceRows) {
+      if (!row || !row.length) continue;
 
-      for (const m of meetings) {
-        const key = normalizarTexto(m.title);
-        if (seen.has(key)) continue;
-        seen.add(key);
-        result.push(m);
+      // Cortamos si llegamos a otra hoja / zona irrelevante
+      const joined = row.map(cleanText).filter(Boolean).join(" | ");
+      const normJoined = normalizarTexto(joined);
+      if (
+        started &&
+        (
+          normJoined === "program" ||
+          normJoined === "vmmodelo" ||
+          normJoined === "vmborrador" ||
+          normJoined === "viernes" ||
+          normJoined === "domingo" ||
+          normJoined === "vmdatamaestros"
+        )
+      ) {
+        break;
       }
 
-      return result;
-    }
+      if (isPureDateRow(row)) {
+        const dateValue = row.map(cleanText).filter(Boolean)[0];
 
-    function parseMeetings(rows) {
-      const meetings = [];
-      let current = null;
-      let started = false;
+        if (!started) started = true;
 
-      for (const row of rows) {
-        if (!row || !row.length) continue;
-
-        if (isPureDateRow(row)) {
-          const dateValue = row.map(cleanText).filter(Boolean)[0];
-          if (!started) started = true;
-
-          if (current) meetings.push(current);
-          current = createEmptyMeeting(dateValue);
-          continue;
+        if (current && hasMeaningfulData(current)) {
+          meetings.push(current);
         }
 
-        if (!started || !current) continue;
-
-        const { label, value } = getFirstTwoNonEmpty(row);
-        assignField(current, label, value);
+        current = createEmptyMeeting(dateValue);
+        continue;
       }
 
-      if (current) meetings.push(current);
+      if (!started || !current) continue;
 
-      return dedupeMeetings(meetings)
-        .filter(m => m.sortDate instanceof Date && !isNaN(m.sortDate))
-        .sort((a, b) => a.sortDate - b.sortDate);
+      const { label, value } = getFirstTwoNonEmpty(row);
+      assignField(current, label, value);
     }
 
-    function createDetail(label, value, cls) {
-      return `
-        <div class="detail-group">
-          <div class="detail-label ${cls}">${escapeHtml(label)}</div>
-          <div class="detail-value">${escapeHtml(value || "-")}</div>
-        </div>
-      `;
+    if (current && hasMeaningfulData(current)) {
+      meetings.push(current);
     }
 
-    function renderMeetingLink(meetingText) {
-      const visibleText = meetingText ? `ID de reunión: ${meetingText}` : "Ingresar por Zoom";
-      return `
-        <a
-          href="${DIRECT_ZOOM_LINK}"
-          class="meeting-link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ${escapeHtml(visibleText)}
-        </a>
-      `;
-    }
+    return dedupeMeetings(meetings);
+  }
 
-    function renderWeek(week, isFeatured = false) {
-      return `
-        <article class="week-card ${isFeatured ? "destacada" : ""}">
-          <div class="week-title">${escapeHtml(week.title)}</div>
+  function createDetail(label, value, cls) {
+    return `
+      <div class="detail-group">
+        <div class="detail-label ${cls}">${escapeHtml(label)}</div>
+        <div class="detail-value">${escapeHtml(value || "-")}</div>
+      </div>
+    `;
+  }
 
-          <div class="week-meta">
-            <div class="badge">
-              <span class="badge-dot"></span>
-              <span>${isFeatured ? "Siguiente reunión" : "Próxima reunión"}</span>
-            </div>
+  function renderMeetingLink(meetingText) {
+    const cleanMeeting = cleanText(meetingText);
+    const visibleText = cleanMeeting
+      ? cleanMeeting.startsWith("ID de reunión:")
+        ? cleanMeeting
+        : `ID de reunión: ${cleanMeeting}`
+      : "Ingresar por Zoom";
+
+    return `
+      <a
+        href="${DIRECT_ZOOM_LINK}"
+        class="meeting-link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ${escapeHtml(visibleText)}
+      </a>
+    `;
+  }
+
+  function renderWeek(week, isFeatured = false) {
+    return `
+      <article class="week-card ${isFeatured ? "destacada" : ""}">
+        <div class="week-title">${escapeHtml(week.title)}</div>
+
+        <div class="week-meta">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>${isFeatured ? "Siguiente reunión" : "Próxima reunión"}</span>
           </div>
+        </div>
 
-          ${renderMeetingLink(week.zoom)}
+        ${renderMeetingLink(week.zoom)}
 
-          <section class="block">
-            <div class="block-title">Reunión Pública</div>
-            <div class="details-grid">
-              ${createDetail("Presidente", week.presidente, "label-presidente")}
-              ${createDetail("Orador", week.orador, "label-orador")}
-              ${createDetail("Tema", week.tema, "label-tema")}
-              ${createDetail("Lector", week.lector, "label-lector")}
-              ${createDetail("Canción", week.cancion, "label-cancion")}
-              ${createDetail("Congregación", week.congregacion, "label-congregacion")}
-              ${createDetail("Conductor", week.conductor, "label-conductor")}
-            </div>
-          </section>
-        </article>
-      `;
+        <section class="block">
+          <div class="block-title">Reunión Pública</div>
+          <div class="details-grid">
+            ${createDetail("Presidente", week.presidente, "label-presidente")}
+            ${createDetail("Orador", week.orador, "label-orador")}
+            ${createDetail("Tema", week.tema, "label-tema")}
+            ${createDetail("Lector", week.lector, "label-lector")}
+            ${createDetail("Canción", week.cancion, "label-cancion")}
+            ${createDetail("Congregación", week.congregacion, "label-congregacion")}
+            ${createDetail("Conductor", week.conductor, "label-conductor")}
+          </div>
+        </section>
+      </article>
+    `;
+  }
+
+  function render() {
+    weeksEl.innerHTML = "";
+
+    if (!allMeetings.length) {
+      countResumenEl.textContent = "0 reuniones";
+      weeksEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
+      loadMoreBtn.style.display = "none";
+      return;
     }
 
-    function render() {
-      weeksEl.innerHTML = "";
+    const visible = allMeetings.slice(0, visibleWeeks);
 
-      if (!allMeetings.length) {
-        countResumenEl.textContent = "0 reuniones";
-        weeksEl.innerHTML = `<p class="empty-msg">No encontré reuniones para mostrar.</p>`;
-        loadMoreBtn.style.display = "none";
-        return;
-      }
+    countResumenEl.textContent = allMeetings.length === 1
+      ? "1 reunión visible"
+      : `${allMeetings.length} reuniones visibles`;
 
-      const visible = allMeetings.slice(0, visibleWeeks);
+    weeksEl.innerHTML = visible.map((week, index) => renderWeek(week, index === 0)).join("");
+    loadMoreBtn.style.display = visibleWeeks < allMeetings.length ? "inline-block" : "none";
+  }
 
-      countResumenEl.textContent = allMeetings.length === 1
-        ? "1 reunión visible"
-        : `${allMeetings.length} reuniones visibles`;
+  async function loadSheet() {
+    countResumenEl.textContent = "Cargando…";
+    weeksEl.innerHTML = "";
 
-      weeksEl.innerHTML = visible.map((week, index) => renderWeek(week, index === 0)).join("");
-      loadMoreBtn.style.display = visibleWeeks < allMeetings.length ? "inline-block" : "none";
-    }
+    try {
+      const response = await fetch(CSV_URL, { cache: "no-store" });
+      if (!response.ok) throw new Error("No se pudo descargar el CSV");
 
-    async function loadSheet() {
-      countResumenEl.textContent = "Cargando…";
-      weeksEl.innerHTML = "";
+      const text = await response.text();
+      const rows = parseCSV(text);
+      allMeetings = parseMeetings(rows);
 
-      try {
-        const response = await fetch(CSV_URL, { cache: "no-store" });
-        if (!response.ok) throw new Error("No se pudo descargar el CSV");
-
-        const text = await response.text();
-        const rows = parseCSV(text);
-        allMeetings = parseMeetings(rows);
-
-        render();
-      } catch (error) {
-        console.error(error);
-        countResumenEl.textContent = "Error";
-        weeksEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
-      }
-    }
-
-    document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
-      const active = document.body.classList.toggle("modo-texto-grande");
-      e.currentTarget.classList.toggle("active", active);
-    });
-
-    loadMoreBtn.addEventListener("click", () => {
-      visibleWeeks += 3;
       render();
-    });
+    } catch (error) {
+      console.error(error);
+      countResumenEl.textContent = "Error";
+      weeksEl.innerHTML = `<p class="empty-msg">No pude cargar la hoja. Verificá que siga pública.</p>`;
+    }
+  }
 
-    window.addEventListener("DOMContentLoaded", loadSheet);
-  </script>
-</body>
-</html>
+  document.getElementById("btn-texto-grande").addEventListener("click", (e) => {
+    const active = document.body.classList.toggle("modo-texto-grande");
+    e.currentTarget.classList.toggle("active", active);
+  });
+
+  loadMoreBtn.addEventListener("click", () => {
+    visibleWeeks += 3;
+    render();
+  });
+
+  window.addEventListener("DOMContentLoaded", loadSheet);
+</script>
